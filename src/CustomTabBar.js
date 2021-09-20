@@ -6,10 +6,10 @@ function MyTabBar({ state, descriptors, navigation }) {
     return (
         <>
         <SafeAreaView style={{flexDirection: 'row', flex: 0, backgroundColor: 'transparent'}}>
-            <BlurView style={styles.blurView}
+            {/* <BlurView style={styles.blurView}
                 blurType="dark"
                 blurAmount={15}
-            />
+            /> */}
             <View style={styles.TabBar}>
                 {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
@@ -42,14 +42,11 @@ function MyTabBar({ state, descriptors, navigation }) {
                 };
                 let nestedComponent = null;
                 switch (route.name) {
-                    case 'Download':
-                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={{ height: 18, width: 18, resizeMode: "contain" }} source={require('./assets/downloadicon.png')} /></View>;
+                    case 'Home':
+                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={{ height: 18, width: 18, resizeMode: "contain" }} source={require('./assets/homeicon.png')} /></View>
                         break;
                     case 'Search':
                         nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={{ height: 18, width: 18, resizeMode: "contain" }} source={require('./assets/search.png')} /></View>
-                        break;
-                    case 'Home':
-                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={{ height: 18, width: 18, resizeMode: "contain" }} source={require('./assets/homeicon.png')} /></View>
                         break;
                     case 'List':
                         nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={{ height: 18, width: 18, resizeMode: "contain" }} source={require('./assets/playlisticon.png')} /></View>

@@ -8,7 +8,7 @@ import { userLogout } from '../../redux/actions';
 
 
 export default function List({ navigation }) {
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState();
   return (
     <View style={styles.container}>
                 {/* <View style={styles.list}> */}
@@ -36,7 +36,7 @@ export default function List({ navigation }) {
                     value={search}
                 />
                 </View>
-                <ScrollView contentContainerStyle={{flexGrow:1,paddingBottom:20, }}
+                <ScrollView contentContainerStyle={{flexGrow:1,}}
                 showsVerticalScrollIndicator={false}
                 >
                     
@@ -66,7 +66,7 @@ export default function List({ navigation }) {
                     <Image style={styles.moviepng} source={require('../../assets/03-tile.png')} />
                     </View>
                 </ScrollView>
-                <View style={{height:80}}></View>
+                {/* <View style={{height:40}}></View> */}
             </View>
   );
 }

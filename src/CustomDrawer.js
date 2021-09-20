@@ -40,11 +40,11 @@ function CustomDrawer({navigation,userLogout}) {
     const [quality, setQuality] = useState(false);
     return (
         <SafeAreaView style={{ flex: 1 }}>
-             <BlurView style={styles.blurView}
+             {/* <BlurView style={styles.blurView}
                 blurType="dark"
                 blurAmount={1}
                 
-            />
+            /> */}
             <View style={{ paddingLeft: 14 }}>
                 <Text style={styles.setting}>SETTINGS</Text>
                 <View style={{ borderBottomWidth: 2, borderBottomColor: "#666670", paddingTop: 4, width: 22, }}></View>

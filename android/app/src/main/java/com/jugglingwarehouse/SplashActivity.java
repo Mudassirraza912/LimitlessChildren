@@ -1,4 +1,4 @@
-package com.jugglingwarehouse; // make sure this is your package name
+package com.limitlesschildren; // make sure this is your package name
 
 import android.content.Intent;
 import android.os.Bundle;

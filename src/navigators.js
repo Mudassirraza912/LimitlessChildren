@@ -5,7 +5,6 @@ import Login from './pages/login/login';
 import Signup from './pages/signup/signup';
 import search from './pages/search/search';
 import profile from './pages/profile/profile';
-import download from './pages/download/download';
 import list from './pages/list/list';
 import NotificationsScreen from './pages/notificationsScreen/notificationScreen';
 import HomeScreen from './pages/home/HomeScreen';
@@ -57,7 +56,7 @@ const notificationIcon = navigation => {
         />
       </View>
     </View>
-  );
+  ); 
 };
 const profiletionIcon = navigation => {
   return (
@@ -72,7 +71,6 @@ const profiletionIcon = navigation => {
 const Drawer = createDrawerNavigator();
 const LoginStackNav = createStackNavigator();
 const HomeTabAStackNav = createStackNavigator();
-const HomeDownloadStackNav = createStackNavigator();
 const HomeSearchStackNav = createStackNavigator();
 const HomeListStackNav = createStackNavigator();
 const HomeTabNav = createBottomTabNavigator();
@@ -127,41 +125,7 @@ function HomeTabAStack() {
   );
 }
 
-function HomeDownloadStack() {
-  return (
-    <HomeDownloadStackNav.Navigator initialRouteName="Downloads" screenOptions={{
-      headerStyle: {
-        backgroundColor: '#0e101f',
-        shadowOpacity: 0.85,
-        shadowRadius: 0,
-        shadowOffset: {
-          width: 0,
-          height: 0,
-        },
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'Raleway-Regular'
-      },
-    }}>
-      <HomeDownloadStackNav.Screen
-        name="Downloads"
-        component={download}
-        options={({ navigation }) => ({
-          headerLeft: () => drawerButton(navigation),
-          headerRight: () => notificationIcon(navigation)
-        })}
-      />
-      <HomeTabAStackNav.Screen name="Notifications" component={NotificationsScreen}
-     options={({ navigation }) => ({
-      headerShown: false
-    })}
-      />
-      {/* <HomeDownloadStackNav.Screen name="TabBDetails" component={TabBDetails} /> */}
-    </HomeDownloadStackNav.Navigator>
-  );
-}
+
 
 function HomeSearchStack() {
   return (
@@ -281,10 +245,10 @@ function HomeTab() {
           </View>
         )
       }}
-    >
-      <HomeTabNav.Screen name="Download" component={HomeDownloadStack} />
+
+    > 
+     <HomeTabNav.Screen name="Home" component={HomeTabAStack} />
       <HomeTabNav.Screen name="Search" component={HomeSearchStack} />
-      <HomeTabNav.Screen name="Home" component={HomeTabAStack} />
       <HomeTabNav.Screen name="List" component={HomeListStack} />
       <HomeTabNav.Screen name="Profile" component={HomeProfileStack} />
     </HomeTabNav.Navigator>
@@ -319,30 +283,7 @@ function RootContainer({ user }) {
     </Drawer.Navigator>
   )
 
-  // if(user?.loggedin) {
-  //   return (
-  //     <Drawer.Navigator
-  //       drawerContent={props => <CustomDrawer {...props} />}
-  //       drawerContentOptions={{
-  //         activeTintColor: '#fff',
-  //         inactiveTintColor: '#aeaeae',
-  //         itemStyle: { marginVertical: 8, marginHorizontal: 8 },
-  //       }}
-  //       initialRouteName="Home"
-  //       drawerStyle={{
-  //         backgroundColor: '#0e101f',
-  //         opacity: 0.9
-  //       }}
-  //       drawerType="front"
-  //     >
-  //        <Drawer.Screen options={{ activeTintColor: "#fff" }} name="Home" component={HomeTab} /> 
-  //     </Drawer.Navigator>
-  //   )
-  // } else {
-  //   return (
-  //     <LoginStack />
-  //   )
-  // }
+
 }
 
 const mapStateToProps = state => {
