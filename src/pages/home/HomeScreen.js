@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { userLogout } from '../../redux/actions';
 
 
+
+
 function HomeScreen({ navigation, user, userLogout }) {
   const [reason, setReason] = useState([{ title: "abc", image: require('../../assets/vedio.png') }, { title: "def", image: require('../../assets/vedio.png') }, { title: "ghi", image: require('../../assets/vedio.png') },]);
   const [reason1, setReason1] = useState([{ title: "abc", image: require('../../assets/050.png') }, { title: "abc", image: require('../../assets/030.png') }, { title: "abc", image: require('../../assets/040.png') }, { title: "abc", image: require('../../assets/020.png') }, { title: "abc", image: require('../../assets/050.png') }, { title: "abc", image: require('../../assets/030.png') }]);
@@ -13,11 +15,14 @@ function HomeScreen({ navigation, user, userLogout }) {
   const [reason3, setReason3] = useState([{ title: "abc", image: require('../../assets/images05.png') }, { title: "abc", image: require('../../assets/images06.png') }, { title: "abc", image: require('../../assets/images05.png') }, { title: "abc", image: require('../../assets/images06.png') }]);
   const [modalVisible, setModalVisible] = useState(false);
   const [listhome, setlisthome] = useState([{ title: "abc", Text: "Home" }, { title: "def", Text: "My List" }, { title: "ghi", Text: "Available for Download" }, { title: "jkl", Text: "Action" }, { title: "mno", Text: "Anime" }, { title: "pqr", Text: "Children & Family" }, { title: "stu", Text: "Documentaries" }, { title: "vwx", Text: "Fantasy" }, { title: "yza", Text: "Reality" }, { title: "bcd", Text: "Stan-up" }, { title: "efg", Text: "Audio Description" }]);
-  goNext = () => {
+  const goNext = () => {
     navigation.navigate("About Motivation");
   }
 
   return (
+
+    <View style={{flex:1}}>   
+    
     <View style={styles.container}>
       <View style={styles.cate}>
         <Text style={styles.categores}>Livestreaming</Text>
@@ -138,6 +143,7 @@ function HomeScreen({ navigation, user, userLogout }) {
           </FlatList>
         </View>
       </Modal>
+    </View>
     </View>
   );
 }

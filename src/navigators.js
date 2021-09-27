@@ -265,21 +265,16 @@ function RootContainer({ user }) {
         inactiveTintColor: '#aeaeae',
         itemStyle: { marginVertical: 8, marginHorizontal: 8 },
       }}
-      initialRouteName="Home"
+      initialRouteName="main"
       drawerStyle={{
         // backgroundColor: '#0e101f',
         opacity: 1
       }}
       drawerType="front"
     >
-      <Drawer.Screen name="main">
-        {() =>
-          user?.loggedin ? HomeTab() : (
-              <LoginStack />
-
-            )
-        }
-      </Drawer.Screen>
+      <Drawer.Screen name="main" component={LoginStack} />
+         
+      <Drawer.Screen name="Home" component={HomeTab} />
     </Drawer.Navigator>
   )
 
