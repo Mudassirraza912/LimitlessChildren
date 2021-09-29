@@ -4,6 +4,7 @@ import { Input, Button, Card, SearchBar } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { userLogout } from '../../redux/actions';
+import { CardView } from '../../components';
 
 
 
@@ -39,9 +40,9 @@ export default function search({ navigation }) {
             <View style={styles.volages}>
                 <Text style={styles.textdv}>Volages</Text>
                 <View style={styles.picture}>
-                    <Image style={styles.moviepng} source={require('../../assets/01-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/03-tile.png')} />
+                <CardView />
+                <CardView />
+                <CardView />
                 </View>
             </View>
             <View style={styles.programmer}>
@@ -49,7 +50,7 @@ export default function search({ navigation }) {
                 <View style={styles.picture}>
                     <Image style={styles.moviepng} source={require('../../assets/01-tile.png')} />
                     <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/03-tile.png')} />
+                    <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
                 </View>
             </View>
         </View>

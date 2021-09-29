@@ -4,7 +4,7 @@ import { BlurView } from "@react-native-community/blur";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { userLogout } from '../../redux/actions';
-
+import {CardView} from '../../components'
 
 
 
