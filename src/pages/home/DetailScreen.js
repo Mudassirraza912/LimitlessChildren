@@ -1,187 +1,90 @@
 import React, { Component, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, Modal, ScrollView, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, ScrollView, TouchableOpacity, StatusBar, Platform } from 'react-native';
 import { Input, Button, CheckBox } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { userLogout } from '../redux/actions';
-
+import { CardView } from '../../components';
+import { color } from 'react-native-reanimated';
 
 
 function DetailScreen({ navigation }) {
-
-    const [reason, setReason] = useState([{ title: "abc", image: require('../../assets/01-tile.png') }, { title: "def", image: require('../../assets/02-tile.png') }, { title: "ghi", image: require('../../assets/03-tile.png') }, { title: "ghi", image: require('../../assets/01-tile.png') }, { title: "ghi", image: require('../../assets/02-tile.png') }, { title: "ghi", image: require('../../assets/03-tile.png') }]);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [checked, setChecked] = useState(true);
-    const [checked1, setChecked1] = useState(false);
-    const [checked2, setChecked2] = useState(false);
-
-    handleCheckBox = (checkBox) => {
-        setChecked(1);
-        setChecked1(0);
-        setChecked2(0);
-    }
-
-    handleCheckBox1 = (checkBox) => {
-        setChecked(0);
-        setChecked1(1);
-        setChecked2(0);
-    }
-
-    handleCheckBox2 = (checkBox) => {
-        setChecked(0);
-        setChecked1(0);
-        setChecked2(1);
-    }
+    const [reason, setReason] = useState([{ title: "Snail Riding", image: require('../../assets/home01.png') }, { title: "Friend, Me & Bus", image: require('../../assets/home02.png') }, { title: "Fantasy", image: require('../../assets/home03.png') }, { title: "Snail Riding", image: require('../../assets/home01.png') }, { title: "Snail Riding", image: require('../../assets/home02.png') }, { title: "Snail Riding", image: require('../../assets/home03.png') }]);
+    const [data, setData] = useState()
 
     return (
-        <View style={styles.container}>
-            <ScrollView contentContainerStyle={{ height: 700 }}  showsVerticalScrollIndicator={false}>
-                <View style={styles.box2}>
-                    <Image
-                        style={{ width: "100%", height: 200 }}
-                        source={require('../../assets/vedio.png')} />
-                </View>
-                <View style={styles.box3}>
-                    <View style={styles.downsec}>
-                        <View style={{ flex: 2, }}>
-                            <Text style={styles.motivation2}>About Motivations</Text></View>
-                        <View style={{ flex: 1.5, alignItems: "flex-end", paddingLeft: 1, }}>
-                            <Image style={styles.list} source={require('../../assets/list.png')} />
-                        </View>
-                        <View style={{ flex: 1, alignItems: "center", paddingLeft: 3, }}>
-                            <Pressable onPress={() => setModalVisible(!modalVisible)}>
-                                <Image
-                                    style={styles.download} source={require('../../assets/downloadicon.png')} />
-                            </Pressable>
-                        </View>
-                    </View>
-                    <View style={styles.rating}>
-                        <Text style={styles.rats}>2021</Text>
-                        <Image style={styles.star} source={require('../../assets/rating.png')} />
-                        <Text style={styles.rats}>20.5</Text>
-                        <Image style={styles.star} source={require('../../assets/loading.png')} />
-                        <Text style={styles.rats}>152mins</Text>
-                        <Text style={styles.hdsc}>HD</Text>
-                    </View>
-                </View>
-                <View style={styles.box4}>
-                    <Text style={styles.para}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero nulla temporibus ratione doloremque. Vero cum esse blanditiis quisquam omnis repellendus recusandae distinctio.Vel, quasi dolores blanditiis delectus nihil, Lorem ipsum dolor</Text>
-                </View>
-                <View  style={styles.box5}>
-                <Image style={styles.play} source={require('../../assets/playicon.png')} />
-                    <Button
-                        title="Watch Now"
-                    />
-                </View>
-                <View style={styles.box6}>
-                    <View style={styles.video}>
-                        <Text style={styles.related}>Related Videos</Text>
-                        <Text style={styles.viewall}>View All</Text>
-                    </View>
-                    <FlatList
-                        keyExtractor={(item, index) => index}
-                        data={reason}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={{ height: 100, width: 100 }}>
-                                    <Image style={styles.tile} source={item.image} />
-                                </View>
-                            )
-                        }}>
-                    </FlatList>
-                </View>
-                {/* </View> */}
-            </ScrollView>
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.centeredView}>
-                <TouchableOpacity  style={styles.cancel} onPress={() => setModalVisible(false)}>
-                <Image style={styles.cancel02} source={require("../../assets/cancel.png")} />
-                </TouchableOpacity>
-                    <View style={{ backgroundColor: "#24243c", paddingHorizontal: 61, paddingVertical: 28 }}>
-                        <View style={styles.popupicon}>
-                            <Image style={styles.popup} source={require("../../assets/popdownload.png")} />
-                        </View>
-                        <Text style={styles.modalText}>Download Film</Text>
-                    </View>
-                    <View style={{ backgroundColor: "#191931", padding: 10 }}>
-                    <View style={{ flexDirection: "row", alignItems:"center",paddingVertical:6,}}>
-                        <View style={{flexDirection:"row",justifyContent:"center",alignItems:"center",right:9}}>
-                            <CheckBox
-                            size={20}
-                            containerStyle={{ padding:0,width:18,height:20 }}
-                            checked={checked}
-                            onPress={()=>handleCheckBox()}
-                            />
-                            <View style={{ flexDirection: "row", paddingRight: 20 }}>
-                                <Text style={styles.hihtdv}>High</Text>
-                                <View style={{borderRightColor:"#fff",borderRightWidth:1,borderLeftWidth:1,borderLeftColor:"#fff",borderRadius:5}}>
-                                <Text style={styles.rate}>720</Text>
-                                </View>
-                            </View>
-                            </View>
-                            <View>
-                                <Text style={styles.soundgb}>3.5 GB</Text>
-                            </View>
-                        </View>
-                        <View style={{ flexDirection: "row", alignItems:"center",paddingVertical:6}}>
-                        <View style={{flexDirection:"row",justifyContent:"center",alignItems:"center",right:9}}>
-                            <CheckBox 
-                            size={20}
-                            containerStyle={{ padding:0,width:18,height:20, }}
-                            checked={checked1}
-                            onPress={()=>handleCheckBox1()}
-                            />
-                            <View style={{ flexDirection: "row", paddingRight: 20 }}>
-                                <Text style={styles.hihtdv}>Med</Text>
-                                <View style={{borderRightColor:"#fff",borderRightWidth:1,borderLeftWidth:1,borderLeftColor:"#fff",borderRadius:5}}>
-                                <Text style={styles.rate}>360</Text>
-                                </View>
-                            </View>
-                            </View>
-                            <View>
-                                <Text style={styles.soundgb}>3.5 GB</Text>
-                            </View>
-                        </View>
-                        <View style={{ flexDirection: "row", alignItems:"center",paddingVertical:6}}>
-                        <View style={{flexDirection:"row",justifyContent:"center",alignItems:"center",right:9}}>
-                            <CheckBox
-                            checked={useState.isChecked}
-                            onPress={useState.handlePressCheckedBox}
-                            size={20}
-                            containerStyle={{ padding:0,width:18,height:20, }}
-                            checked={checked2}
-                            onPress={()=>handleCheckBox2()}
-                            />
-                            <View style={{ flexDirection: "row", paddingRight: 20 }}>
-                                <Text style={styles.hihtdv}>Low</Text>
-                                <View style={{borderRightColor:"#fff",borderRightWidth:1,borderLeftWidth:1,borderLeftColor:"#fff",borderRadius:5}}>
-                                <Text style={styles.rate}>144</Text>
-                                </View>
-                            </View>
-                            </View>
-                            <View>
-                                <Text  style={{paddingLeft:47,  color: "#b2b1b6", fontSize: 12,}}>3.5 GB</Text>
-                            </View>
-                        </View>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}
+        <>
+            <StatusBar
+                barStyle="dark-content"
+                translucent={true}
+                backgroundColor={'#f8b293'}
+            />
+            <View style={styles.container}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('VideoPlayer')}
+                    activeOpacity={0.9}
+                    style={{ width: "100%", height: "40%" }}>
+                    <View style={{ position: "absolute", zIndex: 30, top: "12%", flexDirection: "row", left: "5%" }}>
+                        <TouchableOpacity activeOpacity={0.9}
+                        onPress={()=> navigation.goBack()}
                         >
-                            <Text style={styles.textStyle}>Download</Text>
-                        </Pressable>
+                            <Image style={styles.backImg} source={require('../../assets/backIcon.png')} />
+                        </TouchableOpacity>
+                        <Image style={styles.backImg1} source={require('../../assets/3-dots.png')} />
+                    </View>
+                    <View style={{
+                        position: "absolute", zIndex: 30,
+                        top: "35%",
+                        // left: "10%",
+                        flexDirection: "row",
+                        alignSelf: "center"
+                    }}>
+                        <Image style={styles.playIcon} source={require('../../assets/storydetail-play-icon.png')} />
+                    </View>
+                    <Image style={{ width: "100%", height: "100%", resizeMode: "stretch" }} source={require('../../assets/storydetailTitle.png')} />
+                </TouchableOpacity>
+                <View style={{ paddingVertical: 10 }}>
+                    <View style={styles.row}>
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={{ color: "#4d585b", fontFamily: "Poppins-Bold" }}>Friends, Me & Bus</Text>
+                            <View style={styles.btn}><Text style={{ fontSize: 10, color: "#ffffff", fontWeight: "bold" }}>New</Text></View>
+                        </View>
+                        <View style={{ marginTop: 6 }}>
+                            <Image style={styles.addPng} source={require('../../assets/addLogo.png')} />
+                            <Text style={styles.listText}>Add to list</Text>
+                        </View>
+                    </View>
+                    <View style={styles.row1} >
+                        <Image style={{ width: 18, height: 18, resizeMode: "contain" }} source={require('../../assets/eye-icon.png')} />
+                        <Text style={styles.view}>2456 View</Text>
+                        <View style={{ width: 1, height: "80%", backgroundColor: "#4d585b", marginHorizontal: 10 }}></View>
+                        <Text>04:30</Text>
                     </View>
                 </View>
-            </Modal>
-        </View>
+                <Text style={styles.dec}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </Text>
+                <View style={styles.border}></View>
+                <View>
+                    <Text style={styles.storiesText}>RELATED STORIES</Text>
+                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:"90%"}} >
+                        {
+                            reason.map(() => {
+                                return (
+                                    <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                                        <CardView
+                                            imageStyle={styles.img}
+                                        />
+                                        <CardView />
+                                    </View>
+                                )
+                            })
+                        }
+                    </ScrollView>
+                    <View style={{ height: Platform.OS === 'ios' ? "78%" : "50%" }}></View>
+                </View>
+            </View>
+        </>
     );
 }
 
@@ -197,218 +100,73 @@ export default connect(mapStateToProps)(DetailScreen);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#0e101f",
-        paddingHorizontal: 10
+        backgroundColor: "#ffffff",
     },
-    box1: {
-        flex: 1,
-        // backgroundColor: "green",
+    playIcon: {
+        width: 100, height: 100,
+        resizeMode: "contain",
     },
-    back: {
-        height: 17,
-        width: 20,
-    },
-    about: {
+    row: {
         flexDirection: "row",
+        paddingHorizontal: 20,
         justifyContent: "space-between",
-        paddingVertical: 25,
-        paddingHorizontal: 14,
-    },
-    motivation: {
-        color: "#ffffff",
-        fontSize: 16,
-        fontWeight: "bold",
-        fontFamily:'Raleway-Regular'
-    },
-    dots: {
-        width: 4, height: 16,
-    },
-    box2: {
-        flex: 3.5,
-        justifyContent: "center",
         alignItems: "center",
-        flexWrap: "wrap"
     },
-    box3: {
-        flex: 1.5,
-        paddingTop: 10,
-    },
-    motivation2: {
-        color: "#ffffff",
-        fontSize: 16,
-        fontWeight: "bold",
-        flex: 1,
-        justifyContent: "center",
-        paddingLeft: 10,
-        fontFamily:'Raleway-Regular',
-        paddingTop:6
-    },
-    downsec: {
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-    },
-    rating: {
-        flexDirection: "row",
-        paddingHorizontal: 3,
-    },
-    rats: {
-        color: "#ffffff",
-        paddingLeft: 6,
-        paddingRight: 6,
-        fontSize: 12,
-    },
-    hdsc: {
-        color: "#ffffff",
-        fontSize: 10,
-        borderWidth: 1,
-        borderColor: "#ffffff",fontFamily:'Raleway-Regular'
-
-    },
-    list: {
+    addPng: {
         width: 24,
         height: 24,
-        marginTop: 10,
-        resizeMode:"contain",
-    },
-    star: {
-        width: 12,
-        height: 12,
-        marginTop: 2,
-    },
-    download: {
-        width: 17,
-        height: 17,
-        marginVertical: 10,
-        resizeMode:"contain",
-    },
-    box4: {
-        flex: 2.2,
-    },
-    para: {
-        color: "#ffffff",
-        paddingHorizontal: 10,
-        lineHeight:20,
-    },
-    box5: {
-        flex: 1,
-        paddingTop: 5,
-        position:"relative",
-    },
-    play:{
-        position:"absolute",
-        zIndex:1,
-        height:10,width:10,
-        left:"32%",
-        top:"33%",
-        resizeMode:"contain"
+        resizeMode: "contain",
+        alignSelf: "flex-end",
+        marginRight: 8
     },
     btn: {
-        color: "#ffffff",
+        backgroundColor: "#bfcfc7",
+        paddingHorizontal: 10,
+        paddingVertical: 3,
+        borderRadius: 30,
+        marginHorizontal: 10,
     },
-    box6: {
-        flex: 3,
-        paddingTop: 10,
+    dec: {
+        paddingHorizontal: 20,
+        lineHeight: 20,
+        paddingVertical: 10,
+        fontSize: 13
     },
-    video: {
+    border: {
+        backgroundColor: "#efeeef",
+        width: "90%",
+        height: 2,
+        alignSelf: "center"
+    },
+    storiesText: {
+        paddingLeft: 20,
+        paddingVertical: 10,
+        color: "#4d585b",
+        fontWeight: "bold"
+    },
+    row1: {
         flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: 6,
-        paddingVertical: 10
+        paddingHorizontal: 20,
     },
-    tile: {
-        width: 85,
-        height: 110,
-        resizeMode: "cover",
-        marginVertical: 6,
-        marginHorizontal: 4,
+    view: {
+        paddingHorizontal: 10,
+        color: "#4d585b"
     },
-    related: {
-        color: "#ffffff",
-    },
-    viewall: {
-        color: "#1971b8",
-    },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#0e101f90",
-
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        // alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-    },
-    button: {
-        borderRadius: 8,
-        elevation: 2,
-        marginTop:10,
-        // marginHorizontal:18
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-        marginHorizontal: 20,
-        marginVertical:8
-    },
-    textStyle: {
-        color: "white",
+    listText: {
+        color: "#f8b293",
+        fontSize: 12,
         fontWeight: "bold",
-        textAlign: "center",
-        padding: 10,
     },
-    modalText: {
-        textAlign: "center",
-        color: "#fff"
+    backImg: {
+        width: 22,
+        height: 22,
+        resizeMode: "contain",
     },
-    tick: {
-        width: 15,
-        height: 15,
-        marginRight: 12,
-    },
-    soundgb: {
-        paddingLeft: 44,
-        color: "#b2b1b6",
-        fontSize: 12,
-    },
-    hihtdv: {
-        color: "#b2b1b6",
-        fontSize: 12,
-        fontFamily:'Raleway-Regular',
-        paddingRight:5
-    },
-    rate: {
-        color: "#b2b1b6",
-        paddingLeft: 2,
-        fontSize: 12,
-    },
-    popup: {
-        width: 30,
-        height: 33,
-        marginLeft: 32,
-        marginBottom: 8,
-    },
-    cancel:{
-        marginLeft:"45%",
-        top:22,
-        zIndex:1
-    },
-    cancel02:{
-        width: 10,
-        height: 10,
-        resizeMode:"contain",
+    backImg1: {
+        width: 22,
+        height: 22,
+        resizeMode: "contain",
+        marginLeft: "82%",
+        marginTop: "2%"
     }
 })

@@ -18,13 +18,13 @@ export class App extends Component {
   componentDidMount() {
     setTimeout(() => {
       SplashScreen.hide();
-    }, 600);
+    }, 300);
   }
   
   render() {
     return (
       <Provider store={store}>
-        <NavigationContainer theme={{...DefaultTheme,dark:false,colors:{'background':'#0e101f'}}}>
+        <NavigationContainer theme={{...DefaultTheme,dark:false}}>
           <RootContainer />
         </NavigationContainer>
       </Provider>

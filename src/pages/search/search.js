@@ -18,13 +18,13 @@ export default function search({ navigation }) {
             <View>
                 <SearchBar
                     platform="ios"
-                    placeholder="Vlogers"
-                    placeholderTextColor="#fff"
-                    searchIcon={{ iconStyle: { color: "#fff" } }}
-                    inputStyle={{ color: "#fff", fontSize: 12 }}
-                    containerStyle={{ backgroundColor: "#0e101f" }}
+                    placeholder="Search"
+                    placeholderTextColor="#000"
+                    searchIcon={{ iconStyle: { color: "#000" } }}
+                    inputStyle={{ color: "#000", fontSize: 12 }}
+                    containerStyle={{ backgroundColor: "#ffffff" }}
                     inputContainerStyle={{
-                        backgroundColor: "#0e101f", shadowColor: "#aeaeae",
+                      shadowColor: "#aeaeae",
                         shadowOffset: {
                             width: 0.5,
                             height: 0.5,
@@ -36,22 +36,6 @@ export default function search({ navigation }) {
                     onChangeText={setSearch}
                     value={search}
                 />
-            </View>
-            <View style={styles.volages}>
-                <Text style={styles.textdv}>Volages</Text>
-                <View style={styles.picture}>
-                <CardView />
-                <CardView />
-                <CardView />
-                </View>
-            </View>
-            <View style={styles.programmer}>
-                <Text style={styles.textdv}>Programmers</Text>
-                <View style={styles.picture}>
-                    <Image style={styles.moviepng} source={require('../../assets/01-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
-                </View>
             </View>
         </View>
     );
@@ -69,7 +53,7 @@ export default function search({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#0e101f",
+        backgroundColor: "#ffffff",
         paddingHorizontal: 10
     },
     searchbar: {
@@ -81,42 +65,5 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "600",
     },
-    logo: {
-        width: 18,
-        height: 18,
-        position: "absolute",
-        top: 22,
-        left: "85%",
-    },
-    vlogers: {
-        paddingTop: 12,
-        paddingLeft: 15,
-        paddingBottom: 12,
-        marginTop: 10,
-        borderWidth: 1,
-        borderColor: "#495058",
-        fontSize: 12,
-        color: "white"
-    },
-    volages: {
-        paddingHorizontal: 2,
-        paddingVertical: 25,
-    },
-    textdv: {
-        color: "#ffffff",
-        paddingLeft: 6,
-        fontWeight: "bold",
-    },
-    picture: {
-        flexDirection: "row",
-    },
-    moviepng: {
-        flex: 1,
-        height: 130,
-        resizeMode: "stretch",
-        marginHorizontal: 6,
-        marginVertical: 8,
-    },
-    programmer: {
-    }
+
 })

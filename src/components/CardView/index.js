@@ -5,10 +5,12 @@ export default function CardView ({
     title="Snail Riding",
     description="Rhymes Collection",
     color="#fff",
-    image= require('../../assets/01-tile.png')
+    image= require('../../assets/home01.png'),
+    play=require('../../assets/playbtn-big.png')
 }){
     return (
         <View style={styles.container}>
+            <Image style={styles.playIcon} source={play} />
              <Image style={styles.moviepng} source={image} />
              <Text style={styles.title}>{title}</Text>
              <Text style={styles.description}>{description}</Text>

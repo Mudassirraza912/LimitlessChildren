@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     SafeAreaView,
     View,
@@ -6,7 +6,8 @@ import {
     Image,
     Text,
     Linking,
-    TouchableOpacity
+    TouchableOpacity,
+    ImageBackground
 } from 'react-native';
 
 import {
@@ -15,266 +16,176 @@ import {
     DrawerItem,
 } from '@react-navigation/drawer';
 import { Switch } from 'react-native-elements';
-import {userLogout}  from './redux/actions';
+import { userLogout } from './redux/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { BlurView } from "@react-native-community/blur";
 import { ThemeProvider } from '@react-navigation/native';
 
-
-function CustomDrawer({navigation,userLogout}) {
-
+function CustomDrawer({ navigation, userLogout, state, route }) {
+    // console.log('NAVIGTION', navigation, "ROUTE", route, "STATE", state)
     logout = () => {
-       // navigation.toggleDrawer();
-        //navigation.navigate("Login");
         navigation.closeDrawer();
         userLogout(null);
     }
+    const [toggle, setToggle] = useState()
 
-    const BASE_PATH =
-        'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
-    const proileImage = 'react_logo.png';
-    const [toggle, setToggle] = useState(false);
-    const [wifi, setWifi] = useState(true);
-    const [smart, setSmart] = useState(false);
-    const [quality, setQuality] = useState(false);
+    useEffect(() => {
+        getFocused()
+    }, [state?.index])
+
+    const getFocused = () => {
+        state?.routes?.map((route, index) => {
+
+            const isFocused = state?.index === index;
+            if (isFocused) {
+                setToggle(route?.name)
+            }
+        })
+    }
+    // console.log('toggle', toggle)
+    const menuData = [
+        {
+            title: "About App",
+            navigateTo: "About",
+            image: require('./assets/sidemenu-ab-disable.png'),
+            image1: require('./assets/sidemenu-ab-active.png')
+        },
+        {
+            title: "My Profile",
+            navigateTo: "profile",
+            image: require('./assets/sidemenu-profile-disable.png'),
+            image1: require('./assets/04-sidemenu-profile-active.png')
+        },
+        {
+            title: "Share App",
+            image: require('./assets/share-disable.png'),
+            image1: require('./assets/share-active.png')
+        },
+        {
+            title: "Settings",
+            navigateTo: "Setting",
+            image: require('./assets/sidemenu-setings-disable.png'),
+            image1: require('./assets/sidemenu-setings-active.png')
+        },
+        {
+            title: "Help",
+            navigateTo: "Help",
+            image: require('./assets/sidemenu-help-disable.png'),
+            image1: require('./assets/04-sidemenu-help-active.png')
+        },
+        {
+            title: "Logout",
+            navigateTo: "Login",
+            image: require('./assets/sidemenu-logout-disable.png'),
+            image1: require('./assets/sidemenu-logout-active.png')
+        }
+    ]
+
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-             {/* <BlurView style={styles.blurView}
-                blurType="dark"
-                blurAmount={1}
-                
-            /> */}
-            <View style={{ paddingLeft: 14 }}>
-                <Text style={styles.setting}>SETTINGS</Text>
-                <View style={{ borderBottomWidth: 2, borderBottomColor: "#666670", paddingTop: 4, width: 22, }}></View>
-            </View>
-            <DrawerContentScrollView >
-                {/* <DrawerItemList {...props} />
-                <DrawerItem
-                    label=" "
-                    onPress={() => Linking.openURL('https://aboutreact.com/')}
-                >        </DrawerItem> */}
+        <View >
+            <ImageBackground
+                style={{ height: '100%', width: '100%' }}
+                source={require('./assets/sidemenu.png')}
+            >
+                <View style={styles.container}>
+                    <TouchableOpacity
+                        onPress={() => navigation.toggleDrawer()}
+                        activeOpacity={0.8}
+                        style={styles.rowCross}>
+                        <Image style={styles.croos} source={require('./assets/sidemenuCross.png')} />
+                    </TouchableOpacity>
+                    <View style={{ paddingTop: "14%"}}>
+                        <Text style={styles.menu}>MENU</Text>
+                        {
+                            menuData.map((item, i) => {
+                                return (
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            item.navigateTo &&
+                                                navigation.navigate(item.navigateTo)
+                                        }}
+                                        style={styles.menuContainer}
+                                    >
+                                        {item?.navigateTo == toggle ? 
+                                        <Image
+                                            style={styles.imageLogo}
+                                            source={item.image1}
+                                        /> : 
+                                        <Image
+                                            style={styles.imageLogo}
+                                            source={item.image}
+                                        />}
 
-                <View style={styles.customItem}>
-                    <View style={{ flexDirection: "row", alignItems: 'center', paddingVertical: 5 }}>
-                        <View style={{ flex: 0.5 }}>
-                            <Image style={styles.iconlogo1} source={require('./assets/notification03.png')} />
-                        </View>
-                        <View style={{ flex: 3 }}>
-                            <Text style={{ color: "#fff", fontSize: 13, fontWeight: "bold"}}
-                                onPress={() => {
-                                    navigation.navigate("Notifications")
-                                }}>
-                                Notification
-                  </Text>
-                        </View>
-                        <View style={{ flex: 0.7 }}>
-                            <Switch style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }} onValueChange={() => setToggle(!toggle)} value={!toggle} trackColor={{true: '#1974ba', false: 'grey'}} thumbColor='#fff'/>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: "row", alignItems: 'center', paddingVertical: 10 }}>
-                        <View style={{ flex: 0.5 }}>
-                            <Image style={styles.iconlogo1} source={require('./assets/wifi.png')} />
-                        </View>
-                        <View style={{ flex: 3 }}>
-                            <Text style={{ color: "#fff", fontSize: 12, fontWeight: "bold", }}>
-                                Wi-fi Only
-                  </Text>
-                        </View>
-                        <View style={{ flex: 0.7 }}>
-                            <Switch style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }} onValueChange={() => setWifi(!wifi)} value={!wifi} trackColor={{true: '#1974ba', false: 'grey'}} thumbColor='#fff'/>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: "row", alignItems: 'center', paddingVertical: 10 }}>
-                        <View style={{ flex: 0.5 }}>
-                            <Image style={styles.iconlogo} source={require('./assets/signal02.png')} />
-                        </View>
-                        <View style={{ flex: 3 }}>
-                            <Text style={{ color: "#fff", fontSize: 12, fontWeight: "bold", }}>
-                                Smart Wifi
-                  </Text>
-                            <Text style={styles.para}>Complete episodes will be deleted and replaced with the next episodes, only Wi-fi</Text>
-                        </View>
-                        <View style={{ flex: 0.7 }}>
-                            <Switch style={{ transform: [{ scaleX: .8 }, { scaleY: .8 }] }} onValueChange={() => setSmart(!smart)} value={!smart} trackColor={{true: '#1974ba', false: 'grey'}} thumbColor='#fff' />
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: "row", alignItems: 'center', paddingVertical: 10 }}>
-                        <View style={{ flex: 0.5 }}>
-                            <Image style={styles.iconlogo} source={require('./assets/videoquality04.png')} />
-                        </View>
-                        <View style={{ flex: 3, }}>
-                            <View>
-                                <Text style={{ color: "#fff", fontSize: 12, fontWeight: "bold", }}>
-                                    Video Quality</Text>
-                                <Text style={{ color: "#b2b2b4", fontSize: 12, }}>Standard</Text></View>
-
-                        </View>
-
-                        <View style={{flex: 0.4,}}>
-                            <TouchableOpacity activeOpacity={0.8} onPress={() => setQuality(!quality)} hitSlop={{top: 20, bottom: 20, left: 30, right: 30}}>
-                                <Image style={quality?styles.dropdown:styles.transform} source={require('./assets/dropdown01.png')} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    {quality &&
-                        <View >
-                            <Text style={styles.standard}>Standard</Text>
-                            <Text style={styles.storage}>Download faster and user less storage</Text>
-                            <View style={{ paddingVertical: 8, }}>
-                                <Text style={styles.standard}>Standard</Text>
-                                <Text style={styles.storage}>User more storage</Text>
-                            </View>
-                        </View>
-                    }
-                    <View style={{ borderBottomWidth: 1, borderBottomColor: "#282a37", paddingTop: 8 }}></View>
-                    <View style={{ flexDirection: "row" }}>
-                        <Image style={styles.deletelogo} source={require('./assets/delete02.png')} />
-                        <Text style={styles.delete}>Delete All Downloads</Text>
-                    </View>
-                    <View style={{ borderBottomWidth: 1, borderBottomColor: "#282a37", paddingTop: 4 }}></View>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text style={styles.password}>Change Password</Text>
-                        <Image style={styles.dropdownright} source={require('./assets/dropdown01.png')} />
+                                        <Text style={item?.navigateTo == toggle ? styles.logoText1 : styles.logoText}>{item.title}</Text>
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
                     </View>
                 </View>
-            </DrawerContentScrollView>
-            <View style={{ paddingLeft: 14, }}>
-                <View style={{ borderBottomWidth: 2, borderBottomColor: "#666670", width: 22, marginBottom: 4 }}></View>
-                <TouchableOpacity activeOpacity={0.8} onPress={()=>logout()} style={{ flexDirection: "row", }}>
-                    <Image style={styles.logout} source={require('./assets/logout05.png')} />
-                    <Text
-                        style={{
-                            fontSize: 16,
-                            fontWeight: 'bold',
-                            color: 'grey',
-                            paddingVertical: 6,
-                            marginBottom: 15,
-                            fontFamily: 'Raleway-Regular',
-                            paddingLeft: 6
-                        }}>
-                        Logout
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+            </ImageBackground>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    sideMenuProfileIcon: {
-        resizeMode: 'center',
-        width: 100,
-        height: 100,
-        borderRadius: 100 / 2,
-        alignSelf: 'center',
+    container: {
+        flex: 1,
     },
-    blurView: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        backgroundColor:"transparent"
-    },
-    iconStyle: {
-        width: 15,
-        height: 15,
-        marginHorizontal: 5,
-    },
-    customItem: {
-        paddingHorizontal:14,
-        paddingVertical:10,
-    },
-    para: {
-        color: "#b2b2b4",
-        fontSize: 9,
-        fontFamily: 'Raleway-Regular'
-    },
-    setting: {
+    menu: {
         color: "#ffffff",
-        fontSize: 14,
         fontWeight: "bold",
-        paddingTop: 20,
-        fontFamily: 'Raleway-Regular',
+        fontSize: 18,
+        paddingLeft: "16%",
+        paddingVertical: 22,
+        fontFamily: "Poppins-Medium",
     },
-    line: {
+    menuContainer: {
+        paddingVertical: 14,
+        flexDirection: "row",
+        alignItems: "center",
+        marginLeft: "16%"
+    },
+    imageLogo: {
+        width: 45,
+        height: 45,
+        resizeMode: "contain"
+    },
+    logoText: {
+        paddingLeft: 15,
+        fontSize: 20,
         color: "#ffffff",
-        height: 10
+        fontFamily: "Poppins-Bold",
     },
-    standard: {
-        color: "#ffffff",
-        paddingLeft: "14%",
-        fontSize: 12,
-        fontFamily: 'Raleway-Regular'
-
+    croos: {
+        width: 50,
+        height: 50,
+        resizeMode: "contain"
     },
-    storage: {
-        color: "#7a7b80",
-        paddingLeft: "14%",
-        fontSize: 10,
-        fontFamily: 'Raleway-Regular'
+    rowCross: {
+        paddingTop: "11%",
+        alignSelf: "flex-end",
+        justifyContent:"center",
+        marginHorizontal: 20,
+        //backgroundColor:"red",
+        padding:10,
+        //height:100
+        //flex:1
     },
-    delete: {
-        color: "#ffffff",
-        fontSize: 12,
-        fontWeight: "bold",
-        paddingVertical: 18,
-        fontFamily: 'Raleway-Regular',
-        paddingLeft: 10
+    logoText1: {
+        paddingLeft: 15,
+        fontSize: 20,
+        color:"#699494",
+        fontFamily:"Poppins-Bold"
     },
-    password: {
-        color: "#ffffff",
-        fontSize: 12,
-        fontWeight: "bold",
-        paddingVertical: 20,
-        fontFamily: 'Raleway-Regular'
-    },
-    iconlogo: {
-        width: 15,
-        height: 15,
-        resizeMode: "contain",
-    },
-    iconlogo1: {
-        width: 18,
-        height: 16,
-        resizeMode: "contain",
-    },
-    logout: {
-        width: 22,
-        height: 22,
-        marginTop: 8
-    },
-    dropdown: {
-        width: 8,
-        height: 12,
-        transform: [{ rotate: '90deg' }]
-    },
-    transform: {
-        width: 8,
-        height: 12,
-        //transform: [{ rotate: '90deg' }]
-    },
-    dropdownright: {
-        width: 8,
-        height: 12,
-        marginVertical: 25,
-        marginRight: 18
-    },
-    deletelogo: {
-        width: 10,
-        height: 16,
-        marginVertical: 17,
-        resizeMode:"contain",
-    }
 });
 
 const mapStateToProps = state => {
     return { userInfo: state?.userInfo };
-  };
-  
-  const mapDispatchToProps = dispatch =>
+};
+
+const mapDispatchToProps = dispatch =>
     bindActionCreators({ userLogout }, dispatch);
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(CustomDrawer);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomDrawer);

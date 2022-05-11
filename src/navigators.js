@@ -2,21 +2,27 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { Component, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Login from './pages/login/login';
-import Signup from './pages/signup/signup';
+import SignUp from './pages/signup/signup';
 import search from './pages/search/search';
 import profile from './pages/profile/profile';
 import list from './pages/list/list';
 import NotificationsScreen from './pages/notificationsScreen/notificationScreen';
 import HomeScreen from './pages/home/HomeScreen';
 import DetailScreen from './pages/home/DetailScreen';
+import Setting from './pages/setting/setting';
+import About from './pages/About/about';
+import Help from './pages/help/help';
 import CustomDrawer from './CustomDrawer';
 import { connect } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import CustomTabBar from './CustomTabBar';
-
-
+import Like from './pages/Like/Like';
+import FAQS from './pages/FAQS/FAQS';
+import { VideoPlayer } from './pages/PlayVideo/PlayVideo';
+import { getFocusedRouteNameFromRoute, useNavigation } from '@react-navigation/native';
+import Splash from './pages/Splash/Splash';
 const useInitialRender = () => {
   const [isInitialRender, setIsInitialRender] = useState(false)
 
@@ -27,11 +33,53 @@ const useInitialRender = () => {
   return false
 }
 
+const Stack = Platform.OS === "ios" ? createStackNavigator() : createStackNavigator();
+const Drawer = createDrawerNavigator();
+const LoginStackNav = createStackNavigator();
+const HomeTabAStackNav = createStackNavigator();
+const HomeSearchStackNav = createStackNavigator();
+const HomeListStackNav = createStackNavigator();
+const HomeTabNav = createBottomTabNavigator();
+const HomeLikeStackNav = createStackNavigator();
+// const HomeDetailStackNav = createStackNavigator();
 
-const drawerButton = navigation => {
+
+const RightArrow = navigation => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.toggleDrawer()}>
+    // onPress={() => navigation.toggleDrawer()}
+    >
+      <Image
+        source={require('./assets/backIcon.png')}
+        style={{ width: 20, height: 20, resizeMode: 'contain', marginLeft: 12, tintColor: "#f8b293" }}
+      />
+    </TouchableOpacity>
+  );
+};
+
+
+const ListItem = navigation => {
+  return (
+    <TouchableOpacity
+      onPress={() => toggleDrawer(navigation)}>
+      <Image
+        source={require('./assets/sortIcon.png')}
+        style={{ width: 22, height: 22, resizeMode: 'contain', tintColor: "#f8b293", marginRight: 12 }}
+      />
+    </TouchableOpacity>
+  );
+};
+
+
+const drawerButton = navigation => {
+  const hookNavigation = useNavigation()
+  return (
+    <TouchableOpacity
+    
+      onPress={() => {
+        hookNavigation.toggleDrawer()
+      }}
+    >
       <Image
         source={require('./assets/menu-icon.png')}
         style={{ width: 20, height: 20, resizeMode: 'contain', marginLeft: 12 }}
@@ -39,24 +87,33 @@ const drawerButton = navigation => {
     </TouchableOpacity>
   );
 };
+const headerTitle = navigation => {
+  return (
+    <View
+    >
+      <Image
+        source={require('./assets/home-top-logo.png')}
+        style={{ width: 45, height: 45, resizeMode: 'contain' }}
+      />
+    </View>
+  );
+};
 
 const notificationIcon = navigation => {
+  const hookNavigation = useNavigation()
   return (
     <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-      <View style={{ flex: 1, flexDirection: "row", backgroundColor: "red", alignItems: "center", padding: 4, borderRadius: 3, marginRight: 10 }}>
-        <View style={{ backgroundColor: "#fff", height: 6, width: 6, padding: 0, borderRadius: 3 }}></View>
-        <Text style={{ color: "#fff", fontSize: 10, fontWeight: '800', marginLeft: 5 }}>Live Now</Text>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Icon
-          name="notifications-outline"
-          size={24}
-          style={{ marginRight: 10, color: "#fff" }}
-          onPress={() => navigation.navigate("Notifications")}
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={() => hookNavigation.navigate('Notification')}
+        style={{ flex: 1 }}>
+        <Image
+          source={require('./assets/notifcation03.png')}
+          style={{ width: 25, height: 25, resizeMode: 'contain', marginRight: 12 }}
         />
-      </View>
+      </TouchableOpacity>
     </View>
-  ); 
+  );
 };
 const profiletionIcon = navigation => {
   return (
@@ -68,32 +125,27 @@ const profiletionIcon = navigation => {
   );
 };
 
-const Drawer = createDrawerNavigator();
-const LoginStackNav = createStackNavigator();
-const HomeTabAStackNav = createStackNavigator();
-const HomeSearchStackNav = createStackNavigator();
-const HomeListStackNav = createStackNavigator();
-const HomeTabNav = createBottomTabNavigator();
-const HomeProfileStackNav = createStackNavigator();
-
 
 function LoginStack() {
   return (
     <LoginStackNav.Navigator screenOptions={{
       headerShown: false
-    }} initialRouteName="Login">
+    }} initialRouteName="Splash">
+      {/* <LoginStackNav.Screen name="Home" component={HomeTab} /> */}
+      <LoginStackNav.Screen name="Splash" component={Splash} />
       <LoginStackNav.Screen name="Login" component={Login} />
-      <LoginStackNav.Screen name="Signup" component={Signup} />
+      <LoginStackNav.Screen name="SignUp" component={SignUp} />
     </LoginStackNav.Navigator>
   );
 }
 
-function HomeTabAStack() {
+function HomeTabAStack({ navigation, route }) {
+
   return (
     <HomeTabAStackNav.Navigator initialRouteName="Home" screenOptions={{
       headerBackTitleVisible: false,
       headerStyle: {
-        backgroundColor: '#0e101f',
+        backgroundColor: '#ffffff',
         shadowOpacity: 0.85,
         shadowRadius: 0,
         shadowOffset: {
@@ -104,23 +156,21 @@ function HomeTabAStack() {
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
-        fontFamily: 'Raleway-Regular'
+        fontFamily: 'Poppins-Regular'
       },
     }}>
       <HomeTabAStackNav.Screen
         name="Home"
         component={HomeScreen}
         options={({ navigation }) => ({
+
+          
+          headerTitle: () => headerTitle(navigation),
           headerLeft: () => drawerButton(navigation),
           headerRight: () => notificationIcon(navigation)
         })}
       />
-      <HomeTabAStackNav.Screen name="About Motivation" component={DetailScreen} />
-      <HomeTabAStackNav.Screen name="Notifications" component={NotificationsScreen}
-     options={({ navigation }) => ({
-      headerShown: false
-    })}
-      />
+      {/* <HomeTabAStackNav.Screen name="DetailScreen" component={DetailScreen} /> */}
     </HomeTabAStackNav.Navigator>
   );
 }
@@ -131,7 +181,7 @@ function HomeSearchStack() {
   return (
     <HomeSearchStackNav.Navigator initialRouteName="Search" screenOptions={{
       headerStyle: {
-        backgroundColor: '#0e101f',
+        backgroundColor: '#ffffff',
         shadowOpacity: 0.85,
         shadowRadius: 0,
         shadowOffset: {
@@ -139,27 +189,54 @@ function HomeSearchStack() {
           height: 0,
         },
       },
-      headerTintColor: '#fff',
+      headerTintColor: '#4d585b',
       headerTitleStyle: {
         fontWeight: 'bold',
-        fontFamily: 'Raleway-Regular'
+        fontFamily: 'Poppins-Regular'
       },
     }}>
       <HomeSearchStackNav.Screen
-        name="Search"
+        name="SEARCH"
         component={search}
         options={({ navigation }) => ({
           headerLeft: () => drawerButton(navigation),
           headerRight: () => notificationIcon(navigation)
         })}
       />
-      <HomeTabAStackNav.Screen name="Notifications" component={NotificationsScreen}
-       options={({ navigation }) => ({
-        headerShown: false
-      })}
-      />
       {/* <HomeSearchStackNav.Screen name="TabBDetails" component={TabBDetails} /> */}
     </HomeSearchStackNav.Navigator>
+  );
+}
+
+
+function HomeLikeStack() {
+  return (
+    <HomeLikeStackNav.Navigator initialRouteName="Search" screenOptions={{
+      headerStyle: {
+        backgroundColor: '#ffffff',
+        shadowOpacity: 0.85,
+        shadowRadius: 0,
+        shadowOffset: {
+          width: 0,
+          height: 0,
+        },
+      },
+      headerTintColor: '#4d585b',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontFamily: 'Poppins-Regular'
+      },
+    }}>
+      <HomeLikeStackNav.Screen
+        name="FAVORITES"
+        component={Like}
+        options={({ navigation }) => ({
+          headerLeft: () => drawerButton(navigation),
+          headerRight: () => notificationIcon(navigation)
+        })}
+      />
+      {/* <HomeSearchStackNav.Screen name="TabBDetails" component={TabBDetails} /> */}
+    </HomeLikeStackNav.Navigator>
   );
 }
 
@@ -167,7 +244,7 @@ function HomeListStack() {
   return (
     <HomeListStackNav.Navigator initialRouteName="MyList" screenOptions={{
       headerStyle: {
-        backgroundColor: '#0e101f',
+        backgroundColor: '#ffffff',
         shadowOpacity: 0.85,
         shadowRadius: 0,
         shadowOffset: {
@@ -175,56 +252,28 @@ function HomeListStack() {
           height: 0,
         },
       },
-      headerTintColor: '#fff',
+      headerTintColor: '#4d585b',
       headerTitleStyle: {
         fontWeight: 'bold',
-        fontFamily: 'Raleway-Regular'
+        fontFamily: 'Poppins-Regular'
       },
     }}>
       <HomeListStackNav.Screen
-        name="MyList"
+        name="PLAYLIST"
         component={list}
         options={({ navigation }) => ({
-          headerLeft: () => drawerButton(navigation),
-          headerRight: () => notificationIcon(navigation)
+          headerLeft: () => RightArrow(navigation),
+          headerRight: () => ListItem(navigation)
         })}
       />
-      <HomeTabAStackNav.Screen name="Notifications" component={NotificationsScreen}
+      {/* <HomeTabAStackNav.Screen name="VideoPlayer" component={VideoPlayer}
         options={({ navigation }) => ({
-          headerShown: false
+          headerShown: false,
         })}
-      />
-    </HomeListStackNav.Navigator>
-  );
-}
 
-function HomeProfileStack() {
-  return (
-    <HomeProfileStackNav.Navigator initialRouteName="MyProfile" screenOptions={{
-      headerStyle: {
-        backgroundColor: '#0e101f',
-        shadowOpacity: 0.85,
-        shadowRadius: 0,
-        shadowOffset: {
-          width: 0,
-          height: 0,
-        },
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'Raleway-Regular'
-      },
-    }}>
-      <HomeProfileStackNav.Screen
-        name="MyProfile"
-        component={profile}
-        options={({ navigation }) => ({
-          headerLeft: () => drawerButton(navigation),
-          headerRight: () => profiletionIcon(navigation)
-        })}
-      />
-    </HomeProfileStackNav.Navigator>
+      /> */}
+
+    </HomeListStackNav.Navigator>
   );
 }
 
@@ -246,36 +295,82 @@ function HomeTab() {
         )
       }}
 
-    > 
-     <HomeTabNav.Screen name="Home" component={HomeTabAStack} />
+    >
+      <HomeTabNav.Screen name="Home" component={HomeTabAStack} />
       <HomeTabNav.Screen name="Search" component={HomeSearchStack} />
       <HomeTabNav.Screen name="List" component={HomeListStack} />
-      <HomeTabNav.Screen name="Profile" component={HomeProfileStack} />
+      <HomeTabNav.Screen name="Like" component={HomeLikeStack} />
     </HomeTabNav.Navigator>
   );
 }
 
-function RootContainer({ user }) {
-
+function MainDrawer() {
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
       drawerContentOptions={{
         activeTintColor: '#fff',
         inactiveTintColor: '#aeaeae',
+        activeBackgroundColor: '#5cbbff',
         itemStyle: { marginVertical: 8, marginHorizontal: 8 },
       }}
-      initialRouteName="main"
+      initialRouteName="DrawerHome"
       drawerStyle={{
-        // backgroundColor: '#0e101f',
-        opacity: 1
+        width: '100%',
+        opacity: 1,
+        backgroundColor: "#fff"
       }}
       drawerType="front"
     >
+      <Drawer.Screen name="DrawerHome" component={HomeTab} />
       <Drawer.Screen name="main" component={LoginStack} />
-         
+      <Drawer.Screen name='About' component={About} />
+      <Drawer.Screen name='Setting' component={Setting} />
+      <Drawer.Screen name='Help' component={Help} />
+      <Drawer.Screen name="profile" component={profile} />
+      <Drawer.Screen name="FAQS" component={FAQS} />
       <Drawer.Screen name="Home" component={HomeTab} />
+      <Drawer.Screen name="Notification" component={NotificationsScreen} />
+      <Drawer.Screen name="DetailScreen" component={DetailScreen} />
+      <Drawer.Screen name="VideoPlayer" component={VideoPlayer} />
     </Drawer.Navigator>
+  )
+}
+
+
+function RootContainer({ user }) {
+
+  return (
+    // <Drawer.Navigator
+    //   drawerContent={props => <CustomDrawer {...props} />}
+    //   drawerContentOptions={{
+    //     activeTintColor: '#fff',
+    //     inactiveTintColor: '#aeaeae',
+    //     itemStyle: { marginVertical: 8, marginHorizontal: 8 },
+    //   }}
+    //   initialRouteName="main"
+    //   drawerStyle={{
+    //     width: '100%',
+    //     opacity: 1,
+    //     backgroundColor: "#fff"
+    //   }}
+    //   drawerType="front"
+    // >
+    //   <Drawer.Screen name="main" component={LoginStack} />
+    //   <Drawer.Screen name='About' component={About} />
+    //   <Drawer.Screen name='Setting' component={Setting} />
+    //   <Drawer.Screen name='Help' component={Help} />
+    //   <Drawer.Screen name="profile" component={profile} />
+    //   <Drawer.Screen name="FAQS" component={FAQS} />
+    //   <Drawer.Screen name="Home" component={HomeTab} />
+    //   <Drawer.Screen name="Notification" component={NotificationsScreen} />
+    //   <Drawer.Screen name="DetailScreen" component={DetailScreen} />
+    //   <Drawer.Screen name="VideoPlayer" component={VideoPlayer} />
+    // </Drawer.Navigator>
+    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }} sdetachInactiveScreens={true}>
+      <Stack.Screen name="Login" component={LoginStack} />
+      <Stack.Screen name="MainDrawer" component={MainDrawer} /> 
+    </Stack.Navigator>
   )
 
 

@@ -5,7 +5,7 @@ import { BlurView } from "@react-native-community/blur";
 function MyTabBar({ state, descriptors, navigation }) {
     return (
         <>
-        <SafeAreaView style={{flexDirection: 'row', flex: 0, backgroundColor: 'transparent'}}>
+        <SafeAreaView style={{flexDirection: 'row', flex: 0, backgroundColor: '#ffffff'}}>
             {/* <BlurView style={styles.blurView}
                 blurType="dark"
                 blurAmount={15}
@@ -43,16 +43,16 @@ function MyTabBar({ state, descriptors, navigation }) {
                 let nestedComponent = null;
                 switch (route.name) {
                     case 'Home':
-                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={{ height: 18, width: 18, resizeMode: "contain" }} source={require('./assets/homeicon.png')} /></View>
+                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={isFocused ? styles.TabIcon : styles.TabIcon1} source={require('./assets/homeicon.png')} /></View>
                         break;
                     case 'Search':
-                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={{ height: 18, width: 18, resizeMode: "contain" }} source={require('./assets/search.png')} /></View>
+                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={isFocused ? styles.TabIcon : styles.TabIcon1} source={require('./assets/search.png')} /></View>
                         break;
                     case 'List':
-                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={{ height: 18, width: 18, resizeMode: "contain" }} source={require('./assets/playlisticon.png')} /></View>
+                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={isFocused ? styles.TabIcon : styles.TabIcon1} source={require('./assets/playlisticon.png')} /></View>
                         break;
-                    case 'Profile':
-                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={{ height: 18, width: 18, resizeMode: "contain" }} source={require('./assets/profileicon.png')} /></View>
+                    case 'Like':
+                        nestedComponent = <View style={isFocused ? styles.selectionContainer : styles.notFocusedTab}><Image style={isFocused ? styles.TabIcon : styles.TabIcon1} source={require('./assets/fav-ative.png')} /></View>
                         break;
                     default:
                         break;
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
+        // top:0
     },
     blurView: {
         position: "absolute",
@@ -113,7 +114,17 @@ const styles = StyleSheet.create({
         height: 38,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#1a72b9",
-        borderRadius: 6,
     },
+    TabIcon:{
+        width:22,
+        height:22,
+        resizeMode:"contain",
+        tintColor:"#f8b293"
+    },
+    TabIcon1:{
+        width:22,
+        height:22,
+        resizeMode:"contain",
+        tintColor:"#a7b0b6"
+    }
 });

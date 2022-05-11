@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image ,TouchableOpacity,Platform} from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image ,TouchableOpacity,Platform,ScrollView} from 'react-native';
 import { Input, Button, Card, SearchBar } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -8,16 +8,26 @@ import { userLogout } from '../../redux/actions';
 
 
 export default function NotificationsScreen({navigation}) {
-  const [reason, setReason] = useState([{ title: "Today", image: require('../../assets/01.png') },{ title: "def", image: require('../../assets/01.png') }, { title: "def", image: require('../../assets/02.png') }, { title: "jhi", image: require('../../assets/03.png') }, { title: "This Week", image: require('../../assets/04.png') }, { title: "abc", image: require('../../assets/01.png') }, { title: "abc", image: require('../../assets/02.png') },{ title: "abc", image: require('../../assets/03.png') },{ title: "abc", image: require('../../assets/04.png') },{ title: "abc", image: require('../../assets/01.png') },{ title: "abc", image: require('../../assets/02.png') }]);
+  const [reason, setReason] = useState([{ title: "Today", image: require('../../assets/playbtn-big.png') },
+  { title: "def", image: require('../../assets/playButton.png') },
+   { title: "def", image: require('../../assets/payment.png') },
+    { title: "jhi", image: require('../../assets/crossButton.png') }, 
+    { title: "This Week", image: require('../../assets/playButton.png') }, 
+    { title: "abc", image: require('../../assets/playButton.png') }, 
+    { title: "abc", image: require('../../assets/crossButton.png') },
+    { title: "abc", image: require('../../assets/payment.png') },
+    { title: "abc", image: require('../../assets/playButton.png') },
+    { title: "abc", image: require('../../assets/payment.png') },
+    { title: "abc", image: require('../../assets/crossButton.png') }]);
 
   return (
     <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
     <View style={styles.notification}>
         <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.goBack()} style={styles.imgcard} >
-            <Image style={styles.backpng} source={require('../../assets/back.png')} />
+            <Image style={styles.backpng} source={require('../../assets/backIcon.png')} />
         </TouchableOpacity>
-        <Image style={styles.search} source={require('../../assets/search.png')} />
-        <Input style={styles.vlogers} placeholder="Notification" />
+        <Text style={styles.notificationText}>NOTIFICATION</Text>
     </View>
     <View style={styles.today}>
         <FlatList
@@ -28,12 +38,12 @@ export default function NotificationsScreen({navigation}) {
             renderItem={({ item }) => {
                 if(item.title=="Today"){
                     return (
-                        <Text style={styles.textdv}>Today</Text>
+                        <Text style={styles.textdv}>TODAY</Text>
                     )
                 }
                 else if(item.title=="This Week"){
                     return (
-                        <Text style={styles.textdv}>This Week</Text>
+                        <Text style={styles.textdv}>THIS WEEK</Text>
                     )
                 }
                 return (
@@ -49,12 +59,12 @@ export default function NotificationsScreen({navigation}) {
                     </View>
                 )
                 
-            }}  ListFooterComponent={()=> (
-                <View style={{height: 100}}></View>
-            )}>
+            }}  >
                 
         </FlatList>
+        {/* <View style={{height:"20%"}}></View> */}
     </View>
+    </ScrollView>
 </View>
 );
 }
@@ -63,7 +73,7 @@ export default function NotificationsScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      backgroundColor: "#0e101f",
+      backgroundColor: "#ffffff",
       paddingHorizontal: 10
   },
   notification: {
@@ -72,11 +82,13 @@ const styles = StyleSheet.create({
       ...Platform.select({ios:{marginTop:35,}})
   },
   backpng: {
-      width: 18,
-      height: 16,
+      width: 22,
+      height: 22,
       position: "absolute",
       top: 6,
       left: 6,
+      tintColor:"#f8b293",
+      resizeMode:"contain"
   },
   vlogers: {
       paddingTop: 10,
@@ -86,7 +98,7 @@ const styles = StyleSheet.create({
       fontSize: 12,
       color: "white",
       position: "relative",
-      fontFamily:'Raleway-Regular'
+      fontFamily:'Poppins-Regular'
   },
   iconpng:{
       width:14,
@@ -100,7 +112,6 @@ const styles = StyleSheet.create({
       paddingVertical:10,
   },
   imgcard: {
-      backgroundColor: "#1b1b33",
       width: 30,
       height: 30,
       position: "absolute",
@@ -108,21 +119,13 @@ const styles = StyleSheet.create({
       left: 12,
       zIndex:1
   },
-  search: {
-      width: 18,
-      height: 19,
-      position: "absolute",
-      top: 38,
-      left: "85%",
-  },
   pm: {
       color: "#bbbbbd",
       paddingLeft: 14,
       fontSize: 10,
-      fontFamily:'Raleway-Regular'
+      fontFamily:'Poppins-Regular'
   },
   today: {
-      flex: 7.5,
       paddingHorizontal: 2,
       paddingVertical: 13,
   },
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
       paddingLeft: 14,
       paddingTop: 6,
       fontSize: 12,
-      fontFamily:'Raleway-Regular'
+      fontFamily:'Poppins-Regular'
   },
   icon: {
       width: 40,
@@ -139,11 +142,12 @@ const styles = StyleSheet.create({
       marginTop: 0,
   },
   textdv: {
-      color: "#ffffff",
-      fontSize: 18,
+    color:"#4d585b",
+      fontSize: 16,
       fontWeight: "bold",
       paddingLeft: 10,
-      fontFamily:'Raleway-Regular'
+      paddingVertical:8
+    //   fontFamily:'Poppins-Regular'
 
   },
   card: {
@@ -164,19 +168,23 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: "bold",
       paddingLeft: 10,
-      fontFamily:'Raleway-Regular'
+      fontFamily:'Poppins-Regular'
   }, 
   pm2: {
-      color: "#bbbbbd",
+      color: "#fff",
       paddingLeft: 14,
       fontSize: 10,
+      fontWeight:"bold",
+      marginTop:"2%"
   },
   disney2: {
-      color: "#ffffff",
+      color: "#fff",
       paddingLeft: 14,
       paddingTop: 6,
       fontSize: 12,
-      fontFamily:'Raleway-Regular'
+      fontFamily:'Poppins-Regular',
+      fontWeight:"bold",
+      //lineHeight:20
   },
   icon2: {
       width: 40,
@@ -184,13 +192,20 @@ const styles = StyleSheet.create({
       marginTop: 0,
   },
   card2: {
-      backgroundColor: "#171928",
+      backgroundColor: "#c7d2d7",
       paddingHorizontal: 10,
-      paddingVertical: 10,
+      paddingVertical: 18,
       marginHorizontal: 10,
       marginVertical: 6,
       borderRadius: 10,
       flexDirection: "row",
   },
+  notificationText:{
+      color:"#f8b293",
+      fontWeight:"bold",
+      marginTop:"7%",
+      marginLeft:"14%",
+      fontSize:18
+  }
 
 })

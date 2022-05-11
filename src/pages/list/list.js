@@ -1,133 +1,126 @@
 import React, { Component, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
 import { Input, Button, Card, SearchBar } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { userLogout } from '../../redux/actions';
-
+import PlayList from '../../components/PlayList/PlayList';
 
 
 export default function List({ navigation }) {
-    const [search, setSearch] = useState();
-  return (
-    <View style={styles.container}>
-                {/* <View style={styles.list}> */}
-                {/* <Text style={styles.mylist}>My List</Text> */}
-                {/* </View> */}
-                <View style={styles.searchopt}>
-                <SearchBar
-                    platform="ios"
-                    placeholder="Vlogers"
-                    placeholderTextColor="#fff"
-                    searchIcon={{ iconStyle: { color: "#fff" } }}
-                    inputStyle={{ color: "#fff", fontSize: 12,    fontFamily:'Raleway-Regular'}}
-                    containerStyle={{ backgroundColor: "#0e101f" }}
-                    inputContainerStyle={{
-                        backgroundColor: "#0e101f", shadowColor: "#aeaeae",
-                        shadowOffset: {
-                            width: 0.5,
-                            height: 0.5,
-                        },
-                        shadowOpacity: 0.23,
-                        shadowRadius: 1.12,
-                        elevation: 6
-                    }}
-                    onChangeText={setSearch}
-                    value={search}
-                />
+    const [reason, setReason] = useState([
+        {},
+        {
+            image: require("../../assets/home02.png"),
+            title: "Friends, Me & Bus",
+            description:"Child Collection"
+        },
+        {
+            image: require("../../assets/home03.png"),
+            description:"Fantasy Collection"
+
+        },
+        {
+            image: require("../../assets/home01.png"),
+            title: "Friends, Me & Bus",
+            description:"Sleep Collection"
+        },
+        {
+            image: require("../../assets/home02.png"),
+
+        },
+        {
+            image: require("../../assets/home03.png"),
+            title: "Friends, Me & Bus",
+            description:"Child Collection"
+        },
+        {
+            image: require("../../assets/home02.png"),
+            title: "Friends, Me & Bus",
+            description:"Fantasy Collection"
+        },
+        {
+            image: require("../../assets/home03.png"),
+            description:"Sleep Collection"
+
+        },
+    ])
+    return (
+        <>
+            <StatusBar
+                barStyle="dark-content"
+                translucent={true}
+                backgroundColor={'#f8b293'}
+            />
+            <View style={styles.container}>
+                <TouchableOpacity
+                    activeOpacity={0.9}
+                    onPress={() => navigation.navigate('DetailScreen')}
+                    style={{ width: "100%", height: "35%" }}>
+                    <View style={{
+                        position: "absolute", zIndex: 30,
+                        top: "65%",
+                        left: "8%",
+                        flexDirection: "row",
+                    }}>
+                        <View>
+                            <Text style={styles.platText}>Friends, Me & Bus</Text>
+                            <Text style={{ color: "#ffffff" }}>00:03</Text>
+                        </View>
+                        <Image style={styles.playIcon} source={require('../../assets/playbtn-big.png')} />
+                    </View>
+                    <Image style={{ width: "100%", height: "100%", resizeMode: "stretch" }} source={require('../../assets/playlisTtitle.png')} />
+                </TouchableOpacity>
+                <View>
+                    <FlatList
+                    contentContainerStyle={{paddingBottom:34}}
+                    vertical={true}
+                        data={reason}
+                        keyExtractor={(item, index) => index}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={({ item }) => {
+                            return (
+                                <View>
+                                    <PlayList
+                                        image={item.image}
+                                        title={item.title}
+                                        fav={require('../../assets/fav-ative.png')}
+                                        description={item.description}
+                                    />
+                                </View>
+                            )
+                        }}
+                    >
+                    </FlatList>
+                    <View style={{ height: "60%" }}></View>
                 </View>
-                <ScrollView contentContainerStyle={{flexGrow:1,}}
-                showsVerticalScrollIndicator={false}
-                >
-                    
-                    <View style={styles.movie}>
-                    <Image style={styles.moviepng} source={require('../../assets/01-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/03-tile.png')} />
-                    </View>
-                    <View style={styles.movie}>
-                    <Image style={styles.moviepng} source={require('../../assets/03-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/01-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
-                    </View>
-                    <View style={styles.movie}>
-                    <Image style={styles.moviepng} source={require('../../assets/01-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/03-tile.png')} />
-                    </View>
-                    <View style={styles.movie}>
-                    <Image style={styles.moviepng} source={require('../../assets/03-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/01-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
-                    </View>
-                    <View style={styles.movie}>
-                    <Image style={styles.moviepng} source={require('../../assets/01-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/02-tile.png')} />
-                    <Image style={styles.moviepng} source={require('../../assets/03-tile.png')} />
-                    </View>
-                </ScrollView>
-                {/* <View style={{height:40}}></View> */}
+
             </View>
-  );
+        </>
+    );
 }
 
 export function TabBDetails() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Tab B Details</Text>
-    </View>
-  );
+    return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text>Tab B Details</Text>
+        </View>
+    );
 }
 
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexGrow: 1,
-        backgroundColor: "#0e101f",
-        paddingHorizontal: 10
+        backgroundColor: "#ffffff"
     },
-    list: {
-        height: 55
-    },
-    mylist:{
+    platText: {
         color: "#ffffff",
-        fontSize: 18,
         fontWeight: "bold",
-        paddingTop: 26,
-        paddingLeft: 6,
-        fontFamily:'Raleway-Regular'
+        fontSize: 18
     },
-    searchopt: {
-        height: 68
+    playIcon: {
+        width: 40, height: 40,
+        resizeMode: "contain", marginLeft: "42%"
     },
-    vlogers: {
-        paddingTop: 12,
-        paddingLeft: 15,
-        paddingBottom:12,
-        marginTop:12,
-        borderWidth:1,
-        borderColor:"#495058",
-        fontSize:12,
-        color:"white",
-        fontFamily:'Raleway-Regular'
-
-    },
-    search:{
-        width:18,
-        height:18,
-        position:"absolute",
-        top:25,
-        left:"85%",
-    },
-    movie: {
-        flexDirection:"row",
-    },
-    moviepng:{
-        flex:1,
-        height:130,
-        resizeMode: "stretch",
-        marginHorizontal:6,
-        marginVertical:8,
-    }
 })

@@ -1,104 +1,91 @@
-import { Text, TextInput, View, StyleSheet, Image, TouchableOpacity, ScrollView, SafeAreaView ,Platform} from 'react-native';
-import React, { useState } from 'react';
-import { Input, Button } from 'react-native-elements';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { userLogin } from '../../redux/actions';
-import Icon from 'react-native-vector-icons/Entypo';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview'
+import {
+    Text,
+    View,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform,
+    ImageBackground,
+    StatusBar,
+    TextInput,
+    ScrollView
+  } from 'react-native';
+  import React, { useState } from 'react';
+  import { Input } from 'react-native-elements';
+  import { bindActionCreators } from 'redux';
+  import { connect } from 'react-redux';
+  import { userLogin } from '../../redux/actions';
+  import Icon from 'react-native-vector-icons/Feather';
+  // import { ButtonView } from '../../components';
 
 
-
-function Signup({ navigation, userInfo, userLogin }) {
+function SignUp({ navigation, userInfo, userLogin }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [hidePass1, setHidePass1] = useState(true);
     const [hidePass2, setHidePass2] = useState(true);
 
     return (
-        <SafeAreaView style={styles.safeArea}>
-             <View style={styles.box1}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Image style={styles.back} source={require('../../assets/back.png')} />
-                    </TouchableOpacity>
-                </View>
-             <KeyboardAwareScrollView style={styles.MainContainer} showsVerticalScrollIndicator={false}>
-                <View style={{height:Platform.OS==="ios"?750:"70%"}}>
-                <View style={styles.box2}>
-                    <Image style={styles.logo} source={require('../../assets/juggling.png')} />
-                    <Text style={styles.logindv}>SignUp</Text>
-                    <View style={styles.loginline}></View>
-                </View>
-                <View style={styles.box3}>
-                    <View>
-                        <Image style={styles.logo02} source={require('../../assets/user.png')} />
-                        <Input style={styles.email} placeholder="First Name" />
-                    </View>
-                    <View>
-                        <Image style={styles.logo02} source={require('../../assets/user.png')} />
-                        <Input style={styles.password} placeholder="Last Name" />
-                    </View>
-                    <View>
-                        <Image style={styles.logo022} source={require('../../assets/email.png')} />
-                        <Input style={styles.email} placeholder="Email Address" />
-                    </View>
-                    <View>
-                        <Image style={styles.logo02} source={require('../../assets/phone.png')} />
-                        <Input style={styles.password} placeholder="Phone No." />
-                    </View>
-                    <View>
-                    
-                        <Image style={styles.logo02} source={require('../../assets/lock.png')} />
-                        {/* <Input style={styles.email} placeholder="Password" secureTextEntry={true} /> */}
-                        <Input style={styles.email}
-                            color="#fff"
-                            placeholder="Password"
-                            autoCompleteType="password"
-                            secureTextEntry={hidePass1 ? true : false}
-                            />
-                        <Icon style={styles.eyeicon}
-                            name={hidePass1 ? 'eye-with-line' : 'eye'}
-                            size={15}
-                            color="#fff"
-                            onPress={() => setHidePass1(!hidePass1)}/>
-                    </View>
-                    <View >
-                        <Image style={styles.logo02} source={require('../../assets/lock.png')} />
-                        
-                         <Input style={styles.email}
-                            color="#fff"
-                            placeholder="Confirm Password"
-                            autoCompleteType="password"
-                            secureTextEntry={hidePass2 ? true : false}
-                            />
-                            
-                        <Icon style={styles.eyeicon}
-                            name={hidePass2 ? 'eye-with-line' : 'eye'}
-                            size={15}
-                            color="#fff"
-                            onPress={() => setHidePass2(!hidePass2)}/>
-                    </View>
-                </View>
-                <View style={styles.box4}>
-                    <TouchableOpacity
-                        activeOpacity={0.8}
-                        style={styles.LoginButton}
-                        onPress={() => navigation.goBack()}
-                    >
-                        <Text style={styles.LoginButtonInside}>SIGN UP</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.box5}>
-                    <View style={styles.loginhere}>
-                        <Text style={styles.account}> Already have an account</Text>
-                        <Text onPress={() => navigation.goBack()} style={styles.singup}>LOGIN HERE</Text>
-                        <View style={styles.singupline}>
-                    </View>
-                    </View>
-                </View>
-                </View>
-            </KeyboardAwareScrollView>
-        </SafeAreaView>
+        <KeyboardAvoidingView style={styles.MainContainer}>
+           
+        <ImageBackground
+          style={{ height: '100%', width: '100%' }}
+          source={require('../../assets/loginbg.jpg')}>
+              
+          <View style={styles.container}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{height:"20%",marginTop:"20%",marginBottom:"10%"}}>
+              <Image style={styles.logoImage} source={require('../../assets/login-logo.png')} />
+            </View>
+            <TextInput
+              style={styles.input}
+              placeholder="First Name"
+              placeholderTextColor="#a7b0b6"
+            />
+                       <TextInput
+              style={styles.input}
+              placeholder="Last Name"
+              placeholderTextColor="#a7b0b6"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Email Id"
+              placeholderTextColor="#a7b0b6"
+            />
+                       <TextInput
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="#a7b0b6"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Confirm Password"
+              placeholderTextColor="#a7b0b6"
+            />
+            <TouchableOpacity 
+            activeOpacity={0.9}
+             onPress={() => navigation.navigate('MainDrawer')}
+            style={styles.btn}>
+              <Text style={{color:"#ffffff",fontFamily:"Poppins-Bold"}}>SIGNUP</Text>
+            </TouchableOpacity>
+            <Text style={styles.orLoginText}>OR LOGIN WITH</Text>
+            <View style={styles.logoRow}>
+            <Image style={styles.logoImageFG} source={require('../../assets/loginFb.png')} />
+            <Image style={styles.logoImageFG} source={require('../../assets/googleLogo.png')} />
+            </View>  
+            <TouchableOpacity 
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate('Login')}
+            >
+            <Text style={styles.accountText}>Don't have an account? <Text style={{color:"#699494", fontFamily:"Poppins-Bold",}}>Login</Text></Text>
+            </TouchableOpacity>
+            <View style={{paddingBottom:"50%"}}></View>
+            </ScrollView>
+          </View>
+       
+        </ImageBackground>
+      </KeyboardAvoidingView>
     );
 }
 
@@ -110,151 +97,68 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ userLogin }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
-
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
 const styles = StyleSheet.create({
-    MainContainer:{
-        flex:1,
-        backgroundColor:"#0e101f"
-    },
-    safeArea: {
-        flex: 1,
-        backgroundColor: '#0e101f'
+    input: {
+      height: 56,
+      margin: 12,
+      padding: 10,
+      backgroundColor: "#ffffff",
+      borderRadius: 30,
+      paddingLeft:"8%",
+     fontWeight:"bold"
     },
     container: {
-        flexGrow:1,
+      flex: 1,
+      justifyContent: "center",
+      paddingHorizontal:20
     },
-    logindv: {
-        fontSize: 12,
-        paddingTop: 30,
-        fontWeight: 'bold',
-        color: "white",
-        borderBottomColor: "white",
+    btn:{
+      backgroundColor:"#e6aea1",
+      paddingVertical:20,
+      alignItems:"center",
+      borderRadius:30,
+      marginHorizontal:14,
+      marginVertical:20
     },
-    loginline: {
-        width: 22,
-        height: 1,
-        backgroundColor: "white",
-        marginTop: 6,
-       
+    forgot:{
+      textAlign:"center",
+      paddingVertical:10,
+      color:"#699494",
+      fontFamily:"Poppins-Bold",
     },
-    logo: {
-        height: 100,
-        width: 200,
+    orLoginText:{
+      color:"#4d585b",
+      textAlign:"center",
+      paddingVertical:10,
+      fontWeight:"bold"
     },
-    back: {
-        height: 17,
-        width: 23,marginTop:15
+    accountText:{
+      textAlign:"center",
+      color:"#4d585b",
+      paddingVertical:10,
+      fontWeight:"bold",
+      marginTop:15,
+      fontFamily:"Poppins-Bold"
     },
-    box1: {
-        flex: 0,
-        paddingLeft: "5%",
+    logoImage:{
+      width:"75%",
+      height:"75%",
+      resizeMode:"contain",
+      alignSelf:"center",
+      margin:"10%"
     },
-    box2: {
-        flex: 0.3,
-        justifyContent: "center",
-        alignItems: "center",
+    logoImageFG:{
+      resizeMode:"contain",
+      width:50,
+      height:50,
+      marginHorizontal:10
     },
-    email: {
-        paddingTop: 12,
-        paddingLeft: 35,
-        fontSize: 12,
-        fontFamily:'Raleway-Regular',
-        color:"#fff"
-    },
-    box3: {
-        flex: 0.6,
-        paddingHorizontal: 27,
-    },
-    password: {
-        paddingTop: 12,
-        paddingLeft: 35,
-        fontSize: 12,
-        fontFamily:'Raleway-Regular',
-        color:"#fff"
-    },
-    logo02: {
-        height: 15,
-        width: 14,
-        position: "absolute",
-        top: 16,
-        left: 20,
-        resizeMode:"contain"
-    },
-    logo022: {
-        height: 13,
-        width: 13,
-        resizeMode:"contain",
-        position: "absolute",
-        top: 17,
-        left: 18,
-    },
-    box4: {
-        flex: 0.1,
-        justifyContent:"flex-start",
-    },
-    button: {
-        alignItems: "center",
-        backgroundColor: "#1974ba",
-        padding: 18,
-        textAlign: "center",
-        color: "#ffffff",
-        marginLeft: 36,
-        marginRight: 36,
-        fontWeight: 'bold',
-        fontSize: 16,
-        fontFamily:'Raleway-Regular'
-    },
-    LoginButtonInside: {
-        color: "#ffffff",
-        fontWeight: "bold",
-        fontSize: 12,
-        fontFamily:'Raleway-Regular'
-    },
-    LoginButton: {
-        alignItems: "center",
-        backgroundColor: "#1974ba",
-        padding: 16,
-        marginHorizontal: 40,
-        borderRadius: 3,
-    },
-    box5: {
-        flex: 0.09,
-        justifyContent:"flex-end",
-        alignItems:"center",
-        paddingVertical:8,
-    },
-    account: {
-        textAlign: "center",
-        color: "#dedee0",
-        fontSize: 10,
-        fontFamily:'Raleway-Regular'
-    },
-    singup: {
-        textAlign: "center",
-        color: "#1b73bd",
-        fontWeight: 'bold',
-        fontSize:12,
-        fontFamily:'Raleway-Regular',
-    },
-    singupline: {
-        width: 75,
-        height: 2,
-        backgroundColor: "#17619c",
-    },
-    loginhere: {
-        flex: 1,
-        justifyContent: "flex-start",
-        alignItems: "center",
-    },
+    logoRow:{
+      height:"5%",
+      flexDirection:"row",
+      justifyContent:"center",
+      marginVertical:20,
   
-    eyeicon:{
-        position:"absolute",
-        left:"83%",
-        bottom:"39%",
-        paddingHorizontal:"6%",
-        paddingVertical:"2%",
-        backgroundColor:"#0e101f",
-    },
-
-})
+    }
+  });
