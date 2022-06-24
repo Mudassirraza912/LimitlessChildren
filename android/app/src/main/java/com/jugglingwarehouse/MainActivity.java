@@ -1,24 +1,24 @@
-package com.limitlesschildren;
+package com.jugglingwarehouse;
 
-import android.os.Bundle; // here 
+import android.os.Bundle;
 
-import com.bumptech.glide.Glide;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.facebook.react.ReactActivity;
-import org.devio.rn.splashscreen.SplashScreen; // here \
 
 
 public class MainActivity extends ReactActivity {
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-      SplashScreen.show(this);  // here
-      super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // SplashScreen.show(this);  // here
+        super.onCreate(savedInstanceState);
 
-  }
+    }
 
- @Override
-   protected String getMainComponentName() {
-     return "LimitlessChildren";
-   }
+    @Override
+    protected String getMainComponentName() {
+        return "LimitlessChildren";
+    }
 
 }

@@ -42,7 +42,7 @@ extension UIImage {
 
         // Calculate full duration
         let duration: Int = {
-            var sum = 0
+          var sum = 0
 
             for val: Int in delays {
                 sum += val
