@@ -1,29 +1,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.limitlesschildren">
+  package="com.limitlessChildren">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-      android:name=".MainApplication"
+      android:name="com.limitlessChildren.MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
        <activity
-            android:name=".SplashActivity"
+       
+            android:name="com.limitlessChildren.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
       <activity
-        android:name=".MainActivity"
+        android:name="com.limitlessChildren.MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
         android:launchMode="singleTask">
+          <intent-filter>
+              <action android:name="android.intent.action.MAIN" />
+              <category android:name="android.intent.category.LAUNCHER" />
+          </intent-filter>
       </activity>
     </application>
 </manifest>

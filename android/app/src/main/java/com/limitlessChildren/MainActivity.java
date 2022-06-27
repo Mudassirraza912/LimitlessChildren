@@ -1,8 +1,7 @@
-package com.limitlesschildren;
+package com.limitlessChildren;
 
 import android.os.Bundle; // here 
 
-import com.bumptech.glide.Glide;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen; // here \
 
@@ -11,7 +10,7 @@ public class MainActivity extends ReactActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-      SplashScreen.show(this);  // here
+     // SplashScreen.show(this);  // here
       super.onCreate(savedInstanceState);
 
   }
