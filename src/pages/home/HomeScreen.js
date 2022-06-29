@@ -1,58 +1,93 @@
-import React, { Component, useState, useEffect,useRef } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView, StatusBar, TouchableOpacity, ImageBackground, Platform } from 'react-native';
-import { BlurView } from "@react-native-community/blur";
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { userLogout } from '../../redux/actions';
-import { CardView } from '../../components'
+import React, {Component, useState, useEffect, useRef} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  Dimensions,
+  ScrollView,
+  StatusBar,
+  TouchableOpacity,
+  ImageBackground,
+  Platform,
+} from 'react-native';
+import {BlurView} from '@react-native-community/blur';
+import {bindActionCreators} from 'redux';
+import {connect, useSelector} from 'react-redux';
+import {userLogout} from '../../redux/actions';
+import {CardView} from '../../components';
 
-
-
-function HomeScreen({ navigation, user, userLogout }) {
+function HomeScreen({navigation, user, userLogout}) {
+  const users = useSelector(state => state.userReducer.users);
+  console.log('users++++++', users);
   const [reason1, setReason1] = useState([
-    { title: "Snail Riding",  image: require('../../assets/home01.png') }, 
-    { title: "Friend, Me & Bus",description:"Child Collection", image: require('../../assets/home02.png') }, 
-    { title: "Fantasy",description:"Fantasy Collection", image: require('../../assets/home03.png') }, 
-    { title: "Snail Riding",description:"Sleep Collection", image: require('../../assets/home01.png') }, 
-    { title: "Snail Riding", image: require('../../assets/home02.png') }, 
-    { title: "Snail Riding",description:"Child Collection", image: require('../../assets/home03.png') }]);
+    {title: 'Snail Riding', image: require('../../assets/home01.png')},
+    {
+      title: 'Friend, Me & Bus',
+      description: 'Child Collection',
+      image: require('../../assets/home02.png'),
+    },
+    {
+      title: 'Fantasy',
+      description: 'Fantasy Collection',
+      image: require('../../assets/home03.png'),
+    },
+    {
+      title: 'Snail Riding',
+      description: 'Sleep Collection',
+      image: require('../../assets/home01.png'),
+    },
+    {title: 'Snail Riding', image: require('../../assets/home02.png')},
+    {
+      title: 'Snail Riding',
+      description: 'Child Collection',
+      image: require('../../assets/home03.png'),
+    },
+  ]);
   const [reason, setReason] = useState([
     {
-      title: "a", image: require('../../assets/home-top-image.png')
+      title: 'a',
+      image: require('../../assets/home-top-image.png'),
     },
     {
-      title: "b", image: require('../../assets/home-top-image.png')
+      title: 'b',
+      image: require('../../assets/home-top-image.png'),
     },
     {
-      title: "c", image: require('../../assets/home-top-image.png')
+      title: 'c',
+      image: require('../../assets/home-top-image.png'),
     },
     {
-      title: "d", image: require('../../assets/home-top-image.png')
+      title: 'd',
+      image: require('../../assets/home-top-image.png'),
     },
-  ])
-  const width = Dimensions.get('screen').width
-  const height = Dimensions.get('screen').height
+  ]);
+  const width = Dimensions.get('screen').width;
+  const height = Dimensions.get('screen').height;
   const goNext = () => {
-    navigation.navigate("About Motivation");
-  }
-  const onViewRef = React.useRef(({viewableItems})=> {
-    console.log('viewableItems', viewableItems)
+    navigation.navigate('About Motivation');
+  };
+  const onViewRef = React.useRef(({viewableItems}) => {
+    console.log('viewableItems', viewableItems);
     let currentIndex = viewableItems[0].index;
-    setCurrentIndex(currentIndex)
+    setCurrentIndex(currentIndex);
     // Use viewable items in state or as intended
-})
-const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
-const [currentIndex, setCurrentIndex] = useState () 
+  });
+  const viewConfigRef = React.useRef({viewAreaCoveragePercentThreshold: 50});
+  const [currentIndex, setCurrentIndex] = useState();
   return (
     <>
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <StatusBar
           barStyle="dark-content"
           translucent={true}
           backgroundColor={'#f8b293'}
         />
         <View style={styles.container}>
-          <ScrollView  contentContainerStyle={{ flexGrow:1,paddingBottom:50}} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            contentContainerStyle={{flexGrow: 1, paddingBottom: 50}}
+            showsVerticalScrollIndicator={false}>
             <View>
               <FlatList
                 showsVerticalScrollIndicator="none"
@@ -64,44 +99,86 @@ const [currentIndex, setCurrentIndex] = useState ()
                 onViewableItemsChanged={onViewRef.current}
                 viewabilityConfig={viewConfigRef.current}
                 pagingEnabled
-                renderItem={({ item }) => {
+                renderItem={({item}) => {
                   return (
-
-                    <View >
-                      <View style={{
-                        position: "absolute", zIndex: 30,
-                        top: "62%",
-                        left: "10%",
-                        flexDirection: "row",
-                      }}>
+                    <View>
+                      <View
+                        style={{
+                          position: 'absolute',
+                          zIndex: 30,
+                          top: '62%',
+                          left: '10%',
+                          flexDirection: 'row',
+                        }}>
                         <View>
                           <Text style={styles.platText}>Playing Childrens</Text>
-                          <Text style={{ color: "#ffffff", fontFamily:"Poppins-Regular", }}>00:03</Text>
+                          <Text
+                            style={{
+                              color: '#ffffff',
+                              fontFamily: 'Poppins-Regular',
+                            }}>
+                            00:03
+                          </Text>
                         </View>
-                        <Image style={styles.playIcon} source={require('../../assets/playbtn-big.png')} />
+                        <Image
+                          style={styles.playIcon}
+                          source={require('../../assets/playbtn-big.png')}
+                        />
                       </View>
-                      <Image style={{ width: Dimensions.get("window").width, height: Platform.OS == "ios" ? 290 : 280, resizeMode: "contain" }} source={item.image} />
+                      <Image
+                        style={{
+                          width: Dimensions.get('window').width,
+                          height: Platform.OS == 'ios' ? 290 : 280,
+                          resizeMode: 'contain',
+                        }}
+                        source={item.image}
+                      />
                       {/* <Image style={{ width: "100%", height: "100%", resizeMode: "contain" }} source={require('../../assets/home-top-image.png')} /> */}
                     </View>
-
-                  )
-                }}
-              >
-
-              </FlatList>
-              <View style={{ flexDirection: "row",justifyContent:"center"}}>
-                    {reason.map((val, index ) => {
-                       if(index == currentIndex) {
-                           return  <View key={index} style={{ width: 14, height: 7, backgroundColor: "#f8b293", borderRadius: 10, zIndex: 20,margin:5,marginTop:10 }} />
-                       }else {
-                        return <View  key={index}  style={{ width: 8, height: 8, backgroundColor: "#c4c4c4", borderRadius: 10, zIndex: 20,margin:5,marginTop:10}} />
-                       }
-                    })}
-                </View>
-              <View >
+                  );
+                }}></FlatList>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                {reason.map((val, index) => {
+                  if (index == currentIndex) {
+                    return (
+                      <View
+                        key={index}
+                        style={{
+                          width: 14,
+                          height: 7,
+                          backgroundColor: '#f8b293',
+                          borderRadius: 10,
+                          zIndex: 20,
+                          margin: 5,
+                          marginTop: 10,
+                        }}
+                      />
+                    );
+                  } else {
+                    return (
+                      <View
+                        key={index}
+                        style={{
+                          width: 8,
+                          height: 8,
+                          backgroundColor: '#c4c4c4',
+                          borderRadius: 10,
+                          zIndex: 20,
+                          margin: 5,
+                          marginTop: 10,
+                        }}
+                      />
+                    );
+                  }
+                })}
+              </View>
+              <View>
                 <View style={styles.row}>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image style={styles.Illustration} source={require('../../assets/homeIllustration-1.png')} />
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      style={styles.Illustration}
+                      source={require('../../assets/homeIllustration-1.png')}
+                    />
                     <Text style={styles.mindfull}>MINDFUL SLEEP</Text>
                   </View>
                   <TouchableOpacity
@@ -116,7 +193,7 @@ const [currentIndex, setCurrentIndex] = useState ()
                   keyExtractor={(item, index) => index}
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                  renderItem={({ item }) => {
+                  renderItem={({item}) => {
                     return (
                       <>
                         <CardView
@@ -125,14 +202,16 @@ const [currentIndex, setCurrentIndex] = useState ()
                           description={item.description}
                         />
                       </>
-                    )
-                  }}>
-                </FlatList>
+                    );
+                  }}></FlatList>
               </View>
-              <View >
+              <View>
                 <View style={styles.row}>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image style={styles.Illustration} source={require('../../assets/home-illustration-2.png')} />
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image
+                      style={styles.Illustration}
+                      source={require('../../assets/home-illustration-2.png')}
+                    />
                     <Text style={styles.mindfull}>IMAGIRATION</Text>
                   </View>
                   <View style={styles.ViewAllBtn}>
@@ -145,7 +224,7 @@ const [currentIndex, setCurrentIndex] = useState ()
                   keyExtractor={(item, index) => index}
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                  renderItem={({ item }) => {
+                  renderItem={({item}) => {
                     return (
                       <>
                         <CardView
@@ -154,100 +233,99 @@ const [currentIndex, setCurrentIndex] = useState ()
                           description={item.description}
                         />
                       </>
-                    )
-                  }}>
-                </FlatList>
+                    );
+                  }}></FlatList>
               </View>
             </View>
-            <View style={{ paddingBottom:"10%"}}></View>
+            <View style={{paddingBottom: '10%'}}></View>
           </ScrollView>
-          
         </View>
-
       </View>
     </>
   );
 }
 
-const mapStateToProps = state => {
-  return { user: state?.user };
-};
+// const mapStateToProps = state => {
+//   return { user: state?.user };
+// };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ userLogout }, dispatch);
+// const mapDispatchToProps = dispatch =>
+//   bindActionCreators({ userLogout }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+// export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
+export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingVertical: 20,
-    paddingHorizontal: 18
+    paddingHorizontal: 18,
   },
   Illustration: {
     width: 45,
     height: 30,
-    resizeMode: "contain"
+    resizeMode: 'contain',
   },
   ViewAllBtn: {
-    backgroundColor: "#f8b293",
-    justifyContent: "center",
+    backgroundColor: '#f8b293',
+    justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 2,
-    borderRadius: 20
+    borderRadius: 20,
   },
   platText: {
-    color: "#ffffff",
+    color: '#ffffff',
     fontSize: 16,
-    fontFamily:"Poppins-Bold",
+    fontFamily: 'Poppins-Bold',
   },
   viewText: {
-    color: "#ffffff",
+    color: '#ffffff',
     fontSize: 12,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   playIcon: {
-    width: 44, height: 44,
-    resizeMode: "contain",
-    marginLeft: "38%"
+    width: 44,
+    height: 44,
+    resizeMode: 'contain',
+    marginLeft: '38%',
   },
   mindfull: {
-    color: "#4d585b",
+    color: '#4d585b',
     paddingLeft: 10,
-    fontFamily:"Poppins-Bold",
-    letterSpacing:2
+    fontFamily: 'Poppins-Bold',
+    letterSpacing: 2,
   },
   carddv: {
     flex: 1,
-    backgroundColor: "#181a33",
-    marginLeft: 10, marginTop: 10,
+    backgroundColor: '#181a33',
+    marginLeft: 10,
+    marginTop: 10,
   },
   trending: {
     paddingLeft: 9,
-    color: "#fffffd",
+    color: '#fffffd',
     fontSize: 12,
     fontWeight: 'bold',
     fontFamily: 'Poppins-Regular',
-    paddingTop: 8
+    paddingTop: 8,
   },
   tile: {
     width: 80,
     height: 90,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
   play01: {
     width: 20,
     height: 20,
-    resizeMode: "contain",
-    position: "absolute",
+    resizeMode: 'contain',
+    position: 'absolute',
     zIndex: 1,
-    left: 28
-    ,
+    left: 28,
     top: 35,
   },
   mark: {
@@ -256,18 +334,17 @@ const styles = StyleSheet.create({
     paddingLeft: 6,
   },
   worddv: {
-    color: "#fffffd",
+    color: '#fffffd',
     paddingRight: 6,
     fontSize: 10,
-
   },
   live: {
     width: 65,
     height: 65,
-    position: "absolute",
+    position: 'absolute',
     zIndex: 10,
     resizeMode: 'contain',
-    left: 18
+    left: 18,
   },
   untitled: {
     width: 230,
@@ -275,39 +352,37 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   recomend: {
-    color: "#fffffd",
+    color: '#fffffd',
     fontSize: 12,
     paddingLeft: 10,
     paddingTop: 14,
     marginBottom: 15,
-    fontWeight: "bold",
-    fontFamily: 'Poppins-Bold'
+    fontWeight: 'bold',
+    fontFamily: 'Poppins-Bold',
   },
   homelist: {
-    textAlign: "center",
-    color: "#d7d7d9",
-    fontWeight: "bold",
+    textAlign: 'center',
+    color: '#d7d7d9',
+    fontWeight: 'bold',
     fontSize: 14,
     paddingVertical: 20,
     fontFamily: 'Poppins-Regular',
-
   },
   firstHeading: {
-    textAlign: "center",
-    color: "#d7d7d9",
-    fontWeight: "bold",
+    textAlign: 'center',
+    color: '#d7d7d9',
+    fontWeight: 'bold',
     paddingVertical: 20,
     fontSize: 12.5,
     opacity: 0.5,
-    fontFamily: 'Poppins-Regular'
+    fontFamily: 'Poppins-Regular',
   },
   blurView: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
-    backgroundColor: "#0e101f70"
+    backgroundColor: '#0e101f70',
   },
-
-})
+});
