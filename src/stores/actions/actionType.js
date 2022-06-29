@@ -1,0 +1,20 @@
+export const SIGNUP = 'SIGNUP';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_FAILED = 'SIGNUP_FAILED';
+
+export const SIGNIN = 'SIGNIN';
+export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
+export const SIGNIN_FAILED = 'SIGNIN_FAILED';
+
+export const LOG_OUT = 'LOG_OUT';
+
+export const UPDATE_PROFILE_PIC = 'UPDATE_PROFILE_PIC';
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+
+export const ORDER_FOOD = 'ORDER_FOOD';
+export const ORDER_FOOD_DOG = 'ORDER_FOOD_DOG';
+export const SELF_ORDER_DONE = 'SELF_ORDER_DONE';
+
+export const TREAT_OTHER = 'TREAT_OTHER';
+export const TREAT_OTHER_USER_DATA = 'TREAT_OTHER_USER_DATA';
+export const TREAT_OTHER_CANCEL = 'TREAT_OTHER_CANCEL';
