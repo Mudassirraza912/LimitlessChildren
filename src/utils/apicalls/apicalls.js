@@ -33,8 +33,8 @@ async function Post(path, data, token = null) {
   //   // });
 }
 
-async function Patch(path, data) {
-  console.log('PATH', path, 'data', data);
+async function Patch(path, data, token = null) {
+  return await AxiosInstance(token).patch(path, data);
   // return await axiosInstance.patch(path, data);
 }
 

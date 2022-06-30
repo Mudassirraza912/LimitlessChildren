@@ -1,19 +1,22 @@
 import {
   LOG_OUT,
-  ORDER_FOOD,
-  ORDER_FOOD_DOG,
-  SELF_ORDER_DONE,
   SIGNIN_SUCCESS,
   SIGNUP,
   SIGNUP_SUCCESS,
   SIGNUP_FAILED,
-  TREAT_OTHER,
-  TREAT_OTHER_CANCEL,
-  TREAT_OTHER_USER_DATA,
   UPDATE_PROFILE,
   UPDATE_PROFILE_PIC,
   SIGNIN,
   SIGNIN_FAILED,
+  FORGOT_PASSWORD,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED,
+  OTP,
+  OTP_SUCCESS,
+  OTP_FAILD,
+  RESET_PASSWORD,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILED,
 } from '../actions/actionType';
 
 const initialState = {
@@ -49,13 +52,14 @@ export const userReducer = (state = initialState, action) => {
     case SIGNIN:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       };
     case SIGNIN_SUCCESS:
       console.log({state});
       return {
         ...state,
         users: payload,
+        isLoading: false,
       };
 
     case SIGNIN_FAILED:
@@ -63,6 +67,61 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
+
+    case FORGOT_PASSWORD:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        // users: payload,
+      };
+    case FORGOT_PASSWORD_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    case OTP:
+      // console.log('userData signUp reducer', payload)
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case OTP_SUCCESS:
+      // console.log('userData signUp reducer', payload)
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case OTP_FAILD:
+      // console.log('userData signUp reducer', payload)
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case RESET_PASSWORD:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case RESET_PASSWORD_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
     case UPDATE_PROFILE_PIC:
       return {
         ...state,
@@ -81,9 +140,6 @@ export const userReducer = (state = initialState, action) => {
         users: null,
         isLoading: false,
         profilePic: null,
-        orderFood: [],
-        orderFoodDog: [],
-        treatOther: [],
       };
 
     default:

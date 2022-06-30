@@ -12,36 +12,44 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Input} from 'react-native-elements';
-import {bindActionCreators} from 'redux';
+
 import {connect, useDispatch, useSelector} from 'react-redux';
-import {userLogin} from '../../redux/actions';
-import Icon from 'react-native-vector-icons/Feather';
+
 import {useNavigation} from '@react-navigation/native';
 // import { ButtonView } from '../../components';
 import {ToastMessage} from '../../components/ToastMessage/ToastMessage';
-import {SignInAction} from '../../stores/actions/user.action';
-function Login() {
-  const [hidePass, setHidePass] = useState(true);
-  const [email, setEmail] = useState('');
+import {
+  SignInAction,
+  ResetPasswordAction,
+} from '../../stores/actions/user.action';
+function ResetPassword({route}) {
+  const resetData = route?.params?.resetData;
+  // console.log('resetData', resetData);
   const [password, setPassword] = useState('');
+  const [ConfirmPassword, setConfirmPassword] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.userReducer.isLoading);
-  console.log('isLoading', isLoading);
-  const SignInFunc = () => {
-    if (!email || !password) {
-      ToastMessage('Please fill all fields', null, 'error');
+  const ConfirmPassFunc = async () => {
+    if (!password || !ConfirmPassword) {
+      ToastMessage('Please fill all the fields', null, 'error');
+    } else if (password.length < 9) {
+      ToastMessage(
+        'Password should be  greater then 8 characters',
+        null,
+        'info',
+      );
+    } else if (password !== ConfirmPassword) {
+      ToastMessage('confrim Password does not match', null, 'info');
     } else {
+      //   alert('done');
+      // navigation.navigate('Login');
       let data = {
-        email: email,
+        _id: resetData?._id,
+        resetToken: resetData?.resetToken,
         password: password,
       };
-      // console.log('data', data);
-
-      dispatch(SignInAction(data, navigation));
-
-      // ToastMessage('done he ', null, 'success');
+      dispatch(ResetPasswordAction(data, navigation));
     }
   };
   return (
@@ -58,13 +66,7 @@ function Login() {
                 source={require('../../assets/login-logo.png')}
               />
             </View>
-            <TextInput
-              style={styles.input}
-              placeholder="Email ID"
-              placeholderTextColor="#a7b0b6"
-              onChangeText={text => setEmail(text)}
-              value={email}
-            />
+
             <TextInput
               style={styles.input}
               placeholder="Password"
@@ -72,48 +74,28 @@ function Login() {
               onChangeText={text => setPassword(text)}
               value={password}
             />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => {
-                navigation.navigate('ForgotPassword');
-              }}>
-              <Text style={styles.forgot}>Forgot Password?</Text>
-            </TouchableOpacity>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Confirm Password"
+              placeholderTextColor="#a7b0b6"
+              onChangeText={text => setConfirmPassword(text)}
+              value={ConfirmPassword}
+            />
             <TouchableOpacity
               activeOpacity={0.9}
               // onPress={() => navigation.navigate('MainDrawer')}
               onPress={() => {
-                SignInFunc();
+                ConfirmPassFunc();
               }}
               style={styles.btn}>
               {isLoading ? (
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
                 <Text style={{color: '#ffffff', fontFamily: 'Poppins-Bold'}}>
-                  LOGIN
+                  DONE
                 </Text>
               )}
-            </TouchableOpacity>
-            <Text style={styles.orLoginText}>OR LOGIN WITH</Text>
-            <View style={styles.logoRow}>
-              <Image
-                style={styles.logoImageFG}
-                source={require('../../assets/loginFb.png')}
-              />
-              <Image
-                style={styles.logoImageFG}
-                source={require('../../assets/googleLogo.png')}
-              />
-            </View>
-            <TouchableOpacity
-              activeOpacity={0.9}
-              onPress={() => navigation.navigate('SignUp')}>
-              <Text style={styles.accountText}>
-                Don't have an account?{' '}
-                <Text style={{color: '#699494', fontFamily: 'Poppins-Bold'}}>
-                  Signup
-                </Text>
-              </Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -122,15 +104,7 @@ function Login() {
   );
 }
 
-// const mapStateToProps = state => {
-//   return {userInfo: state?.userInfo};
-// };
-
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators({userLogin}, dispatch);
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Login);
-export default Login;
+export default ResetPassword;
 
 const styles = StyleSheet.create({
   input: {

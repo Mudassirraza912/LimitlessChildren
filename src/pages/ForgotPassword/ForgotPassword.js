@@ -12,37 +12,36 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
-import {Input} from 'react-native-elements';
-import {bindActionCreators} from 'redux';
 import {connect, useDispatch, useSelector} from 'react-redux';
-import {userLogin} from '../../redux/actions';
 import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 // import { ButtonView } from '../../components';
 import {ToastMessage} from '../../components/ToastMessage/ToastMessage';
-import {SignInAction} from '../../stores/actions/user.action';
-function Login() {
-  const [hidePass, setHidePass] = useState(true);
+import {ForgotPasswordAction} from '../../stores/actions/user.action';
+function ForgotPassword() {
+  const isLoading = useSelector(state => state.userReducer.isLoading);
+
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const isLoading = useSelector(state => state.userReducer.isLoading);
-  console.log('isLoading', isLoading);
-  const SignInFunc = () => {
-    if (!email || !password) {
-      ToastMessage('Please fill all fields', null, 'error');
+  const Next = () => {
+    let value =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email,
+      );
+    if (!email) {
+      ToastMessage('Please enter email address', null, 'error');
+    } else if (!value) {
+      ToastMessage('Please enter a valid email address', null, 'info');
     } else {
       let data = {
         email: email,
-        password: password,
       };
-      // console.log('data', data);
-
-      dispatch(SignInAction(data, navigation));
-
+      console.log('data', data);
+      dispatch(ForgotPasswordAction(data, navigation));
       // ToastMessage('done he ', null, 'success');
     }
+    // navigation.navigate('Otp');
   };
   return (
     <>
@@ -65,55 +64,21 @@ function Login() {
               onChangeText={text => setEmail(text)}
               value={email}
             />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              placeholderTextColor="#a7b0b6"
-              onChangeText={text => setPassword(text)}
-              value={password}
-            />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => {
-                navigation.navigate('ForgotPassword');
-              }}>
-              <Text style={styles.forgot}>Forgot Password?</Text>
-            </TouchableOpacity>
+
             <TouchableOpacity
               activeOpacity={0.9}
               // onPress={() => navigation.navigate('MainDrawer')}
               onPress={() => {
-                SignInFunc();
+                Next();
               }}
               style={styles.btn}>
               {isLoading ? (
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
                 <Text style={{color: '#ffffff', fontFamily: 'Poppins-Bold'}}>
-                  LOGIN
+                  NEXT
                 </Text>
               )}
-            </TouchableOpacity>
-            <Text style={styles.orLoginText}>OR LOGIN WITH</Text>
-            <View style={styles.logoRow}>
-              <Image
-                style={styles.logoImageFG}
-                source={require('../../assets/loginFb.png')}
-              />
-              <Image
-                style={styles.logoImageFG}
-                source={require('../../assets/googleLogo.png')}
-              />
-            </View>
-            <TouchableOpacity
-              activeOpacity={0.9}
-              onPress={() => navigation.navigate('SignUp')}>
-              <Text style={styles.accountText}>
-                Don't have an account?{' '}
-                <Text style={{color: '#699494', fontFamily: 'Poppins-Bold'}}>
-                  Signup
-                </Text>
-              </Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -122,15 +87,7 @@ function Login() {
   );
 }
 
-// const mapStateToProps = state => {
-//   return {userInfo: state?.userInfo};
-// };
-
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators({userLogin}, dispatch);
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Login);
-export default Login;
+export default ForgotPassword;
 
 const styles = StyleSheet.create({
   input: {
