@@ -10,6 +10,7 @@ import {
   StatusBar,
   TextInput,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Input} from 'react-native-elements';
@@ -23,11 +24,8 @@ import {Patch, Post} from '../../utils/apicalls/apicalls';
 
 function SignUp({navigation}) {
   const dispatch = useDispatch();
-  // const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [hidePass1, setHidePass1] = useState(true);
-  // const [hidePass2, setHidePass2] = useState(true);
 
+  const isLoading = useSelector(state => state.userReducer.isLoading);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -131,9 +129,13 @@ function SignUp({navigation}) {
                 // navigation.navigate('MainDrawer')
               }}
               style={styles.btn}>
-              <Text style={{color: '#ffffff', fontFamily: 'Poppins-Bold'}}>
-                SIGNUP
-              </Text>
+              {isLoading ? (
+                <ActivityIndicator size="large" color="#fff" />
+              ) : (
+                <Text style={{color: '#ffffff', fontFamily: 'Poppins-Bold'}}>
+                  SIGNUP
+                </Text>
+              )}
             </TouchableOpacity>
             <Text style={styles.orLoginText}>OR LOGIN WITH</Text>
             <View style={styles.logoRow}>

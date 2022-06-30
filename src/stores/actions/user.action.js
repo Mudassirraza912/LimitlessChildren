@@ -1,7 +1,16 @@
 import {
+  FORGOT_PASSWORD,
+  FORGOT_PASSWORD_FAILED,
+  FORGOT_PASSWORD_SUCCESS,
   LOG_OUT,
   ORDER_FOOD,
   ORDER_FOOD_DOG,
+  OTP,
+  OTP_FAILD,
+  OTP_SUCCESS,
+  RESET_PASSWORD,
+  RESET_PASSWORD_FAILED,
+  RESET_PASSWORD_SUCCESS,
   SELF_ORDER_DONE,
   SIGNIN,
   SIGNIN_FAILED,
@@ -17,7 +26,7 @@ import {
 } from './actionType';
 import {ToastMessage} from '../../components/ToastMessage/ToastMessage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Post, Get, Put, Delete} from '../../utils/apicalls/apicalls';
+import {Post, Get, Put, Delete, Patch} from '../../utils/apicalls/apicalls';
 import {BASE_URL} from '../../utils/constants/constants';
 export const SignUpAction = (userData, navigation) => {
   console.log('userData signUp', userData);
@@ -91,7 +100,7 @@ export const SignInAction = (userData, navigation) => {
       .catch(function (error) {
         if (error) {
           console.log('error', error);
-          ToastMessage('please try again', null, 'error');
+          ToastMessage('SignIn Error ', null, 'error');
           dispatch({type: SIGNIN_FAILED});
         } else {
           console.log('error', error.response.data.message);
@@ -105,55 +114,135 @@ export const SignInAction = (userData, navigation) => {
   };
 };
 
-export const updateProfilePicAction = (data, navigation) => {
+export const ForgotPasswordAction = (userData, navigation) => {
+  console.log('userData signIn', userData);
   return dispatch => {
-    dispatch({type: UPDATE_PROFILE_PIC, payload: data});
+    // dispatch({ type: SIGNUP })
+
+    dispatch({type: FORGOT_PASSWORD});
+
+    Post(
+      'https://limitless-children-backend.herokuapp.com/v1/user/forgot-password',
+      userData,
+    )
+      .then(function (response) {
+        console.log('response', response);
+        if (response.status == 201) {
+          dispatch({
+            type: FORGOT_PASSWORD_SUCCESS,
+            // payload: response.data,
+          });
+          ToastMessage('Otp sent Successfully', null, 'success');
+          navigation.navigate('Otp', {
+            emailFromParam: userData.email,
+          });
+        } else {
+          console.log('error else');
+          ToastMessage('Forgot Password Error ', null, 'error');
+          dispatch({type: FORGOT_PASSWORD_FAILED});
+          // return Promise.resolve({ status: false });
+        }
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('error', error);
+          ToastMessage('please try again', null, 'error');
+          dispatch({type: FORGOT_PASSWORD_FAILED});
+        } else {
+          console.log('error', error.response.data.message);
+          // ToastMessage(error.response.data.message, null, 'error');
+          ToastMessage('Forgot Password Error ', null, 'error');
+          dispatch({type: FORGOT_PASSWORD_FAILED});
+        }
+
+        // return Promise.reject({ status: false });
+      });
   };
 };
 
-export const updateProfileAction = (data, navigation) => {
+export const OtpVerifyAction = (data, navigation) => {
+  console.log('OtpVerifyAction ', data);
+
   return dispatch => {
-    dispatch({type: UPDATE_PROFILE, payload: data});
+    // dispatch({ type: SIGNUP })
+
+    dispatch({type: OTP});
+
+    Post(
+      'https://limitless-children-backend.herokuapp.com/v1/user/verify-otp',
+      data,
+    )
+      .then(function (response) {
+        console.log('response', response);
+        if (response.status == 200) {
+          dispatch({
+            type: OTP_SUCCESS,
+            // payload: response
+          });
+          ToastMessage('Otp Verify Successfully', null, 'success');
+          navigation.navigate('ResetPassword', {
+            resetData: response.data,
+          });
+        } else {
+          console.log('error else');
+          ToastMessage('Otp Error ', null, 'error');
+          dispatch({type: OTP_FAILD});
+          // return Promise.resolve({ status: false });
+        }
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('error', error);
+          ToastMessage('Otp Not verify', null, 'error');
+          dispatch({type: OTP_FAILD});
+        } else {
+          console.log('error', error.response.data.message);
+          ToastMessage('Otp Error  ', null, 'error');
+          dispatch({type: OTP_FAILD});
+        }
+      });
   };
 };
 
-export const orderFoodAction = (data, event, navigation) => {
-  // console.log({ event })
-  return dispatch => {
-    let array = [];
-    array.push(data);
+export const ResetPasswordAction = (data, navigation) => {
+  console.log('ResetPasswordAction ', data);
 
-    dispatch({type: ORDER_FOOD, payload: {array, event}});
-  };
-};
-
-export const orderFoodDogAction = (data, event, navigation) => {
-  // console.log({ event, data })
   return dispatch => {
-    let array = [];
-    array.push(data);
-    console.log('in action', array);
-    dispatch({type: ORDER_FOOD_DOG, payload: {array, event}});
-  };
-};
+    // dispatch({ type: SIGNUP })
 
-export const selforderDoneAction = data => {
-  return dispatch => {
-    dispatch({type: SELF_ORDER_DONE});
-  };
-};
+    dispatch({type: RESET_PASSWORD});
 
-export const treatOthersAction = (data, event, navigation) => {
-  return dispatch => {
-    let array = [];
-    array.push(data);
-    dispatch({type: TREAT_OTHER, payload: {array, event}});
-  };
-};
-
-export const treatOtherCancelAction = (data, event) => {
-  return dispatch => {
-    dispatch({type: TREAT_OTHER_CANCEL, payload: {data, event}});
+    Post(
+      'https://limitless-children-backend.herokuapp.com/v1/user/reset-password',
+      data,
+    )
+      .then(function (response) {
+        console.log('response', response);
+        if (response.status == 200) {
+          dispatch({
+            type: RESET_PASSWORD_SUCCESS,
+            // payload: response
+          });
+          ToastMessage('Password Reset Successfully', null, 'success');
+          navigation.navigate('Login');
+        } else {
+          console.log('error else');
+          ToastMessage('Reset Password Error ', null, 'error');
+          dispatch({type: RESET_PASSWORD_FAILED});
+          // return Promise.resolve({ status: false });
+        }
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('error', error);
+          ToastMessage('Reset Password', null, 'error');
+          dispatch({type: RESET_PASSWORD_FAILED});
+        } else {
+          console.log('error', error.response.data.message);
+          ToastMessage('Reset Password Error  ', null, 'error');
+          dispatch({type: RESET_PASSWORD_FAILED});
+        }
+      });
   };
 };
 
