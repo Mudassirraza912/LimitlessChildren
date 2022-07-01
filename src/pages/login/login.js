@@ -16,13 +16,13 @@ import {Input} from 'react-native-elements';
 import {bindActionCreators} from 'redux';
 import {connect, useDispatch, useSelector} from 'react-redux';
 import {userLogin} from '../../redux/actions';
-import Icon from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 // import { ButtonView } from '../../components';
 import {ToastMessage} from '../../components/ToastMessage/ToastMessage';
 import {SignInAction} from '../../stores/actions/user.action';
 function Login() {
-  const [hidePass, setHidePass] = useState(true);
+  const [eye, setEye] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
@@ -43,6 +43,9 @@ function Login() {
 
       // ToastMessage('done he ', null, 'success');
     }
+  };
+  const toggleEye = () => {
+    setEye(!eye);
   };
   return (
     <>
@@ -65,13 +68,24 @@ function Login() {
               onChangeText={text => setEmail(text)}
               value={email}
             />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              placeholderTextColor="#a7b0b6"
-              onChangeText={text => setPassword(text)}
-              value={password}
-            />
+
+            <View style={styles.passwordView}>
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="#a7b0b6"
+                keyboardType="default"
+                secureTextEntry={eye == false ? false : true}
+                style={styles.inputPassword}
+                onChangeText={text => setPassword(text)}
+                value={password}
+              />
+              <TouchableOpacity onPress={() => toggleEye()}>
+                <Entypo
+                  name={eye == false ? 'eye' : 'eye-with-line'}
+                  style={styles.passwordIcon}
+                />
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => {
@@ -81,7 +95,7 @@ function Login() {
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.9}
-              // onPress={() => navigation.navigate('MainDrawer')}
+              // onPress={() => navigation.navigate('ResetPassword')}
               onPress={() => {
                 SignInFunc();
               }}
@@ -141,6 +155,14 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     paddingLeft: '8%',
     fontWeight: 'bold',
+    // width: '95%',
+  },
+  inputPassword: {
+    backgroundColor: '#ffffff',
+    // borderRadius: 30,
+    paddingLeft: '8%',
+    fontWeight: 'bold',
+    width: '80%',
   },
   container: {
     flex: 1,
@@ -192,5 +214,32 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginVertical: 20,
+  },
+  passwordView: {
+    flexDirection: 'row',
+    // borderBottomWidth: 1,
+    // borderColor: '#C0C0C0',
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+    width: '93%',
+    height: 56,
+    margin: 12,
+    padding: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 30,
+  },
+
+  passwordTextInput: {
+    color: 'white',
+    width: '90%',
+    height: 40,
+  },
+
+  passwordIcon: {
+    // alignItems: 'flex-end',
+    // height: 25,
+    color: '#a7b0b6',
+    fontSize: 20,
+    // width: 50,
   },
 });

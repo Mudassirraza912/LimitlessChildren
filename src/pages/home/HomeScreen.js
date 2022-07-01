@@ -14,13 +14,26 @@ import {
 } from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 import {bindActionCreators} from 'redux';
-import {connect, useSelector} from 'react-redux';
+import {connect, useSelector, useDispatch} from 'react-redux';
 import {userLogout} from '../../redux/actions';
 import {CardView} from '../../components';
-
+import {
+  GetStoryCategoriesAction,
+  GetStoryAction,
+} from '../../stores/actions/user.action';
+import {useIsFocused} from '@react-navigation/native';
 function HomeScreen({navigation, user, userLogout}) {
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const users = useSelector(state => state.userReducer.users);
-  console.log('users++++++', users);
+  // console.log('users++++++', users);
+  const getStoryCategories = useSelector(
+    state => state.userReducer.getStoryCategories,
+  );
+  // console.log('getStoryCategories++++++', getStoryCategories);
+
+  const getStory = useSelector(state => state.userReducer.getStory);
+  // console.log('getStory++++++', getStory);
   const [reason1, setReason1] = useState([
     {title: 'Snail Riding', image: require('../../assets/home01.png')},
     {
@@ -76,6 +89,24 @@ function HomeScreen({navigation, user, userLogout}) {
   });
   const viewConfigRef = React.useRef({viewAreaCoveragePercentThreshold: 50});
   const [currentIndex, setCurrentIndex] = useState();
+
+  useEffect(() => {
+    getStoryCategoriesFunc();
+  }, []);
+
+  useEffect(() => {
+    isFocused && getStoryCategoriesFunc();
+  }, [isFocused]);
+
+  const getStoryCategoriesFunc = () => {
+    let data = {
+      token: users.token,
+    };
+    // console.log('data==', data);
+    dispatch(GetStoryAction(data, navigation));
+    dispatch(GetStoryCategoriesAction(data, navigation));
+  };
+
   return (
     <>
       <View style={{flex: 1}}>
@@ -91,7 +122,7 @@ function HomeScreen({navigation, user, userLogout}) {
             <View>
               <FlatList
                 showsVerticalScrollIndicator="none"
-                data={reason}
+                data={getStory}
                 keyExtractor={(item, index) => index}
                 horizontal={true}
                 // snapToInterval={width}
@@ -99,9 +130,15 @@ function HomeScreen({navigation, user, userLogout}) {
                 onViewableItemsChanged={onViewRef.current}
                 viewabilityConfig={viewConfigRef.current}
                 pagingEnabled
-                renderItem={({item}) => {
+                renderItem={({item, index}) => {
                   return (
-                    <View>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => {
+                        navigation.navigate('VideoPlayer', {
+                          vedioData: item,
+                        });
+                      }}>
                       <View
                         style={{
                           position: 'absolute',
@@ -111,13 +148,13 @@ function HomeScreen({navigation, user, userLogout}) {
                           flexDirection: 'row',
                         }}>
                         <View>
-                          <Text style={styles.platText}>Playing Childrens</Text>
+                          <Text style={styles.platText}>{item?.title}</Text>
                           <Text
                             style={{
                               color: '#ffffff',
                               fontFamily: 'Poppins-Regular',
                             }}>
-                            00:03
+                            {item?.duration}
                           </Text>
                         </View>
                         <Image
@@ -129,12 +166,15 @@ function HomeScreen({navigation, user, userLogout}) {
                         style={{
                           width: Dimensions.get('window').width,
                           height: Platform.OS == 'ios' ? 290 : 280,
-                          resizeMode: 'contain',
+                          resizeMode: 'cover',
                         }}
-                        source={item.image}
+                        source={
+                          item?.thumbnail
+                            ? {uri: item?.thumbnail}
+                            : require('../../assets/home-top-image.png')
+                        }
                       />
-                      {/* <Image style={{ width: "100%", height: "100%", resizeMode: "contain" }} source={require('../../assets/home-top-image.png')} /> */}
-                    </View>
+                    </TouchableOpacity>
                   );
                 }}></FlatList>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -172,40 +212,59 @@ function HomeScreen({navigation, user, userLogout}) {
                   }
                 })}
               </View>
-              <View>
-                <View style={styles.row}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Image
-                      style={styles.Illustration}
-                      source={require('../../assets/homeIllustration-1.png')}
-                    />
-                    <Text style={styles.mindfull}>MINDFUL SLEEP</Text>
-                  </View>
-                  <TouchableOpacity
-                    activeOpacity={0.9}
-                    style={styles.ViewAllBtn}>
-                    <Text style={styles.viewText}>View All</Text>
-                  </TouchableOpacity>
-                </View>
-                <FlatList
-                  showsVerticalScrollIndicator="none"
-                  data={reason1}
-                  keyExtractor={(item, index) => index}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({item}) => {
-                    return (
-                      <>
-                        <CardView
-                          image={item.image}
-                          title={item.title}
-                          description={item.description}
+
+              {getStoryCategories?.map((item, i) => {
+                return (
+                  <View>
+                    <View style={styles.row}>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Image
+                          style={styles.Illustration}
+                          source={
+                            item?.categoryData
+                              ? {uri: item?.categoryData?.image}
+                              : require('../../assets/homeIllustration-1.png')
+                          }
                         />
-                      </>
-                    );
-                  }}></FlatList>
-              </View>
-              <View>
+                        <Text style={styles.mindfull}>
+                          {item?.categoryData?.name}
+                        </Text>
+                      </View>
+                      <TouchableOpacity
+                        activeOpacity={0.9}
+                        style={styles.ViewAllBtn}>
+                        <Text style={styles.viewText}>View All</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <FlatList
+                      showsVerticalScrollIndicator="none"
+                      data={item?.stories}
+                      keyExtractor={(item, index) => index}
+                      horizontal={true}
+                      showsHorizontalScrollIndicator={false}
+                      renderItem={({item}) => {
+                        console.log('stires+++', item);
+                        return (
+                          <>
+                            <CardView
+                              onPress={() => {
+                                navigation.navigate('VideoPlayer', {
+                                  vedioData: item,
+                                });
+                              }}
+                              image={item.thumbnail}
+                              title={item.title}
+                              // description={item.description}
+                            />
+                          </>
+                        );
+                      }}></FlatList>
+                  </View>
+                );
+              })}
+
+              {/* <View>
                 <View style={styles.row}>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image
@@ -235,7 +294,7 @@ function HomeScreen({navigation, user, userLogout}) {
                       </>
                     );
                   }}></FlatList>
-              </View>
+              </View> */}
             </View>
             <View style={{paddingBottom: '10%'}}></View>
           </ScrollView>
@@ -292,7 +351,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     resizeMode: 'contain',
-    marginLeft: '38%',
+    marginLeft: '60%',
   },
   mindfull: {
     color: '#4d585b',

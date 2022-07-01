@@ -18,15 +18,17 @@ import {
 import {Switch} from 'react-native-elements';
 import {userLogout} from './redux/actions';
 import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 import {BlurView} from '@react-native-community/blur';
 import {ThemeProvider} from '@react-navigation/native';
 import {LogOutAction} from './stores/actions/user.action';
 
 function CustomDrawer({navigation, userLogout, state, route}) {
   const [toggle, setToggle] = useState();
-
-  const LogOut = () => {};
+  const dispatch = useDispatch();
+  const LogOut = () => {
+    dispatch(LogOutAction());
+  };
   useEffect(() => {
     getFocused();
   }, [state?.index]);

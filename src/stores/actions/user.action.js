@@ -2,6 +2,12 @@ import {
   FORGOT_PASSWORD,
   FORGOT_PASSWORD_FAILED,
   FORGOT_PASSWORD_SUCCESS,
+  GET_STORY,
+  GET_STORY_CATEGORIES,
+  GET_STORY_CATEGORIES_FAILED,
+  GET_STORY_CATEGORIES_SUCCESS,
+  GET_STORY_FAILED,
+  GET_STORY_SUCCESS,
   LOG_OUT,
   ORDER_FOOD,
   ORDER_FOOD_DOG,
@@ -100,7 +106,7 @@ export const SignInAction = (userData, navigation) => {
       .catch(function (error) {
         if (error) {
           console.log('error', error);
-          ToastMessage('SignIn Error ', null, 'error');
+          ToastMessage('Incorrect Email or Password ', null, 'error');
           dispatch({type: SIGNIN_FAILED});
         } else {
           console.log('error', error.response.data.message);
@@ -241,6 +247,92 @@ export const ResetPasswordAction = (data, navigation) => {
           console.log('error', error.response.data.message);
           ToastMessage('Reset Password Error  ', null, 'error');
           dispatch({type: RESET_PASSWORD_FAILED});
+        }
+      });
+  };
+};
+
+export const GetStoryCategoriesAction = (data, navigation) => {
+  // console.log('GetStoryCategoriesAction ', data);
+
+  return dispatch => {
+    // dispatch({ type: SIGNUP })
+
+    dispatch({type: GET_STORY_CATEGORIES});
+
+    Get(
+      'https://limitless-children-backend.herokuapp.com/v1/story/categories',
+      {},
+      data.token,
+    )
+      .then(function (response) {
+        // console.log('response', response);
+        if (response.status == 200) {
+          dispatch({
+            type: GET_STORY_CATEGORIES_SUCCESS,
+            payload: response.data,
+          });
+          // ToastMessage('Get Stories Successfully', null, 'success');
+          // navigation.navigate('Login');
+        } else {
+          console.log('error else');
+          ToastMessage('Get Stories  Error ', null, 'error');
+          dispatch({type: GET_STORY_CATEGORIES_FAILED});
+          // return Promise.resolve({ status: false });
+        }
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('error', error);
+          ToastMessage('Get Stories Error', null, 'error');
+          dispatch({type: GET_STORY_CATEGORIES_FAILED});
+        } else {
+          console.log('error', error.response.data.message);
+          ToastMessage('Get Stories Error ', null, 'error');
+          dispatch({type: GET_STORY_CATEGORIES_FAILED});
+        }
+      });
+  };
+};
+
+export const GetStoryAction = (data, navigation) => {
+  // console.log('GetStoryAction ', data);
+
+  return dispatch => {
+    // dispatch({ type: SIGNUP })
+
+    dispatch({type: GET_STORY});
+
+    Get(
+      'https://limitless-children-backend.herokuapp.com/v1/story',
+      {},
+      data.token,
+    )
+      .then(function (response) {
+        // console.log('response', response);
+        if (response.status == 200) {
+          dispatch({
+            type: GET_STORY_SUCCESS,
+            payload: response.data,
+          });
+          // ToastMessage('Get Stories Successfully', null, 'success');
+          // navigation.navigate('Login');
+        } else {
+          console.log('error else');
+          ToastMessage('Get Stories  Error ', null, 'error');
+          dispatch({type: GET_STORY_FAILED});
+          // return Promise.resolve({ status: false });
+        }
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('error', error);
+          ToastMessage('Get Stories Error', null, 'error');
+          dispatch({type: GET_STORY_FAILED});
+        } else {
+          console.log('error', error.response.data.message);
+          ToastMessage('Get Stories Error ', null, 'error');
+          dispatch({type: GET_STORY_FAILED});
         }
       });
   };
