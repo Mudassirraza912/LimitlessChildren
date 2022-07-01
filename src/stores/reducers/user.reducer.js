@@ -17,15 +17,19 @@ import {
   RESET_PASSWORD,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILED,
+  GET_STORY_CATEGORIES,
+  GET_STORY_CATEGORIES_SUCCESS,
+  GET_STORY_CATEGORIES_FAILED,
+  GET_STORY,
+  GET_STORY_SUCCESS,
+  GET_STORY_FAILED,
 } from '../actions/actionType';
 
 const initialState = {
   users: null,
   isLoading: false,
-  profilePic: null,
-  orderFood: [],
-  orderFoodDog: [],
-  treatOther: [],
+  getStoryCategories: null,
+  getStory: null,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -121,17 +125,40 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
-
-    case UPDATE_PROFILE_PIC:
+    case GET_STORY_CATEGORIES:
       return {
         ...state,
-        profilePic: payload,
+        isLoading: true,
       };
 
-    case UPDATE_PROFILE:
+    case GET_STORY_CATEGORIES_SUCCESS:
       return {
         ...state,
-        users: payload,
+        isLoading: false,
+        getStoryCategories: payload,
+      };
+    case GET_STORY_CATEGORIES_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    case GET_STORY:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case GET_STORY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        getStory: payload,
+      };
+    case GET_STORY_FAILED:
+      return {
+        ...state,
+        isLoading: false,
       };
 
     case LOG_OUT:
@@ -139,7 +166,8 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         users: null,
         isLoading: false,
-        profilePic: null,
+        getStoryCategories: null,
+        getStory: null,
       };
 
     default:

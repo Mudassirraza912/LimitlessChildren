@@ -38,22 +38,8 @@ async function Patch(path, data, token = null) {
   // return await axiosInstance.patch(path, data);
 }
 
-async function Get(path, data, token) {
-  let url = BASE_URL + path;
-  // console.log('url===>', url,)
-
-  var config = {
-    method: 'get',
-    url: url,
-    headers: token
-      ? {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
-        }
-      : {},
-  };
-  let response = await axios(config);
-  return response.data;
+async function Get(path, data, token = null) {
+  return await AxiosInstance(token).get(path, data);
 }
 
 async function Put(path, data, token) {
