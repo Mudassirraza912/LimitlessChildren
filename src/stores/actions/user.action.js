@@ -8,6 +8,7 @@ import {
   GET_STORY_CATEGORIES_SUCCESS,
   GET_STORY_FAILED,
   GET_STORY_SUCCESS,
+  ISLOGGEDIN,
   LOG_OUT,
   ORDER_FOOD,
   ORDER_FOOD_DOG,
@@ -24,6 +25,7 @@ import {
   SIGNUP,
   SIGNUP_FAILED,
   SIGNUP_SUCCESS,
+  SKIP_ONBOARDING,
   TREAT_OTHER,
   TREAT_OTHER_CANCEL,
   TREAT_OTHER_USER_DATA,
@@ -48,7 +50,7 @@ export const SignUpAction = (userData, navigation) => {
         if (response.status == 201) {
           dispatch({
             type: SIGNUP_SUCCESS,
-            payload: response.data,
+            payload: null,
           });
           ToastMessage('SignUp Successfully', null, 'success');
           navigation.navigate('Login');
@@ -276,7 +278,7 @@ export const GetStoryCategoriesAction = (data, navigation) => {
           // navigation.navigate('Login');
         } else {
           console.log('error else');
-          ToastMessage('Get Stories  Error ', null, 'error');
+          // ToastMessage('Get Stories  Error ', null, 'error');
           dispatch({type: GET_STORY_CATEGORIES_FAILED});
           // return Promise.resolve({ status: false });
         }
@@ -284,11 +286,11 @@ export const GetStoryCategoriesAction = (data, navigation) => {
       .catch(function (error) {
         if (error) {
           console.log('error', error);
-          ToastMessage('Get Stories Error', null, 'error');
+          // ToastMessage('Get Stories Error', null, 'error');
           dispatch({type: GET_STORY_CATEGORIES_FAILED});
         } else {
           console.log('error', error.response.data.message);
-          ToastMessage('Get Stories Error ', null, 'error');
+          // ToastMessage('Get Stories Error ', null, 'error');
           dispatch({type: GET_STORY_CATEGORIES_FAILED});
         }
       });
@@ -319,7 +321,7 @@ export const GetStoryAction = (data, navigation) => {
           // navigation.navigate('Login');
         } else {
           console.log('error else');
-          ToastMessage('Get Stories  Error ', null, 'error');
+          // ToastMessage('Get Stories  Error ', null, 'error');
           dispatch({type: GET_STORY_FAILED});
           // return Promise.resolve({ status: false });
         }
@@ -327,14 +329,22 @@ export const GetStoryAction = (data, navigation) => {
       .catch(function (error) {
         if (error) {
           console.log('error', error);
-          ToastMessage('Get Stories Error', null, 'error');
+          // ToastMessage('Get Stories Error', null, 'error');
           dispatch({type: GET_STORY_FAILED});
         } else {
           console.log('error', error.response.data.message);
-          ToastMessage('Get Stories Error ', null, 'error');
+          // ToastMessage('Get Stories Error ', null, 'error');
           dispatch({type: GET_STORY_FAILED});
         }
       });
+  };
+};
+
+export const SkipOnboardingAction = (data, navigation) => {
+  console.log('data+++++++++++action', data);
+  return dispatch => {
+    dispatch({type: SKIP_ONBOARDING, payload: data});
+    // navigation.navigate('AppStackNavigator')
   };
 };
 
@@ -342,5 +352,11 @@ export const LogOutAction = (userData, navigation) => {
   return dispatch => {
     dispatch({type: LOG_OUT});
     // navigation.navigate('AppStackNavigator')
+  };
+};
+export const isOnboarding_Show = e => {
+  return {
+    type: 'For_Onboarding',
+    payload: e,
   };
 };

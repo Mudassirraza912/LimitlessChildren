@@ -11,8 +11,9 @@ export function TabADetails() {
   );
 }
 
-const mapStateToProps = state => {
-  return {userInfo: state?.userInfo};
-};
+// const mapStateToProps = state => {
+//   return {userInfo: state?.userInfo};
+// };
 
-export default connect(mapStateToProps)(TabADetails);
+// export default connect(mapStateToProps)(TabADetails);
+export default TabADetails;

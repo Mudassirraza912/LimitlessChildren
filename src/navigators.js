@@ -28,6 +28,7 @@ import {
   getFocusedRouteNameFromRoute,
   useNavigation,
 } from '@react-navigation/native';
+import OnboardingScreen from './pages/OnboardingScreen/OnboardingScreen';
 import Splash from './pages/Splash/Splash';
 
 const useInitialRender = () => {
@@ -44,6 +45,8 @@ const Stack =
   Platform.OS === 'ios' ? createStackNavigator() : createStackNavigator();
 const Drawer = createDrawerNavigator();
 const LoginStackNav = createStackNavigator();
+const SplashStackNav = createStackNavigator();
+
 const HomeTabAStackNav = createStackNavigator();
 const HomeSearchStackNav = createStackNavigator();
 const HomeListStackNav = createStackNavigator();
@@ -151,15 +154,34 @@ const profiletionIcon = navigation => {
   );
 };
 
-function LoginStack() {
+function SplashStack() {
   return (
-    <LoginStackNav.Navigator
+    <SplashStackNav.Navigator
       screenOptions={{
         headerShown: false,
       }}
       initialRouteName="Splash">
       {/* <LoginStackNav.Screen name="Home" component={HomeTab} /> */}
-      <LoginStackNav.Screen name="Splash" component={Splash} />
+      <SplashStackNav.Screen name="Splash" component={Splash} />
+    </SplashStackNav.Navigator>
+  );
+}
+
+function LoginStack() {
+  const showOnboarding = useSelector(state => state.userReducer.showOnboarding);
+  console.log('showOnboarding ====nav', showOnboarding);
+  return (
+    <LoginStackNav.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName={showOnboarding ? 'Login' : 'OnboardingScreen'}>
+      {/* <LoginStackNav.Screen name="Home" component={HomeTab} /> */}
+      <LoginStackNav.Screen
+        name="OnboardingScreen"
+        component={OnboardingScreen}
+      />
+
       <LoginStackNav.Screen name="Login" component={Login} />
       <LoginStackNav.Screen name="SignUp" component={SignUp} />
       <LoginStackNav.Screen name="ForgotPassword" component={ForgotPassword} />
@@ -368,6 +390,7 @@ function MainDrawer() {
 function RootContainer({user}) {
   const users = useSelector(state => state.userReducer.users);
   console.log('users++++++', users);
+
   return (
     // <Drawer.Navigator
     //   drawerContent={props => <CustomDrawer {...props} />}
@@ -396,9 +419,9 @@ function RootContainer({user}) {
     //   <Drawer.Screen name="VideoPlayer" component={VideoPlayer} />
     // </Drawer.Navigator>
     <Stack.Navigator
-      initialRouteName="Login"
       screenOptions={{headerShown: false}}
       sdetachInactiveScreens={true}>
+      {/* <Stack.Screen name="SplashStack" component={SplashStack} /> */}
       {users !== null ? (
         <Stack.Screen name="MainDrawer" component={MainDrawer} />
       ) : (

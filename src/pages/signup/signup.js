@@ -24,8 +24,8 @@ import {Patch, Post} from '../../utils/apicalls/apicalls';
 import Entypo from 'react-native-vector-icons/Entypo';
 function SignUp({navigation}) {
   const dispatch = useDispatch();
-  const [eye, setEye] = useState(true);
-  const [eye1, setEye1] = useState(true);
+  const [eye, setEye] = useState(false);
+  const [eye1, setEye1] = useState(false);
   const isLoading = useSelector(state => state.userReducer.isLoading);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -50,7 +50,7 @@ function SignUp({navigation}) {
         'info',
       );
     } else if (password !== confirmPassword) {
-      ToastMessage('confrim Password does not match', null, 'info');
+      ToastMessage('confirm Password does not match', null, 'info');
     } else {
       let data = {
         name: firstName + ' ' + lastName,
@@ -167,7 +167,7 @@ function SignUp({navigation}) {
               }}
               style={styles.btn}>
               {isLoading ? (
-                <ActivityIndicator size="large" color="#fff" />
+                <ActivityIndicator size="small" color="#fff" />
               ) : (
                 <Text style={{color: '#ffffff', fontFamily: 'Poppins-Bold'}}>
                   SIGNUP
@@ -220,7 +220,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 30,
     paddingLeft: '8%',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    color: 'black',
   },
   container: {
     flex: 1,
@@ -276,23 +277,26 @@ const styles = StyleSheet.create({
   },
   inputPassword: {
     backgroundColor: '#ffffff',
-    // borderRadius: 30,
-    paddingLeft: '8%',
-    fontWeight: 'bold',
+
+    // fontWeight: 'bold',
     width: '80%',
+    color: 'black',
   },
   passwordView: {
     flexDirection: 'row',
-    // borderBottomWidth: 1,
-    // borderColor: '#C0C0C0',
+
     backgroundColor: '#ffffff',
+    alignSelf: 'center',
     alignItems: 'center',
     width: '93%',
     height: 56,
-    margin: 12,
-    padding: 10,
+    borderRadius: 30,
+    paddingLeft: '8%',
+
     backgroundColor: '#ffffff',
     borderRadius: 30,
+    margin: 12,
+    // padding: 10,
   },
 
   passwordTextInput: {
