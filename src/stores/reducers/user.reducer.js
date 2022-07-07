@@ -23,6 +23,7 @@ import {
   GET_STORY,
   GET_STORY_SUCCESS,
   GET_STORY_FAILED,
+  SKIP_ONBOARDING,
 } from '../actions/actionType';
 
 const initialState = {
@@ -30,6 +31,7 @@ const initialState = {
   isLoading: false,
   getStoryCategories: null,
   getStory: null,
+  showOnboarding: false,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -161,6 +163,17 @@ export const userReducer = (state = initialState, action) => {
         isLoading: false,
       };
 
+    case SKIP_ONBOARDING:
+      return {
+        ...state,
+        showOnboarding: payload,
+      };
+
+    case 'For_Onboarding':
+      return {
+        ...state,
+        showOnboarding: payload,
+      };
     case LOG_OUT:
       return {
         ...state,

@@ -100,7 +100,7 @@ function HomeScreen({navigation, user, userLogout}) {
 
   const getStoryCategoriesFunc = () => {
     let data = {
-      token: users.token,
+      token: users?.token,
     };
     // console.log('data==', data);
     dispatch(GetStoryAction(data, navigation));
@@ -131,6 +131,7 @@ function HomeScreen({navigation, user, userLogout}) {
                 viewabilityConfig={viewConfigRef.current}
                 pagingEnabled
                 renderItem={({item, index}) => {
+                  // console.log('getStory-====', item);
                   return (
                     <TouchableOpacity
                       activeOpacity={0.8}
@@ -244,7 +245,7 @@ function HomeScreen({navigation, user, userLogout}) {
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
                       renderItem={({item}) => {
-                        console.log('stires+++', item);
+                        // console.log('stires+++', item);
                         return (
                           <>
                             <CardView

@@ -26,8 +26,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 function ResetPassword({route}) {
   const resetData = route?.params?.resetData;
   // console.log('resetData', resetData);
-  const [eye, setEye] = useState(true);
-  const [eye1, setEye1] = useState(true);
+  const [eye, setEye] = useState(false);
+  const [eye1, setEye1] = useState(false);
   const [password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
   const navigation = useNavigation();
@@ -43,7 +43,7 @@ function ResetPassword({route}) {
         'info',
       );
     } else if (password !== ConfirmPassword) {
-      ToastMessage('confrim Password does not match', null, 'info');
+      ToastMessage('confirm Password does not match', null, 'info');
     } else {
       //   alert('done');
       // navigation.navigate('Login');
@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 30,
     paddingLeft: '8%',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    color: 'black',
   },
   container: {
     flex: 1,
@@ -192,23 +193,25 @@ const styles = StyleSheet.create({
   },
   inputPassword: {
     backgroundColor: '#ffffff',
-    // borderRadius: 30,
-    paddingLeft: '8%',
-    fontWeight: 'bold',
+
+    // fontWeight: 'bold',
     width: '80%',
+    color: 'black',
   },
   passwordView: {
     flexDirection: 'row',
-    // borderBottomWidth: 1,
-    // borderColor: '#C0C0C0',
+
     backgroundColor: '#ffffff',
+    alignSelf: 'center',
     alignItems: 'center',
     width: '93%',
     height: 56,
-    margin: 12,
-    padding: 10,
+    borderRadius: 30,
+    paddingLeft: '8%',
+
     backgroundColor: '#ffffff',
     borderRadius: 30,
+    margin: 12,
   },
 
   passwordTextInput: {

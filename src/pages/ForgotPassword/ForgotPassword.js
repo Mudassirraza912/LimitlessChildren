@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 30,
     paddingLeft: '8%',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    color: 'black',
   },
   container: {
     flex: 1,

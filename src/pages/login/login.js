@@ -11,18 +11,23 @@ import {
   TextInput,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {Input} from 'react-native-elements';
 import {bindActionCreators} from 'redux';
 import {connect, useDispatch, useSelector} from 'react-redux';
 import {userLogin} from '../../redux/actions';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 // import { ButtonView } from '../../components';
 import {ToastMessage} from '../../components/ToastMessage/ToastMessage';
 import {SignInAction} from '../../stores/actions/user.action';
+import {InputField} from '../../components/InputField/InputField';
+import {Images} from '../../utils/Images';
+
 function Login() {
-  const [eye, setEye] = useState(true);
+  const [eye, setEye] = useState(false);
+  const [eyeVisible, setEyeVisible] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
@@ -78,6 +83,9 @@ function Login() {
                 style={styles.inputPassword}
                 onChangeText={text => setPassword(text)}
                 value={password}
+                // ref={ref =>
+                //   ref && ref.setNativeProps({style: {fontWeight: 'bold'}})
+                // }
               />
               <TouchableOpacity onPress={() => toggleEye()}>
                 <Entypo
@@ -86,7 +94,26 @@ function Login() {
                 />
               </TouchableOpacity>
             </View>
+
+            {/* <InputField
+              container={styles.inputStyles}
+              placeholder={'Password'}
+              inputStyle={styles.placeholderstyle}
+              placeholderTextColor={'gray'}
+              Icon={eyeVisible ? Images.Pictures.Hide : Images.Pictures.eye}
+              secureTextEntry={eyeVisible}
+              // eye={true}
+              // Icon={Images.Pictures.Hide}
+              onChange={text => setPassword(text)}
+              onPress={() => setEyeVisible(!eyeVisible)}
+              value={password}
+            /> */}
             <TouchableOpacity
+              style={{
+                // backgroundColor: 'red',
+                width: '40%',
+                alignSelf: 'center',
+              }}
               activeOpacity={0.8}
               onPress={() => {
                 navigation.navigate('ForgotPassword');
@@ -154,15 +181,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 30,
     paddingLeft: '8%',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    color: 'black',
     // width: '95%',
+    // fontFamily: 'Poppins-Bold',
   },
   inputPassword: {
     backgroundColor: '#ffffff',
-    // borderRadius: 30,
-    paddingLeft: '8%',
-    fontWeight: 'bold',
+    // fontSize: 15,
+    // fontWeight: 'bold',
     width: '80%',
+    color: 'black',
+    // fontFamily: 'Poppins-Bold',
   },
   container: {
     flex: 1,
@@ -187,7 +217,6 @@ const styles = StyleSheet.create({
     color: '#4d585b',
     textAlign: 'center',
     paddingVertical: 10,
-    fontFamily: 'Poppins-Medium',
   },
   accountText: {
     textAlign: 'center',
@@ -217,16 +246,18 @@ const styles = StyleSheet.create({
   },
   passwordView: {
     flexDirection: 'row',
-    // borderBottomWidth: 1,
-    // borderColor: '#C0C0C0',
+
     backgroundColor: '#ffffff',
+    alignSelf: 'center',
     alignItems: 'center',
     width: '93%',
     height: 56,
-    margin: 12,
-    padding: 10,
+    borderRadius: 30,
+    paddingLeft: '8%',
+
     backgroundColor: '#ffffff',
     borderRadius: 30,
+    margin: 12,
   },
 
   passwordTextInput: {

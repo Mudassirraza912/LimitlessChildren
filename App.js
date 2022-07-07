@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
-import React, {Component} from 'react';
-import SplashScreen from 'react-native-splash-screen';
+import React, {Component, useEffect, useState} from 'react';
+// import SplashScreen from 'react-native-splash-screen';
+import Splash from './src/pages/Splash/Splash';
 import {Provider} from 'react-redux';
 import RootContainer from './src/navigators';
 import {store} from './src/stores';
@@ -15,23 +16,25 @@ import Toast from 'react-native-toast-message';
 //   );
 // }
 
-export class App extends Component {
-  componentDidMount() {
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 300);
-  }
+const App = () => {
+  const [show, setShow] = useState(true);
 
-  render() {
-    return (
-      <Provider store={store}>
-        <NavigationContainer theme={{...DefaultTheme, dark: false}}>
-          <RootContainer />
-          <Toast />
-        </NavigationContainer>
-      </Provider>
-    );
-  }
-}
+  useEffect(() => {
+    setTimeout(() => {
+      setShow(false);
+    }, 3000);
+  }, []);
+
+  return show ? (
+    <Splash />
+  ) : (
+    <Provider store={store}>
+      <NavigationContainer theme={{...DefaultTheme, dark: false}}>
+        <RootContainer />
+        <Toast />
+      </NavigationContainer>
+    </Provider>
+  );
+};
 
 export default App;
