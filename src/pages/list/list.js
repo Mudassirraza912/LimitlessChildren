@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -12,9 +12,10 @@ import {
 } from 'react-native';
 import {Input, Button, Card, SearchBar} from 'react-native-elements';
 import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import {userLogout} from '../../redux/actions';
 import PlayList from '../../components/PlayList/PlayList';
+import { getPlaylist } from '../../stores/actions/user.action';
 
 export default function List({navigation}) {
   const [reason, setReason] = useState([
@@ -51,6 +52,15 @@ export default function List({navigation}) {
       description: 'Sleep Collection',
     },
   ]);
+  const dispatch = useDispatch()
+  const playList = useSelector((state) => state.userReducer?.playList)
+  const users = useSelector(state => state.userReducer.users);
+
+  useEffect(() => {
+    dispatch(getPlaylist(users?.token))
+  })
+
+  console.log("playList playList", playList)
   return (
     <>
       <StatusBar
@@ -59,7 +69,7 @@ export default function List({navigation}) {
         backgroundColor={'#f8b293'}
       />
       <View style={styles.container}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={0.9}
           // onPress={() => navigation.navigate('DetailScreen')}
           style={{width: '100%', height: '35%'}}>
@@ -84,27 +94,27 @@ export default function List({navigation}) {
             style={{width: '100%', height: '100%', resizeMode: 'stretch'}}
             source={require('../../assets/playlisTtitle.png')}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View>
           <FlatList
             contentContainerStyle={{paddingBottom: 34}}
             vertical={true}
-            data={reason}
+            data={playList || []}
             keyExtractor={(item, index) => index}
             showsVerticalScrollIndicator={false}
             renderItem={({item}) => {
               return (
                 <View>
                   <PlayList
-                    image={item.image}
+                    image={item.thumbnail}
                     title={item.title}
                     fav={require('../../assets/fav-ative.png')}
-                    description={item.description}
+                    description={item?.category?.name}
                   />
                 </View>
               );
             }}></FlatList>
-          <View style={{height: '60%'}}></View>
+          {/* <View style={{height: '60%'}}></View> */}
         </View>
       </View>
     </>

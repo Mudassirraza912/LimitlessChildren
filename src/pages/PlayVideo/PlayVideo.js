@@ -10,7 +10,7 @@ import {Vimeo} from 'react-native-vimeo-iframe';
 export const VideoPlayer = ({navigation, route}) => {
   const vedioData = route?.params?.vedioData;
   let vedioURL = vedioData?.url?.substring(18, 28);
-  // console.log('vedioData', vedioURL);
+  console.log('vedioData vedioData', route?.params);
   const [orientation, setOrientation] = React.useState('landscape');
   // const [videoUrl, setVideoUrl] = React.useState(route.params ? route.params.url : "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" )
   // console.log('urlurlurlurl',url)

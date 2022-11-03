@@ -2,6 +2,12 @@ import {
   FORGOT_PASSWORD,
   FORGOT_PASSWORD_FAILED,
   FORGOT_PASSWORD_SUCCESS,
+  GET_FAVORITE,
+  GET_FAVORITE_FAILED,
+  GET_FAVORITE_SUCCESS,
+  GET_PLAYLIST,
+  GET_PLAYLIST_FAILED,
+  GET_PLAYLIST_SUCCESS,
   GET_STORY,
   GET_STORY_CATEGORIES,
   GET_STORY_CATEGORIES_FAILED,
@@ -36,15 +42,12 @@ import {ToastMessage} from '../../components/ToastMessage/ToastMessage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Post, Get, Put, Delete, Patch} from '../../utils/apicalls/apicalls';
 import {BASE_URL} from '../../utils/constants/constants';
+
 export const SignUpAction = (userData, navigation) => {
   console.log('userData signUp', userData);
-
   return dispatch => {
-    // dispatch({ type: SIGNUP })
-
     dispatch({type: SIGNUP});
-
-    Post('https://limitless-children-backend.herokuapp.com/v1/user', userData)
+    Post('https://limitless-dev-backend.herokuapp.com/v1/user', userData)
       .then(function (response) {
         console.log('response', response.data);
         if (response.status == 201) {
@@ -58,22 +61,18 @@ export const SignUpAction = (userData, navigation) => {
           console.log('error else');
           ToastMessage('SignUp Error ', null, 'error');
           dispatch({type: SIGNUP_FAILED});
-          // return Promise.resolve({ status: false });
         }
       })
       .catch(function (error) {
         if (error) {
-          console.log('error', error);
+          console.log('SignUpAction error', error, userData);
           ToastMessage('please try again', null, 'error');
           dispatch({type: SIGNUP_FAILED});
         } else {
           console.log('error', error.response.data.message);
-          // ToastMessage(error.response.data.message, null, 'error');
           ToastMessage('SignUp Error ', null, 'error');
           dispatch({type: SIGNUP_FAILED});
         }
-
-        // return Promise.reject({ status: false });
       });
   };
 };
@@ -86,7 +85,7 @@ export const SignInAction = (userData, navigation) => {
     dispatch({type: SIGNIN});
 
     Post(
-      'https://limitless-children-backend.herokuapp.com/v1/auth/login',
+      'https://limitless-dev-backend.herokuapp.com/v1/auth/login',
       userData,
     )
       .then(function (response) {
@@ -111,7 +110,7 @@ export const SignInAction = (userData, navigation) => {
           ToastMessage('Incorrect Email or Password ', null, 'error');
           dispatch({type: SIGNIN_FAILED});
         } else {
-          console.log('error', error.response.data.message);
+          console.log('SignInAction error', error.response.data.message);
           // ToastMessage(error.response.data.message, null, 'error');
           ToastMessage('SignIn Error ', null, 'error');
           dispatch({type: SIGNIN_FAILED});
@@ -130,7 +129,7 @@ export const ForgotPasswordAction = (userData, navigation) => {
     dispatch({type: FORGOT_PASSWORD});
 
     Post(
-      'https://limitless-children-backend.herokuapp.com/v1/user/forgot-password',
+      'https://limitless-dev-backend.herokuapp.com/v1/user/forgot-password',
       userData,
     )
       .then(function (response) {
@@ -177,7 +176,7 @@ export const OtpVerifyAction = (data, navigation) => {
     dispatch({type: OTP});
 
     Post(
-      'https://limitless-children-backend.herokuapp.com/v1/user/verify-otp',
+      'https://limitless-dev-backend.herokuapp.com/v1/user/verify-otp',
       data,
     )
       .then(function (response) {
@@ -221,7 +220,7 @@ export const ResetPasswordAction = (data, navigation) => {
     dispatch({type: RESET_PASSWORD});
 
     Post(
-      'https://limitless-children-backend.herokuapp.com/v1/user/reset-password',
+      'https://limitless-dev-backend.herokuapp.com/v1/user/reset-password',
       data,
     )
       .then(function (response) {
@@ -263,7 +262,7 @@ export const GetStoryCategoriesAction = (data, navigation) => {
     dispatch({type: GET_STORY_CATEGORIES});
 
     Get(
-      'https://limitless-children-backend.herokuapp.com/v1/story/categories',
+      'https://limitless-dev-backend.herokuapp.com/v1/story/categories',
       {},
       data.token,
     )
@@ -285,11 +284,11 @@ export const GetStoryCategoriesAction = (data, navigation) => {
       })
       .catch(function (error) {
         if (error) {
-          console.log('error', error);
+          console.log('GetStoryCategoriesAction error', error);
           // ToastMessage('Get Stories Error', null, 'error');
           dispatch({type: GET_STORY_CATEGORIES_FAILED});
         } else {
-          console.log('error', error.response.data.message);
+          console.log('GetStoryCategoriesAction error', error.response.data.message);
           // ToastMessage('Get Stories Error ', null, 'error');
           dispatch({type: GET_STORY_CATEGORIES_FAILED});
         }
@@ -306,7 +305,7 @@ export const GetStoryAction = (data, navigation) => {
     dispatch({type: GET_STORY});
 
     Get(
-      'https://limitless-children-backend.herokuapp.com/v1/story',
+      'https://limitless-dev-backend.herokuapp.com/v1/story',
       {},
       data.token,
     )
@@ -328,11 +327,11 @@ export const GetStoryAction = (data, navigation) => {
       })
       .catch(function (error) {
         if (error) {
-          console.log('error', error);
+          console.log('GetStoryAction error', error);
           // ToastMessage('Get Stories Error', null, 'error');
           dispatch({type: GET_STORY_FAILED});
         } else {
-          console.log('error', error.response.data.message);
+          console.log('GetStoryAction error', error.response.data.message);
           // ToastMessage('Get Stories Error ', null, 'error');
           dispatch({type: GET_STORY_FAILED});
         }
@@ -360,3 +359,113 @@ export const isOnboarding_Show = e => {
     payload: e,
   };
 };
+
+export const AddToPlaylist = (data, token) => {
+  console.log('userData signUp', data);
+  return dispatch => {
+    dispatch({type: SIGNUP});
+    Post('https://limitless-dev-backend.herokuapp.com/v1/user/playlist/add', data, token)
+      .then(function (response) {
+        console.log('response AddToPlaylist', response.data);
+        ToastMessage('SignUp Successfully', null, 'success');
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('AddToPlaylist error', error, data, token);
+          ToastMessage('please try again', null, 'error');
+        } else {
+          console.log('error', error.response.data.message);
+          ToastMessage('SignUp Error ', null, 'error');
+        }
+      });
+  };
+};
+
+export const getPlaylist = (token) => {
+  return dispatch => {
+    dispatch({type: GET_PLAYLIST});
+    Get(
+      'https://limitless-dev-backend.herokuapp.com/v1/user/playlist',
+      {},
+      token,
+    )
+      .then(function (response) {
+        if (response.status == 200) {
+          dispatch({
+            type: GET_PLAYLIST_SUCCESS,
+            payload: response.data,
+          });
+          
+        } else {
+          console.log('error else');
+          dispatch({type: GET_PLAYLIST_FAILED});
+        }
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('getPlaylist error', error);
+          // ToastMessage('Get Stories Error', null, 'error');
+          dispatch({type: GET_PLAYLIST_FAILED});
+        } else {
+          console.log('getPlaylist error', error.response.data.message);
+          // ToastMessage('Get Stories Error ', null, 'error');
+          dispatch({type: GET_PLAYLIST_FAILED});
+        }
+      });
+  };
+}
+
+export const AddToFavorite = (data, token) => {
+  console.log('userData signUp', data);
+  return dispatch => {
+    dispatch({type: SIGNUP});
+    Post('https://limitless-dev-backend.herokuapp.com/v1/user/playlist/add', data, token)
+      .then(function (response) {
+        console.log('response AddToPlaylist', response.data);
+        ToastMessage('SignUp Successfully', null, 'success');
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('AddToPlaylist error', error, data, token);
+          ToastMessage('please try again', null, 'error');
+        } else {
+          console.log('error', error.response.data.message);
+          ToastMessage('SignUp Error ', null, 'error');
+        }
+      });
+  };
+};
+
+export const getFavoritelist = (token) => {
+  return dispatch => {
+    dispatch({type: GET_FAVORITE});
+    Get(
+      'https://limitless-dev-backend.herokuapp.com/v1/user/favourite',
+      {},
+      token,
+    )
+      .then(function (response) {
+        if (response.status == 200) {
+          dispatch({
+            type: GET_FAVORITE_SUCCESS,
+            payload: response.data,
+          });
+          
+        } else {
+          console.log('error else');
+          dispatch({type: GET_FAVORITE_FAILED});
+        }
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('getFavoritelist error', error);
+          // ToastMessage('Get Stories Error', null, 'error');
+          dispatch({type: GET_FAVORITE_FAILED});
+        } else {
+          console.log('getFavoritelist error', error.response.data.message);
+          // ToastMessage('Get Stories Error ', null, 'error');
+          dispatch({type: GET_FAVORITE_FAILED});
+        }
+      });
+  };
+}

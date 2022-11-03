@@ -30,34 +30,10 @@ function HomeScreen({navigation, user, userLogout}) {
   const getStoryCategories = useSelector(
     state => state.userReducer.getStoryCategories,
   );
-  // console.log('getStoryCategories++++++', getStoryCategories);
 
   const getStory = useSelector(state => state.userReducer.getStory);
   // console.log('getStory++++++', getStory);
-  const [reason1, setReason1] = useState([
-    {title: 'Snail Riding', image: require('../../assets/home01.png')},
-    {
-      title: 'Friend, Me & Bus',
-      description: 'Child Collection',
-      image: require('../../assets/home02.png'),
-    },
-    {
-      title: 'Fantasy',
-      description: 'Fantasy Collection',
-      image: require('../../assets/home03.png'),
-    },
-    {
-      title: 'Snail Riding',
-      description: 'Sleep Collection',
-      image: require('../../assets/home01.png'),
-    },
-    {title: 'Snail Riding', image: require('../../assets/home02.png')},
-    {
-      title: 'Snail Riding',
-      description: 'Child Collection',
-      image: require('../../assets/home03.png'),
-    },
-  ]);
+ 
   const [reason, setReason] = useState([
     {
       title: 'a',
@@ -76,13 +52,14 @@ function HomeScreen({navigation, user, userLogout}) {
       image: require('../../assets/home-top-image.png'),
     },
   ]);
-  const width = Dimensions.get('screen').width;
-  const height = Dimensions.get('screen').height;
-  const goNext = () => {
-    navigation.navigate('About Motivation');
-  };
+
+  // const width = Dimensions.get('screen').width;
+  // const height = Dimensions.get('screen').height;
+  // const goNext = () => {
+  //   navigation.navigate('About Motivation');
+  // };
+
   const onViewRef = React.useRef(({viewableItems}) => {
-    console.log('viewableItems', viewableItems);
     let currentIndex = viewableItems[0].index;
     setCurrentIndex(currentIndex);
     // Use viewable items in state or as intended
@@ -106,7 +83,6 @@ function HomeScreen({navigation, user, userLogout}) {
     dispatch(GetStoryAction(data, navigation));
     dispatch(GetStoryCategoriesAction(data, navigation));
   };
-
   return (
     <>
       <View style={{flex: 1}}>
@@ -122,7 +98,7 @@ function HomeScreen({navigation, user, userLogout}) {
             <View>
               <FlatList
                 showsVerticalScrollIndicator="none"
-                data={getStory}
+                data={getStory?.docs || []}
                 keyExtractor={(item, index) => index}
                 horizontal={true}
                 // snapToInterval={width}
@@ -179,7 +155,7 @@ function HomeScreen({navigation, user, userLogout}) {
                   );
                 }}></FlatList>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                {reason.map((val, index) => {
+                {getStory?.docs?.map((val, index) => {
                   if (index == currentIndex) {
                     return (
                       <View
@@ -250,7 +226,7 @@ function HomeScreen({navigation, user, userLogout}) {
                           <>
                             <CardView
                               onPress={() => {
-                                navigation.navigate('VideoPlayer', {
+                                navigation.navigate('DetailScreen', {
                                   vedioData: item,
                                 });
                               }}

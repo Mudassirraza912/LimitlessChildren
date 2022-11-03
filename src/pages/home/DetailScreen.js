@@ -10,14 +10,10 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
-import {Input, Button, CheckBox} from 'react-native-elements';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {userLogout} from '../redux/actions';
-import {CardView} from '../../components';
-import {color} from 'react-native-reanimated';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddToPlaylist } from '../../stores/actions/user.action';
 
-function DetailScreen({navigation}) {
+function DetailScreen({navigation, route}) {
   const [reason, setReason] = useState([
     {title: 'Snail Riding', image: require('../../assets/home01.png')},
     {title: 'Friend, Me & Bus', image: require('../../assets/home02.png')},
@@ -26,8 +22,16 @@ function DetailScreen({navigation}) {
     {title: 'Snail Riding', image: require('../../assets/home02.png')},
     {title: 'Snail Riding', image: require('../../assets/home03.png')},
   ]);
-  const [data, setData] = useState();
+  // const [data, setData] = useState();
+  const dispatch = useDispatch()
+  const data = route?.params?.vedioData
+  console.log("navigation", route?.params?.vedioData)
 
+  const users = useSelector(state => state.userReducer.users);
+
+  const addToPlaylist = () => {
+    dispatch(AddToPlaylist({videoId: data?._id}, users?.token))
+  }
   return (
     <>
       <StatusBar
@@ -37,7 +41,9 @@ function DetailScreen({navigation}) {
       />
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('VideoPlayer')}
+          onPress={() =>   navigation.navigate('VideoPlayer', {
+            vedioData: data,
+          })}
           activeOpacity={0.9}
           style={{width: '100%', height: '40%'}}>
           <View
@@ -77,14 +83,14 @@ function DetailScreen({navigation}) {
           </View>
           <Image
             style={{width: '100%', height: '100%', resizeMode: 'stretch'}}
-            source={require('../../assets/storydetailTitle.png')}
+            source={{uri: data.thumbnail}}
           />
         </TouchableOpacity>
         <View style={{paddingVertical: 10}}>
           <View style={styles.row}>
             <View style={{flexDirection: 'row'}}>
               <Text style={{color: '#4d585b', fontFamily: 'Poppins-Bold'}}>
-                Friends, Me & Bus
+                {data?.title}
               </Text>
               <View style={styles.btn}>
                 <Text
@@ -93,20 +99,20 @@ function DetailScreen({navigation}) {
                 </Text>
               </View>
             </View>
-            <View style={{marginTop: 6}}>
+            <TouchableOpacity onPress={addToPlaylist} style={{marginTop: 6}}>
               <Image
                 style={styles.addPng}
                 source={require('../../assets/addLogo.png')}
               />
               <Text style={styles.listText}>Add to list</Text>
-            </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.row1}>
             <Image
               style={{width: 18, height: 18, resizeMode: 'contain'}}
               source={require('../../assets/eye-icon.png')}
             />
-            <Text style={styles.view}>2456 View</Text>
+            <Text style={styles.view}>{data?.views} View</Text>
             <View
               style={{
                 width: 1,
@@ -114,18 +120,16 @@ function DetailScreen({navigation}) {
                 backgroundColor: '#4d585b',
                 marginHorizontal: 10,
               }}></View>
-            <Text>04:30</Text>
+            <Text>{data?.duration}</Text>
           </View>
         </View>
         <Text style={styles.dec}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam
+          {data?.description}
         </Text>
         <View style={styles.border}></View>
         <View>
           <Text style={styles.storiesText}>RELATED STORIES</Text>
-          <ScrollView
+          {/* <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: '90%'}}>
             {reason.map(() => {
@@ -141,7 +145,7 @@ function DetailScreen({navigation}) {
                 </View>
               );
             })}
-          </ScrollView>
+          </ScrollView> */}
           <View style={{height: Platform.OS === 'ios' ? '78%' : '50%'}}></View>
         </View>
       </View>

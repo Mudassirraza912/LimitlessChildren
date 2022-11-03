@@ -1,9 +1,10 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView } from 'react-native';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { userLogout } from '../../redux/actions';
 import PlayList from '../../components/PlayList/PlayList';
+import { getFavoritelist } from '../../stores/actions/user.action';
 
 
 
@@ -60,22 +61,30 @@ export default function Like({ navigation }) {
             description:"Fantasy Collection"
         },
     ])
+    const dispatch = useDispatch()
+    const favoriteList = useSelector((state) => state.userReducer?.favoriteList)
+    const users = useSelector(state => state.userReducer.users);
+
+    useEffect(() => {
+        dispatch(getFavoritelist(users?.token))
+      })
     return (
         <View style={styles.container}>
             <View>
             <FlatList
-                  data={reason}
+                  data={favoriteList || []}
                   keyExtractor={(item, index) => index}
                   showsVerticalScrollIndicator={false} 
                   vertical={true}
                   renderItem={({item}) => {
                       return(
                           <View>
-                              <PlayList 
-                              image={item.image}
-                              title={item.title}
-                              description={item.description}
-                              />
+                             <PlayList
+                                image={item.thumbnail}
+                                title={item.title}
+                                fav={require('../../assets/fav-ative.png')}
+                                description={item?.category?.name}
+                            />
                           </View>
                       )
                   }}

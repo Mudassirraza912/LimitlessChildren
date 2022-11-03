@@ -24,6 +24,12 @@ import {
   GET_STORY_SUCCESS,
   GET_STORY_FAILED,
   SKIP_ONBOARDING,
+  GET_PLAYLIST,
+  GET_PLAYLIST_SUCCESS,
+  GET_PLAYLIST_FAILED,
+  GET_FAVORITE,
+  GET_FAVORITE_SUCCESS,
+  GET_FAVORITE_FAILED
 } from '../actions/actionType';
 
 const initialState = {
@@ -32,6 +38,8 @@ const initialState = {
   getStoryCategories: null,
   getStory: null,
   showOnboarding: false,
+  playList: null,
+  favoriteList: null
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -183,6 +191,41 @@ export const userReducer = (state = initialState, action) => {
         getStory: null,
       };
 
+    case GET_PLAYLIST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case GET_PLAYLIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        playList: payload,
+      };
+    case GET_PLAYLIST_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+      case GET_FAVORITE:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case GET_FAVORITE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        favoriteList: payload,
+      };
+    case GET_FAVORITE_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      };
     default:
       return state;
   }

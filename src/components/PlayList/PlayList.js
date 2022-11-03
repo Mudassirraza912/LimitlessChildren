@@ -14,7 +14,7 @@ export default function PlayList ({
         <View style={styles.container}>
             <View style={{flexDirection:"row"}}>
             <Image style={styles.playIcon} source={play} />
-             <Image style={styles.moviepng} source={image} />
+             <Image style={styles.moviepng} source={{uri: image}} />
              <View style={{paddingLeft:15}}>
              <Text style={styles.title}>{title}</Text>
              <Text style={styles.description}>{description}</Text>
