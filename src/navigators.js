@@ -57,7 +57,7 @@ const HomeLikeStackNav = createStackNavigator();
 const RightArrow = navigation => {
   return (
     <TouchableOpacity
-    // onPress={() => navigation.toggleDrawer()}
+    onPress={() => navigation.navigate('Home')}
     >
       <Image
         source={require('./assets/backIcon.png')}
@@ -75,7 +75,7 @@ const RightArrow = navigation => {
 
 const ListItem = navigation => {
   return (
-    <TouchableOpacity onPress={() => toggleDrawer(navigation)}>
+    <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
       <Image
         source={require('./assets/sortIcon.png')}
         style={{
@@ -109,7 +109,7 @@ const headerTitle = navigation => {
     <View>
       <Image
         source={require('./assets/home-top-logo.png')}
-        style={{width: 45, height: 45, resizeMode: 'contain'}}
+        style={{width: 45, height: 45, resizeMode: 'contain', alignSelf:"center" }}
       />
     </View>
   );
@@ -389,7 +389,7 @@ function MainDrawer() {
 
 function RootContainer({user}) {
   const users = useSelector(state => state.userReducer.users);
-  console.log('users++++++', users);
+  // console.log('users++++++', users);
 
   return (
     // <Drawer.Navigator
