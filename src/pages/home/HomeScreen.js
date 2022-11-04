@@ -110,7 +110,7 @@ function HomeScreen({navigation, user, userLogout}) {
                   // console.log('getStory-====', item);
                   return (
                     <TouchableOpacity
-                      activeOpacity={0.8}
+                      activeOpacity={1}
                       onPress={() => {
                         navigation.navigate('VideoPlayer', {
                           vedioData: item,
