@@ -76,8 +76,8 @@ export default function search({ navigation }) {
                     <View style={styles.ImageContainer}>
                       <Image
                         style={styles.ImageStyle}
-                        source={item.category?.image
-                          ? { uri: item.category?.image }
+                        source={item?.thumbnail
+                          ? { uri: item?.thumbnail}
                           : require('../../assets/storydetail-play-icon.png')} />
                     </View>
 
