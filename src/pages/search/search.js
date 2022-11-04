@@ -1,15 +1,13 @@
 import React, { Component, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 import { Input, Button, Card, SearchBar } from 'react-native-elements';
-import { bindActionCreators } from 'redux';
 import { connect, useSelector } from 'react-redux';
-import { userLogout } from '../../redux/actions';
-import { CardView } from '../../components';
 import { Get } from '../../utils/apicalls/apicalls';
 
 export default function search({ navigation }) {
   const [search, setSearch] = useState('');
   const [data, setData] = useState(null)
+
   const users = useSelector(state => state.userReducer.users);
   const onSubmit = () => {
     Get(
@@ -29,6 +27,7 @@ export default function search({ navigation }) {
       });
   };
   // console.log("data=======", data)
+
   return (
     <View style={styles.container}>
       <View>
@@ -55,6 +54,14 @@ export default function search({ navigation }) {
         />
       </View>
 
+      {data?.docs[0]?.title == null ?
+        <View style={styles.notFoundView}>
+          <Text>
+            No Content Found!
+          </Text>
+        </View> : null}
+
+
       <FlatList
         contentContainerStyle={{ flexGrow: 1, paddingBottom: '15%' }}
         data={data?.docs}
@@ -63,12 +70,14 @@ export default function search({ navigation }) {
           return (
             <>
               {search ?
+
                 <TouchableOpacity
                   activeOpacity={0.9}
                   onPress={() => {
                     navigation.navigate('VideoPlayer', {
                       vedioData: item,
-                    });
+                    }),
+                      setSearch((data?.docs[0]?.title))
                   }}
                   key={index}
                   style={styles.searchVideoButtonPlay}>
@@ -77,10 +86,9 @@ export default function search({ navigation }) {
                       <Image
                         style={styles.ImageStyle}
                         source={item?.thumbnail
-                          ? { uri: item?.thumbnail}
+                          ? { uri: item?.thumbnail }
                           : require('../../assets/storydetail-play-icon.png')} />
                     </View>
-
                     <View style={{ width: '82%' }}>
                       <Text
                         style={styles.textStyle}
@@ -90,11 +98,10 @@ export default function search({ navigation }) {
                     </View>
                   </View>
                 </TouchableOpacity>
-                :
-                null}
+                : null
+              }
             </>)
-        }}>
-      </FlatList>
+        }} />
 
     </View>
   );
@@ -116,6 +123,11 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 18,
     fontWeight: "600",
+  },
+  notFoundView: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 40
   },
   ImageContainer: {
     backgroundColor: "#fff",
