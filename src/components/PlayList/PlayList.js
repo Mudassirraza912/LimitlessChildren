@@ -8,7 +8,10 @@ export default function PlayList ({
     image= require('../../assets/home01.png'),
     play=require('../../assets/playbtn-big.png'),
     time="02:38",
-    fav=''
+    fav='',
+    isfavorite=false,
+    data=null,
+    onFavorite=(data) => {}
 }){
     return (
         <View style={styles.container}>
@@ -21,7 +24,9 @@ export default function PlayList ({
              <Text style={{color:"#4e595c",fontSize:12}}>{time}</Text>
              </View>
              </View>
-             <Image style={styles.playIcon1} source={fav} />
+             <TouchableOpacity onPress={() => onFavorite(data)}>
+                <Image style={[styles.playIcon1, {tintColor: isfavorite ? '#f8b293' : '#cdcdcd'}]} source={fav}  />
+             </TouchableOpacity>
         </View>
     )
 }

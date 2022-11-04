@@ -361,13 +361,12 @@ export const isOnboarding_Show = e => {
 };
 
 export const AddToPlaylist = (data, token) => {
-  console.log('userData signUp', data);
   return dispatch => {
     dispatch({type: SIGNUP});
     Post('https://limitless-dev-backend.herokuapp.com/v1/user/playlist/add', data, token)
       .then(function (response) {
         console.log('response AddToPlaylist', response.data);
-        ToastMessage('SignUp Successfully', null, 'success');
+        ToastMessage('Add to Playlist', null, 'success');
       })
       .catch(function (error) {
         if (error) {
@@ -375,7 +374,27 @@ export const AddToPlaylist = (data, token) => {
           ToastMessage('please try again', null, 'error');
         } else {
           console.log('error', error.response.data.message);
-          ToastMessage('SignUp Error ', null, 'error');
+          ToastMessage('Add to Playlist Error ', null, 'error');
+        }
+      });
+  };
+};
+
+export const RemoveToPlaylist = (data, token) => {
+  return dispatch => {
+    dispatch({type: SIGNUP});
+    Post('https://limitless-dev-backend.herokuapp.com/v1/user/playlist/remove', data, token)
+      .then(function (response) {
+        console.log('response RemoveToPlaylist', response.data);
+        ToastMessage('Remove to Playlist', null, 'success');
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('AddToPlaylist error', error, data, token);
+          ToastMessage('please try again', null, 'error');
+        } else {
+          console.log('error', error.response.data.message);
+          ToastMessage('Remove to Playlist Error ', null, 'error');
         }
       });
   };
@@ -416,21 +435,42 @@ export const getPlaylist = (token) => {
 }
 
 export const AddToFavorite = (data, token) => {
-  console.log('userData signUp', data);
+  console.log('data AddToFavorite', data);
   return dispatch => {
     dispatch({type: SIGNUP});
-    Post('https://limitless-dev-backend.herokuapp.com/v1/user/playlist/add', data, token)
+    Post('https://limitless-dev-backend.herokuapp.com/v1/user/favourite/add', data, token)
       .then(function (response) {
-        console.log('response AddToPlaylist', response.data);
-        ToastMessage('SignUp Successfully', null, 'success');
+        console.log('response AddToFavorite', response.data);
+        ToastMessage('Add to Favorite Successfully', null, 'success');
       })
       .catch(function (error) {
         if (error) {
-          console.log('AddToPlaylist error', error, data, token);
+          console.log('AddToFavorite error', error, data, token);
           ToastMessage('please try again', null, 'error');
         } else {
           console.log('error', error.response.data.message);
-          ToastMessage('SignUp Error ', null, 'error');
+          ToastMessage('Add to Favorite ', null, 'error');
+        }
+      });
+  };
+};
+
+export const RemoveToFavorite = (data, token) => {
+  console.log('data RemoveToFavorite', data);
+  return dispatch => {
+    dispatch({type: SIGNUP});
+    Post('https://limitless-dev-backend.herokuapp.com/v1/user/favourite/remove', data, token)
+      .then(function (response) {
+        console.log('response RemoveToFavorite', response.data);
+        ToastMessage('Remove Favorite Successfully', null, 'success');
+      })
+      .catch(function (error) {
+        if (error) {
+          console.log('RemoveToFavorite error', error, data, token);
+          ToastMessage('please try again', null, 'error');
+        } else {
+          console.log('error', error.response.data.message);
+          ToastMessage('Remove to Favorite ', null, 'error');
         }
       });
   };
@@ -458,12 +498,10 @@ export const getFavoritelist = (token) => {
       })
       .catch(function (error) {
         if (error) {
-          console.log('getFavoritelist error', error);
-          // ToastMessage('Get Stories Error', null, 'error');
+          console.log('getFavoritelist error', error, token);
           dispatch({type: GET_FAVORITE_FAILED});
         } else {
           console.log('getFavoritelist error', error.response.data.message);
-          // ToastMessage('Get Stories Error ', null, 'error');
           dispatch({type: GET_FAVORITE_FAILED});
         }
       });

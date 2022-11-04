@@ -10,12 +10,9 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import {Input, Button, Card, SearchBar} from 'react-native-elements';
-import {bindActionCreators} from 'redux';
-import {connect, useDispatch, useSelector} from 'react-redux';
-import {userLogout} from '../../redux/actions';
+import {useDispatch, useSelector} from 'react-redux';
 import PlayList from '../../components/PlayList/PlayList';
-import { getPlaylist } from '../../stores/actions/user.action';
+import { AddToFavorite, getPlaylist, RemoveToFavorite } from '../../stores/actions/user.action';
 
 export default function List({navigation}) {
   const [reason, setReason] = useState([
@@ -58,9 +55,20 @@ export default function List({navigation}) {
 
   useEffect(() => {
     dispatch(getPlaylist(users?.token))
-  })
+  }, [])
 
-  console.log("playList playList", playList)
+  const addFavorite = (data) => {
+    console.log("data", data?.isFavourite);
+    if(!data?.isFavourite) {
+      dispatch(AddToFavorite({videoId: data?._id}, users?.token))
+    }else {
+      dispatch(RemoveToFavorite({videoId: data?._id}, users?.token))
+    }
+    setTimeout(() => {
+      dispatch(getPlaylist(users?.token))
+    }, 2000)
+  }
+
   return (
     <>
       <StatusBar
@@ -103,6 +111,7 @@ export default function List({navigation}) {
             keyExtractor={(item, index) => index}
             showsVerticalScrollIndicator={false}
             renderItem={({item}) => {
+              console.log("item?.isFavourite", item?.isFavourite);
               return (
                 <View>
                   <PlayList
@@ -110,10 +119,13 @@ export default function List({navigation}) {
                     title={item.title}
                     fav={require('../../assets/fav-ative.png')}
                     description={item?.category?.name}
+                    isfavorite={item?.isFavourite}
+                    data={item}
+                    onFavorite={addFavorite}
                   />
                 </View>
               );
-            }}></FlatList>
+            }}/>
           {/* <View style={{height: '60%'}}></View> */}
         </View>
       </View>

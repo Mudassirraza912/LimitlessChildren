@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -10,28 +10,48 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { AddToPlaylist } from '../../stores/actions/user.action';
+import {useDispatch, useSelector} from 'react-redux';
+import {CardView} from '../../components';
+import {AddToPlaylist, RemoveToPlaylist} from '../../stores/actions/user.action';
+import {Get} from '../../utils/apicalls/apicalls';
 
 function DetailScreen({navigation, route}) {
-  const [reason, setReason] = useState([
-    {title: 'Snail Riding', image: require('../../assets/home01.png')},
-    {title: 'Friend, Me & Bus', image: require('../../assets/home02.png')},
-    {title: 'Fantasy', image: require('../../assets/home03.png')},
-    {title: 'Snail Riding', image: require('../../assets/home01.png')},
-    {title: 'Snail Riding', image: require('../../assets/home02.png')},
-    {title: 'Snail Riding', image: require('../../assets/home03.png')},
-  ]);
-  // const [data, setData] = useState();
-  const dispatch = useDispatch()
-  const data = route?.params?.vedioData
-  console.log("navigation", route?.params?.vedioData)
-
+  const dispatch = useDispatch();
   const users = useSelector(state => state.userReducer.users);
 
+  const [data, setSelectedItem] = useState(null);
+  const selectedItem = route?.params?.vedioData;
+
+  const getOneStory = () => {
+    Get(
+      `https://limitless-dev-backend.herokuapp.com/v1/story/${selectedItem?._id}`,
+      {},
+      users.token,
+    )
+      .then(function (response) {
+        if (response.status == 200) {
+          console.log('response?.data)', response?.data);
+          setSelectedItem(response?.data);
+        } else {
+          console.log('error else');
+        }
+      })
+      .catch(function (error) {
+        console.log('GetStoryAction error', error);
+      });
+  };
+
+  useEffect(() => {
+    getOneStory();
+  }, []);
+
   const addToPlaylist = () => {
-    dispatch(AddToPlaylist({videoId: data?._id}, users?.token))
-  }
+    if(!data?.isPlaylist) {
+      dispatch(AddToPlaylist({videoId: data?._id}, users?.token));
+    }else {
+      dispatch(RemoveToPlaylist({videoId: data?._id}, users?.token));
+    }
+  };
   return (
     <>
       <StatusBar
@@ -41,9 +61,11 @@ function DetailScreen({navigation, route}) {
       />
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() =>   navigation.navigate('VideoPlayer', {
-            vedioData: data,
-          })}
+          onPress={() =>
+            navigation.navigate('VideoPlayer', {
+              vedioData: data,
+            })
+          }
           activeOpacity={0.9}
           style={{width: '100%', height: '40%'}}>
           <View
@@ -83,7 +105,7 @@ function DetailScreen({navigation, route}) {
           </View>
           <Image
             style={{width: '100%', height: '100%', resizeMode: 'stretch'}}
-            source={{uri: data.thumbnail}}
+            source={{uri: data?.thumbnail}}
           />
         </TouchableOpacity>
         <View style={{paddingVertical: 10}}>
@@ -104,7 +126,9 @@ function DetailScreen({navigation, route}) {
                 style={styles.addPng}
                 source={require('../../assets/addLogo.png')}
               />
-              <Text style={styles.listText}>Add to list</Text>
+              <Text style={styles.listText}>
+                {data?.isPlaylist ? 'Remove' : 'Add'} to list
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.row1}>
@@ -123,16 +147,15 @@ function DetailScreen({navigation, route}) {
             <Text>{data?.duration}</Text>
           </View>
         </View>
-        <Text style={styles.dec}>
-          {data?.description}
-        </Text>
+        <Text style={styles.dec}>{data?.description}</Text>
         <View style={styles.border}></View>
         <View>
           <Text style={styles.storiesText}>RELATED STORIES</Text>
-          {/* <ScrollView
+          <ScrollView
+            horizontal
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{paddingBottom: '90%'}}>
-            {reason.map(() => {
+            contentContainerStyle={{paddingBottom: '70%'}}>
+            {data?.related.map(item => {
               return (
                 <View
                   style={{
@@ -140,12 +163,20 @@ function DetailScreen({navigation, route}) {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <CardView imageStyle={styles.img} />
-                  <CardView />
+                  <CardView
+                    onPress={() => {
+                      navigation.navigate('DetailScreen', {
+                        vedioData: item,
+                      });
+                    }}
+                    image={item?.thumbnail}
+                    title={item?.title}
+                    // description={item.description}
+                  />
                 </View>
               );
             })}
-          </ScrollView> */}
+          </ScrollView>
           <View style={{height: Platform.OS === 'ios' ? '78%' : '50%'}}></View>
         </View>
       </View>

@@ -2,19 +2,39 @@ import React, { Component, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, Dimensions, ScrollView } from 'react-native';
 import { Input, Button, Card, SearchBar } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { userLogout } from '../../redux/actions';
 import { CardView } from '../../components';
+import { Get } from '../../utils/apicalls/apicalls';
 
 
 
 export default function search({ navigation }) {
     const [search, setSearch] = useState("");
+    const [data, setData] = useState(null)
+    const users = useSelector(state => state.userReducer.users);
+
+    const onSubmit = () => {
+        Get(
+          `https://limitless-dev-backend.herokuapp.com/v1/story?search=${search}`,
+          {},
+          users.token,
+        )
+          .then(function (response) {
+            if (response.status == 200) {
+              setData(response?.data);
+            } else {
+              console.log('error else');
+            }
+          })
+          .catch(function (error) {
+            console.log('onSubmit error', error);
+          });
+      };
+    
+    console.log("data", data)
     return (
         <View style={styles.container}>
-            {/* <View style={styles.searchbar}>
-                <Text style={styles.serc}>Search</Text>
-            </View> */}
             <View>
                 <SearchBar
                     platform="ios"
@@ -35,6 +55,7 @@ export default function search({ navigation }) {
                     }}
                     onChangeText={setSearch}
                     value={search}
+                    onEndEditing={() => onSubmit()}
                 />
             </View>
         </View>
