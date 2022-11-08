@@ -26,7 +26,7 @@ import {InputField} from '../../components/InputField/InputField';
 import {Images} from '../../utils/Images';
 
 function Login() {
-  const [eye, setEye] = useState(false);
+  const [eye, setEye] = useState(true);
   const [eyeVisible, setEyeVisible] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -71,6 +71,7 @@ function Login() {
               placeholder="Email ID"
               placeholderTextColor="#a7b0b6"
               onChangeText={text => setEmail(text)}
+              keyboardType="email-address"
               value={email}
             />
 
@@ -87,7 +88,9 @@ function Login() {
                 //   ref && ref.setNativeProps({style: {fontWeight: 'bold'}})
                 // }
               />
-              <TouchableOpacity onPress={() => toggleEye()}>
+              <TouchableOpacity 
+              activeOpacity={0.9}
+              onPress={() => toggleEye()}>
                 <Entypo
                   name={eye == false ? 'eye' : 'eye-with-line'}
                   style={styles.passwordIcon}
@@ -136,7 +139,7 @@ function Login() {
               )}
             </TouchableOpacity>
             <Text style={styles.orLoginText}>OR LOGIN WITH</Text>
-            <View style={styles.logoRow}>
+            {/* <View style={styles.logoRow}>
               <Image
                 style={styles.logoImageFG}
                 source={require('../../assets/loginFb.png')}
@@ -145,7 +148,7 @@ function Login() {
                 style={styles.logoImageFG}
                 source={require('../../assets/googleLogo.png')}
               />
-            </View>
+            </View> */}
             <TouchableOpacity
               activeOpacity={0.9}
               onPress={() => navigation.navigate('SignUp')}>

@@ -24,8 +24,8 @@ import {Patch, Post} from '../../utils/apicalls/apicalls';
 import Entypo from 'react-native-vector-icons/Entypo';
 function SignUp({navigation}) {
   const dispatch = useDispatch();
-  const [eye, setEye] = useState(false);
-  const [eye1, setEye1] = useState(false);
+  const [eye, setEye] = useState(true);
+  const [eye1, setEye1] = useState(true);
   const isLoading = useSelector(state => state.userReducer.isLoading);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -81,7 +81,7 @@ function SignUp({navigation}) {
         <View style={styles.container}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View
-              style={{height: '20%', marginTop: '20%', marginBottom: '10%'}}>
+              style={{height: '20%', marginTop: 0, marginBottom: 40}}>
               <Image
                 style={styles.logoImage}
                 source={require('../../assets/login-logo.png')}
@@ -107,6 +107,7 @@ function SignUp({navigation}) {
               placeholderTextColor="#a7b0b6"
               onChangeText={text => setEmail(text)}
               value={email}
+              keyboardType='email-address'
             />
 
             <View style={styles.passwordView}>
@@ -175,7 +176,7 @@ function SignUp({navigation}) {
               )}
             </TouchableOpacity>
             <Text style={styles.orLoginText}>OR LOGIN WITH</Text>
-            <View style={styles.logoRow}>
+            {/* <View style={styles.logoRow}>
               <Image
                 style={styles.logoImageFG}
                 source={require('../../assets/loginFb.png')}
@@ -184,7 +185,7 @@ function SignUp({navigation}) {
                 style={styles.logoImageFG}
                 source={require('../../assets/googleLogo.png')}
               />
-            </View>
+            </View> */}
             <TouchableOpacity
               activeOpacity={0.9}
               onPress={() => navigation.navigate('Login')}>

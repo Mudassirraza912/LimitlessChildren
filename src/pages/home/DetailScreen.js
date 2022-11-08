@@ -66,7 +66,7 @@ function DetailScreen({navigation, route}) {
               vedioData: data,
             })
           }
-          activeOpacity={0.9}
+          activeOpacity={1}
           style={{width: '100%', height: '40%'}}>
           <View
             style={{
@@ -108,10 +108,12 @@ function DetailScreen({navigation, route}) {
             source={{uri: data?.thumbnail}}
           />
         </TouchableOpacity>
-        <View style={{paddingVertical: 10}}>
+        <View style={{paddingVertical: 10,}}>
           <View style={styles.row}>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{color: '#4d585b', fontFamily: 'Poppins-Bold'}}>
+            <View style={{flexDirection: 'row',width:'65%',alignItems:"center"}}>
+              <Text 
+              numberOfLines={2}
+              style={{color: '#4d585b', fontFamily: 'Poppins-Bold'}}>
                 {data?.title}
               </Text>
               <View style={styles.btn}>
@@ -120,8 +122,13 @@ function DetailScreen({navigation, route}) {
                   New
                 </Text>
               </View>
+             
             </View>
-            <TouchableOpacity onPress={addToPlaylist} style={{marginTop: 6}}>
+            
+            <TouchableOpacity 
+            activeOpacity={0.9}
+            onPress={addToPlaylist} 
+            style={{marginTop: 6, justifyContent:"center",alignItems:"center"}}>
               <Image
                 style={styles.addPng}
                 source={require('../../assets/addLogo.png')}
@@ -153,17 +160,11 @@ function DetailScreen({navigation, route}) {
           <Text style={styles.storiesText}>RELATED STORIES</Text>
           <ScrollView
             horizontal
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{paddingBottom: '70%'}}>
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{flexGrow:1, paddingHorizontal:8}}>
             {data?.related.map(item => {
               return (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <CardView
+                     <CardView
                     onPress={() => {
                       navigation.navigate('DetailScreen', {
                         vedioData: item,
@@ -171,14 +172,12 @@ function DetailScreen({navigation, route}) {
                     }}
                     image={item?.thumbnail}
                     title={item?.title}
-                    // description={item.description}
+                    description={item.description}
                   />
-                </View>
               );
             })}
           </ScrollView>
-          <View style={{height: Platform.OS === 'ios' ? '78%' : '50%'}}></View>
-        </View>
+              </View>
       </View>
     </>
   );
@@ -217,10 +216,14 @@ const styles = StyleSheet.create({
   },
   btn: {
     backgroundColor: '#bfcfc7',
-    paddingHorizontal: 10,
-    paddingVertical: 3,
+    // paddingHorizontal: 10,
+    // paddingVertical: 3,
+    height:20,
+    width:45,
     borderRadius: 30,
     marginHorizontal: 10,
+    justifyContent:"center",
+    alignItems:"center"
   },
   dec: {
     paddingHorizontal: 20,
@@ -236,7 +239,7 @@ const styles = StyleSheet.create({
   },
   storiesText: {
     paddingLeft: 20,
-    paddingVertical: 10,
+   marginTop: 10,
     color: '#4d585b',
     fontWeight: 'bold',
   },

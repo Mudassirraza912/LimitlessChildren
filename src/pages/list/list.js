@@ -113,17 +113,25 @@ export default function List({navigation}) {
             renderItem={({item}) => {
               console.log("item?.isFavourite", item?.isFavourite);
               return (
-                <View>
+                <TouchableOpacity
+                activeOpacity={0.9}
+                onPress={() => {
+                  navigation.navigate('VideoPlayer', {
+                    vedioData: item,
+                  })
+                }}
+                >
                   <PlayList
                     image={item.thumbnail}
                     title={item.title}
                     fav={require('../../assets/fav-ative.png')}
                     description={item?.category?.name}
+                    time={item.duration}
                     isfavorite={item?.isFavourite}
                     data={item}
                     onFavorite={addFavorite}
                   />
-                </View>
+                </TouchableOpacity>
               );
             }}/>
           {/* <View style={{height: '60%'}}></View> */}
