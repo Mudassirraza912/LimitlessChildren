@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native';
 import React, {Component, useEffect, useState} from 'react';
 import {
   View,
@@ -12,6 +13,7 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {CardView} from '../../components';
+import Loader from '../../components/Loader';
 import {AddToPlaylist, RemoveToPlaylist} from '../../stores/actions/user.action';
 import {Get} from '../../utils/apicalls/apicalls';
 
@@ -20,15 +22,18 @@ function DetailScreen({navigation, route}) {
   const users = useSelector(state => state.userReducer.users);
 
   const [data, setSelectedItem] = useState(null);
-  const selectedItem = route?.params?.vedioData;
-
+  const [loader, setLoader] = useState(false)
+  const [selectedItem, setselectedCurrentItem] = useState(route?.params?.vedioData);
+  const isFocused = useIsFocused()
   const getOneStory = () => {
+    setLoader(true)
     Get(
       `https://limitless-dev-backend.herokuapp.com/v1/story/${selectedItem?._id}`,
       {},
       users.token,
     )
       .then(function (response) {
+        setLoader(false)
         if (response.status == 200) {
           console.log('response?.data)', response?.data);
           setSelectedItem(response?.data);
@@ -37,13 +42,15 @@ function DetailScreen({navigation, route}) {
         }
       })
       .catch(function (error) {
+        setLoader(false)
         console.log('GetStoryAction error', error);
       });
   };
 
   useEffect(() => {
+    console.log('useEffect')
     getOneStory();
-  }, []);
+  }, [isFocused, selectedItem]);
 
   const addToPlaylist = () => {
     if(!data?.isPlaylist) {
@@ -54,6 +61,7 @@ function DetailScreen({navigation, route}) {
   };
   return (
     <>
+      <Loader visible={loader} />
       <StatusBar
         barStyle="dark-content"
         translucent={true}
@@ -166,9 +174,10 @@ function DetailScreen({navigation, route}) {
               return (
                      <CardView
                     onPress={() => {
-                      navigation.navigate('DetailScreen', {
-                        vedioData: item,
-                      });
+                      // navigation.navigate('DetailScreen', {
+                      //   vedioData: item,
+                      // });
+                      setselectedCurrentItem(item)
                     }}
                     image={item?.thumbnail}
                     title={item?.title}
