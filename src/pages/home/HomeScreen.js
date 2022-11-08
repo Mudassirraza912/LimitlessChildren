@@ -100,7 +100,7 @@ console.log('getStoryCategories======',getStoryCategories)
             <View>
               <FlatList
                 showsVerticalScrollIndicator="none"
-                data={getStory?.docs || []}
+                data={getStory?.docs?.slice(0,5) || []}
                 keyExtractor={(item, index) => index}
                 horizontal={true}
                 // snapToInterval={width}
@@ -156,11 +156,9 @@ console.log('getStoryCategories======',getStoryCategories)
                     </TouchableOpacity>
                   );
                 }}></FlatList>
-                <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={{flexDirection: 'row',width:"85%",overflow:"hidden",alignSelf:"center"}}>          
-                {getStory?.docs?.map((val, index) => {
+                <View
+                style={{flexDirection: 'row',width:"85%",overflow:"hidden",alignSelf:"center",justifyContent:"center"}}>          
+                {getStory?.docs?.slice(0,5).map((val, index) => {
                   if (index == currentIndex) {
                     return (
                       <View
@@ -193,7 +191,7 @@ console.log('getStoryCategories======',getStoryCategories)
                     );
                   }
                 })}
-                  </ScrollView>
+                  </View>
 
               {getStoryCategories?.map((item, i) => {
                 return (
@@ -218,12 +216,12 @@ console.log('getStoryCategories======',getStoryCategories)
                           {item?.categoryData?.name}
                         </Text>
                         </View>
-             
+{/*              
                       <TouchableOpacity
                         activeOpacity={0.9}
                         style={styles.ViewAllBtn}>
                         <Text style={styles.viewText}>View All</Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                     </View>
 
 
@@ -446,5 +444,5 @@ const styles = StyleSheet.create({
   }, 
 
  
-        textContainer:{ overflow: "hidden", width: '60%', paddingRight: 5 },
+        textContainer:{ overflow: "hidden", width: '85%', paddingRight: 5,  },
 });
