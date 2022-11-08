@@ -52,6 +52,13 @@ function DetailScreen({navigation, route}) {
     getOneStory();
   }, [isFocused, selectedItem]);
 
+
+  useEffect(() => {
+      setselectedCurrentItem(route?.params?.vedioData);
+  }, [isFocused]);
+
+
+
   const addToPlaylist = () => {
     if(!data?.isPlaylist) {
       dispatch(AddToPlaylist({videoId: data?._id}, users?.token));
@@ -118,7 +125,7 @@ function DetailScreen({navigation, route}) {
         </TouchableOpacity>
         <View style={{paddingVertical: 10,}}>
           <View style={styles.row}>
-            <View style={{flexDirection: 'row',width:'65%',alignItems:"center"}}>
+            <View style={{flexDirection: 'row',width:'60%',alignItems:"center", justifyContent:"flex-start"}}>
               <Text 
               numberOfLines={2}
               style={{color: '#4d585b', fontFamily: 'Poppins-Bold'}}>
@@ -220,8 +227,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     resizeMode: 'contain',
-    alignSelf: 'flex-end',
-    marginRight: 8,
+
   },
   btn: {
     backgroundColor: '#bfcfc7',
