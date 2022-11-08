@@ -17,14 +17,21 @@ export default function CardView({
   onPress,
 }) {
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={onPress}
+    <View
       style={styles.container}>
-      <Image style={styles.playIcon} source={play} />
-      <Image style={styles.moviepng} source={{uri: image}} />
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
-    </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={onPress} style={styles.imageContainer}>
+        <Image style={styles.playIcon} source={play} />
+        <Image style={styles.imageStyle} source={{ uri: image }} />
+      </TouchableOpacity>
+
+      <View style={{ width: 155, marginTop: 5 }}>
+        <Text
+          numberOfLines={1}
+          style={styles.title}>{title}</Text>
+        <Text numberOfLines={2} style={styles.description}>{description}</Text>
+      </View>
+    </View>
   );
 }

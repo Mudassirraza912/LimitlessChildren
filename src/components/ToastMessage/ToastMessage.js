@@ -7,7 +7,7 @@ export const ToastMessage = (text1, text2, type, position) => {
     position: position ? position : 'top',
     text1: text1,
     text2: text2,
-    visibilityTime: 4000,
+    visibilityTime: 2500,
     autoHide: true,
     topOffset: 30,
     bottomOffset: 40,

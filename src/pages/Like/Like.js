@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import PlayList from '../../components/PlayList/PlayList';
@@ -47,17 +48,25 @@ export default function Like({navigation}) {
           vertical={true}
           renderItem={({item}) => {
             return (
-              <View>
+              <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={() => {
+                navigation.navigate('VideoPlayer', {
+                  vedioData: item,
+                })
+              }}
+              >
                 <PlayList
                   image={item.thumbnail}
                   title={item.title}
                   fav={require('../../assets/fav-ative.png')}
                   description={item?.category?.name}
+                  time={item.duration}
                   isfavorite={item?.isFavourite}
                   data={item}
                   onFavorite={addFavorite}
                 />
-              </View>
+              </TouchableOpacity>
             );
           }}
         />
@@ -79,6 +88,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
   },
 });

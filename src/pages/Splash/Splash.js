@@ -12,7 +12,7 @@ const Splash = () => {
       {/* require('../../assets/gif.gif')  */}
       <Image
         // source={{uri: 'https://laybulldxb.com/gif.gif'}}
-        source={require('../../assets/gif.gif')}
+        source={require('../../assets/splash.png')}
         resizeMode="cover"
         style={{
           width: '100%',

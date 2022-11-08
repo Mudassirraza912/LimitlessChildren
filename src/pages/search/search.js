@@ -26,11 +26,11 @@ export default function search({ navigation }) {
         console.log('onSubmit error', error);
       });
   };
-  // console.log("data=======", data)
+  console.log("data=======", data)
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={{ paddingHorizontal: 10 }}>
         <SearchBar
           platform="ios"
           placeholder="Search"
@@ -57,13 +57,13 @@ export default function search({ navigation }) {
       {data?.docs[0]?.title == null ?
         <View style={styles.notFoundView}>
           <Text>
-            No Content Found!
+            No Videos Found!
           </Text>
         </View> : null}
 
 
       <FlatList
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: '15%' }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: '17%', paddingHorizontal: 10 }}
         data={data?.docs}
         renderItem={({ item, index }) => {
           // console.log('item=========', item,)
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff",
-    paddingHorizontal: 10
+
   },
   searchbar: {
     paddingHorizontal: 8,
@@ -131,10 +131,10 @@ const styles = StyleSheet.create({
   },
   ImageContainer: {
     backgroundColor: "#fff",
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     alignSelf: "center",
-    borderRadius: 10,
+    borderRadius: 6,
     marginRight: 8,
     overflow: "hidden"
   },
@@ -144,11 +144,11 @@ const styles = StyleSheet.create({
     resizeMode: "cover"
   },
   searchVideoButtonPlay: {
-    backgroundColor: "lightgrey",
+    backgroundColor: "#f2f2f2",
     marginVertical: 2,
     width: '100%',
     alignSelf: "center",
-    padding: 8,
+    padding: 6,
     borderRadius: 6,
     overflow: "hidden"
   },

@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Platform,
+  Animated
 } from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 import {bindActionCreators} from 'redux';
@@ -30,7 +31,7 @@ function HomeScreen({navigation, user, userLogout}) {
   const getStoryCategories = useSelector(
     state => state.userReducer.getStoryCategories,
   );
-
+console.log('getStoryCategories======',getStoryCategories)
   const getStory = useSelector(state => state.userReducer.getStory);
   // console.log('getStory++++++', getStory);
  
@@ -67,6 +68,7 @@ function HomeScreen({navigation, user, userLogout}) {
   const viewConfigRef = React.useRef({viewAreaCoveragePercentThreshold: 50});
   const [currentIndex, setCurrentIndex] = useState();
 
+
   useEffect(() => {
     getStoryCategoriesFunc();
   }, []);
@@ -93,7 +95,7 @@ function HomeScreen({navigation, user, userLogout}) {
         />
         <View style={styles.container}>
           <ScrollView
-            contentContainerStyle={{flexGrow: 1, paddingBottom: 50}}
+            contentContainerStyle={{flexGrow: 1, paddingBottom: 60}}
             showsVerticalScrollIndicator={false}>
             <View>
               <FlatList
@@ -143,7 +145,7 @@ function HomeScreen({navigation, user, userLogout}) {
                         style={{
                           width: Dimensions.get('window').width,
                           height: Platform.OS == 'ios' ? 290 : 280,
-                          resizeMode: 'cover',
+                          resizeMode: 'stretch',
                         }}
                         source={
                           item?.thumbnail
@@ -154,7 +156,10 @@ function HomeScreen({navigation, user, userLogout}) {
                     </TouchableOpacity>
                   );
                 }}></FlatList>
-              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={{flexDirection: 'row',width:"85%",overflow:"hidden",alignSelf:"center"}}>          
                 {getStory?.docs?.map((val, index) => {
                   if (index == currentIndex) {
                     return (
@@ -188,32 +193,42 @@ function HomeScreen({navigation, user, userLogout}) {
                     );
                   }
                 })}
-              </View>
+                  </ScrollView>
 
               {getStoryCategories?.map((item, i) => {
                 return (
                   <View>
-                    <View style={styles.row}>
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={styles.row}>            
+                        
+                        <View style={styles.imageContainer}>
                         <Image
                           style={styles.Illustration}
-                          source={
-                            item?.categoryData
+                            source={
+                            item?.categoryData?.image
                               ? {uri: item?.categoryData?.image}
-                              : require('../../assets/homeIllustration-1.png')
+                              : require('../../assets/home-illustration-2.png')
                           }
                         />
-                        <Text style={styles.mindfull}>
+                          </View>
+
+                          <View style={styles.textContainer}>
+                        <Text 
+                        numberOfLines={2}
+                        style={styles.mindfull}>
                           {item?.categoryData?.name}
                         </Text>
-                      </View>
+                        </View>
+             
                       <TouchableOpacity
                         activeOpacity={0.9}
                         style={styles.ViewAllBtn}>
                         <Text style={styles.viewText}>View All</Text>
                       </TouchableOpacity>
                     </View>
+
+
+
+                    
                     <FlatList
                       showsVerticalScrollIndicator="none"
                       data={item?.stories}
@@ -232,7 +247,7 @@ function HomeScreen({navigation, user, userLogout}) {
                               }}
                               image={item.thumbnail}
                               title={item.title}
-                              // description={item.description}
+                              description={item.description}
                             />
                           </>
                         );
@@ -273,7 +288,7 @@ function HomeScreen({navigation, user, userLogout}) {
                   }}></FlatList>
               </View> */}
             </View>
-            <View style={{paddingBottom: '10%'}}></View>
+            {/* <View style={{paddingBottom: '10%'}}></View> */}
           </ScrollView>
         </View>
       </View>
@@ -297,22 +312,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   row: {
-    flexDirection: 'row',
+    width: '100%',
+    alignItems: "center",
     justifyContent: 'space-between',
-    paddingVertical: 20,
-    paddingHorizontal: 18,
+    flexDirection: "row",
+    paddingVertical: 10,
+    padding: 10,
+    marginTop:20,
   },
+  imageContainer:{                     
+    height: 35, width: 45, alignSelf: 'flex-start', borderRadius: 8, borderWidth: 0.4,
+    borderColor: '#e4e5e4', justifyContent: 'center', alignItems: "center",
+    },
   Illustration: {
-    width: 45,
-    height: 30,
-    resizeMode: 'contain',
+    width: '100%',
+    height: '100%',
+    resizeMode: 'stretch',
   },
   ViewAllBtn: {
     backgroundColor: '#f8b293',
     justifyContent: 'center',
+    height:30,
     paddingHorizontal: 16,
-    paddingVertical: 2,
     borderRadius: 20,
+
   },
   platText: {
     color: '#ffffff',
@@ -332,9 +355,9 @@ const styles = StyleSheet.create({
   },
   mindfull: {
     color: '#4d585b',
-    paddingLeft: 10,
     fontFamily: 'Poppins-Bold',
     letterSpacing: 2,
+    textAlign:'left'
   },
   carddv: {
     flex: 1,
@@ -420,5 +443,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     backgroundColor: '#0e101f70',
-  },
+  }, 
+
+ 
+        textContainer:{ overflow: "hidden", width: '60%', paddingRight: 5 },
 });

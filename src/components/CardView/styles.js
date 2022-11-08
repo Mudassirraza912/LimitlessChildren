@@ -3,32 +3,41 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     container: {
-        paddingHorizontal: 10,
-        paddingVertical:5
+        padding:10,
+        marginHorizontal:1,
     },
-    moviepng: {
+   imageContainer: {
         height:110,
         width:155,
         borderRadius:18,
-        marginVertical: 8,
+        justifyContent:"center",
+        alignItems:"center",
+        overflow:'hidden',
+        borderWidth:0.4,
+        borderColor:'#e4e5e4'
     },
+    imageStyle: {
+        height:'100%',
+        width:'100%',
+        borderRadius:16,
+        resizeMode:'stretch'
+},
     title:{
         color:"#4d585b",
         fontWeight:"bold",
         fontFamily:"Poppins-Bold",
+        textAlign:'left'
     },
     description:{
         color:"#4d585b",
-        fontSize:13,
+        fontSize:11,
         fontFamily:"Poppins-Regular",
     },
     playIcon:{
-        width:"30%",
-        height:"30%",
+        width:50,
+        height:50,
         position:"absolute",
         zIndex:30,
-        top:"30%",
         resizeMode:"contain",
-        alignSelf:"center"
     }
 });

@@ -22,7 +22,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setShow(false);
-    }, 3000);
+    }, 2000);
   }, []);
 
   return show ? (
