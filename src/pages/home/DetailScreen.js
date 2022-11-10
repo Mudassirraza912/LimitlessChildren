@@ -1,5 +1,5 @@
 import { useIsFocused } from '@react-navigation/native';
-import React, {Component, useEffect, useState} from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,13 @@ import {
   StatusBar,
   Platform,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {CardView} from '../../components';
+import { useDispatch, useSelector } from 'react-redux';
+import { CardView } from '../../components';
 import Loader from '../../components/Loader';
-import {AddToPlaylist, RemoveToPlaylist} from '../../stores/actions/user.action';
-import {Get} from '../../utils/apicalls/apicalls';
+import { AddToPlaylist, RemoveToPlaylist } from '../../stores/actions/user.action';
+import { Get } from '../../utils/apicalls/apicalls';
 
-function DetailScreen({navigation, route}) {
+function DetailScreen({ navigation, route }) {
   const dispatch = useDispatch();
   const users = useSelector(state => state.userReducer.users);
 
@@ -54,16 +54,16 @@ function DetailScreen({navigation, route}) {
 
 
   useEffect(() => {
-      setselectedCurrentItem(route?.params?.vedioData);
+    setselectedCurrentItem(route?.params?.vedioData);
   }, [isFocused]);
 
 
 
   const addToPlaylist = () => {
-    if(!data?.isPlaylist) {
-      dispatch(AddToPlaylist({videoId: data?._id}, users?.token));
-    }else {
-      dispatch(RemoveToPlaylist({videoId: data?._id}, users?.token));
+    if (!data?.isPlaylist) {
+      dispatch(AddToPlaylist({ videoId: data?._id }, users?.token));
+    } else {
+      dispatch(RemoveToPlaylist({ videoId: data?._id }, users?.token));
     }
   };
   return (
@@ -82,27 +82,14 @@ function DetailScreen({navigation, route}) {
             })
           }
           activeOpacity={1}
-          style={{width: '100%', height: '40%'}}>
-          <View
-            style={{
-              position: 'absolute',
-              zIndex: 30,
-              top: '12%',
-              flexDirection: 'row',
-              left: '5%',
-            }}>
-            <TouchableOpacity
-              activeOpacity={0.9}
-              onPress={() => navigation.goBack()}>
-              <Image
-                style={styles.backImg}
-                source={require('../../assets/backIcon.png')}
-              />
+          style={{ width: '100%', height: '40%' }}> 
+          <View style={styles.imageContainer}>
+            <TouchableOpacity activeOpacity={0.9} onPress={() => navigation.goBack()} style={styles.imgcard} >
+              <Image style={styles.backpng} source={require('../../assets/backIcon.png')} />
             </TouchableOpacity>
-            <Image
-              style={styles.backImg1}
-              source={require('../../assets/3-dots.png')}
-            />
+            <TouchableOpacity activeOpacity={0.9} style={[styles.imgcard, {alignItems:'flex-end'}]} >
+              <Image style={styles.backpng} source={require('../../assets/3-dots.png')} />
+            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -119,31 +106,29 @@ function DetailScreen({navigation, route}) {
             />
           </View>
           <Image
-            style={{width: '100%', height: '100%', resizeMode: 'stretch'}}
-            source={{uri: data?.thumbnail}}
+            style={{ width: '100%', height: '100%', resizeMode: 'stretch' }}
+            source={{ uri: data?.thumbnail }}
           />
         </TouchableOpacity>
-        <View style={{paddingVertical: 10,}}>
+        <View style={{ paddingVertical: 10, }}>
           <View style={styles.row}>
-            <View style={{flexDirection: 'row',width:'60%',alignItems:"center", justifyContent:"flex-start"}}>
-              <Text 
-              numberOfLines={2}
-              style={{color: '#4d585b', fontFamily: 'Poppins-Bold'}}>
+            <View style={{ flexDirection: 'row', width: '60%', alignItems: "center", justifyContent: "flex-start" }}>
+              <Text
+                numberOfLines={2}
+                style={{ color: '#4d585b', fontFamily: 'Poppins-Bold' }}>
                 {data?.title}
               </Text>
               <View style={styles.btn}>
                 <Text
-                  style={{fontSize: 10, color: '#ffffff', fontWeight: 'bold'}}>
+                  style={{ fontSize: 10, color: '#ffffff', fontWeight: 'bold' }}>
                   New
                 </Text>
               </View>
-             
             </View>
-            
-            <TouchableOpacity 
-            activeOpacity={0.9}
-            onPress={addToPlaylist} 
-            style={{marginTop: 6, justifyContent:"center",alignItems:"center"}}>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={addToPlaylist}
+              style={{ marginTop: 6, justifyContent: "center", alignItems: "center" }}>
               <Image
                 style={styles.addPng}
                 source={require('../../assets/addLogo.png')}
@@ -155,7 +140,7 @@ function DetailScreen({navigation, route}) {
           </View>
           <View style={styles.row1}>
             <Image
-              style={{width: 18, height: 18, resizeMode: 'contain'}}
+              style={{ width: 18, height: 18, resizeMode: 'contain' }}
               source={require('../../assets/eye-icon.png')}
             />
             <Text style={styles.view}>{data?.views} View</Text>
@@ -176,24 +161,24 @@ function DetailScreen({navigation, route}) {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{flexGrow:1, paddingHorizontal:8}}>
+            contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 8 }}>
             {data?.related.map(item => {
               return (
-                     <CardView
-                    onPress={() => {
-                      // navigation.navigate('DetailScreen', {
-                      //   vedioData: item,
-                      // });
-                      setselectedCurrentItem(item)
-                    }}
-                    image={item?.thumbnail}
-                    title={item?.title}
-                    description={item.description}
-                  />
+                <CardView
+                  onPress={() => {
+                    // navigation.navigate('DetailScreen', {
+                    //   vedioData: item,
+                    // });
+                    setselectedCurrentItem(item)
+                  }}
+                  image={item?.thumbnail}
+                  title={item?.title}
+                  description={item.description}
+                />
               );
             })}
           </ScrollView>
-              </View>
+        </View>
       </View>
     </>
   );
@@ -233,12 +218,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#bfcfc7',
     // paddingHorizontal: 10,
     // paddingVertical: 3,
-    height:20,
-    width:45,
+    height: 20,
+    width: 45,
     borderRadius: 30,
     marginHorizontal: 10,
-    justifyContent:"center",
-    alignItems:"center"
+    justifyContent: "center",
+    alignItems: "center"
   },
   dec: {
     paddingHorizontal: 20,
@@ -254,7 +239,7 @@ const styles = StyleSheet.create({
   },
   storiesText: {
     paddingLeft: 20,
-   marginTop: 10,
+    marginTop: 10,
     color: '#4d585b',
     fontWeight: 'bold',
   },
@@ -271,16 +256,30 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
   },
-  backImg: {
+ 
+  imageContainer: {
+    flexDirection: 'row',
+    marginTop: 22,
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    height: 60,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0,
+    zIndex: 1,
+  },
+  imgcard: {
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    paddingHorizontal: 12,
+  },
+  backpng: {
     width: 22,
     height: 22,
-    resizeMode: 'contain',
+    tintColor: "#fff",
+    resizeMode: "contain"
   },
-  backImg1: {
-    width: 22,
-    height: 22,
-    resizeMode: 'contain',
-    marginLeft: '82%',
-    marginTop: '2%',
-  },
+
 });

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         backgroundColor:"#f2f2f2"
     },
     imageContainer:{
-        height: 70, width: 80, alignSelf: 'flex-start', borderRadius: 12, borderWidth: 0.4,
+        height: 70, width: 80, alignSelf: 'flex-start', borderRadius: 12, borderWidth: 0.5,
         borderColor: '#e4e5e4', justifyContent: 'center', alignItems: "center"
     },
     moviepng: {

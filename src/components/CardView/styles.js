@@ -13,7 +13,7 @@ export default StyleSheet.create({
         justifyContent:"center",
         alignItems:"center",
         overflow:'hidden',
-        borderWidth:0.4,
+        borderWidth:0.5,
         borderColor:'#e4e5e4'
     },
     imageStyle: {

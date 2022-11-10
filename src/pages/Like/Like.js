@@ -1,4 +1,5 @@
 import React, {Component, useEffect, useState} from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -7,7 +8,8 @@ import {
   Image,
   Dimensions,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  RefreshControl
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import PlayList from '../../components/PlayList/PlayList';
@@ -21,10 +23,11 @@ export default function Like({navigation}) {
   const dispatch = useDispatch();
   const favoriteList = useSelector(state => state.userReducer?.favoriteList);
   const users = useSelector(state => state.userReducer.users);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     dispatch(getFavoritelist(users?.token));
-  }, []);
+  }, [isFocused]);
 
   const addFavorite = data => {
     console.log('data', data?.isFavourite);
@@ -35,13 +38,15 @@ export default function Like({navigation}) {
     }
     setTimeout(() => {
       dispatch(getFavoritelist(users?.token));
-    }, 2000);
+    }, 1000);
   };
+
 
   return (
     <View style={styles.container}>
       <View>
         <FlatList
+        contentContainerStyle={{paddingBottom: '16%'}}
           data={favoriteList || []}
           keyExtractor={(item, index) => index}
           showsVerticalScrollIndicator={false}
