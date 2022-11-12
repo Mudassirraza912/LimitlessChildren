@@ -19,10 +19,6 @@
 		18EF18EE29103B1E00ACFA7D /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18EF18EA29103B1E00ACFA7D /* Poppins-Light.ttf */; };
 		41C6B7C8C4E54E749BCC8215 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0BC2CB2690C44BF985FFB71B /* Raleway-Bold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		846FF16127DA49DE00178FED /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FF16027DA49DE00178FED /* SplashViewController.swift */; };
-		846FF16327DA4A3800178FED /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FF16227DA4A3800178FED /* UIImageView+Extension.swift */; };
-		846FF16527DA4A7B00178FED /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FF16427DA4A7B00178FED /* UIImage+Extension.swift */; };
-		846FF16727DA4E5100178FED /* SplashStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 846FF16627DA4E5100178FED /* SplashStoryboard.storyboard */; };
 		84A7CD8B27E1FAAE0040B3A9 /* Pink-splash.gif in Resources */ = {isa = PBXBuildFile; fileRef = 84A7CD8A27E1FAAE0040B3A9 /* Pink-splash.gif */; };
 		84A7CD8D27E1FAD70040B3A9 /* resize.gif in Resources */ = {isa = PBXBuildFile; fileRef = 84A7CD8C27E1FAD70040B3A9 /* resize.gif */; };
 		A077A6DB6B46426498AA5E81 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1859600BD514D919EC720CD /* Raleway-Regular.ttf */; };
@@ -66,10 +62,6 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = LimitlessChildren/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83C540414031F5B4618A195A /* Pods-LimitlessChildren.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LimitlessChildren.debug.xcconfig"; path = "Target Support Files/Pods-LimitlessChildren/Pods-LimitlessChildren.debug.xcconfig"; sourceTree = "<group>"; };
 		846FF15F27DA49DE00178FED /* LimitlessChildren-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LimitlessChildren-Bridging-Header.h"; sourceTree = "<group>"; };
-		846FF16027DA49DE00178FED /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
-		846FF16227DA4A3800178FED /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
-		846FF16427DA4A7B00178FED /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
-		846FF16627DA4E5100178FED /* SplashStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashStoryboard.storyboard; sourceTree = "<group>"; };
 		84A7CD8A27E1FAAE0040B3A9 /* Pink-splash.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "Pink-splash.gif"; sourceTree = "<group>"; };
 		84A7CD8C27E1FAD70040B3A9 /* resize.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = resize.gif; sourceTree = "<group>"; };
 		997DA7E9CC1E437FBBF34B31 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -134,11 +126,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				846FF16027DA49DE00178FED /* SplashViewController.swift */,
 				846FF15F27DA49DE00178FED /* LimitlessChildren-Bridging-Header.h */,
-				846FF16227DA4A3800178FED /* UIImageView+Extension.swift */,
-				846FF16427DA4A7B00178FED /* UIImage+Extension.swift */,
-				846FF16627DA4E5100178FED /* SplashStoryboard.storyboard */,
 			);
 			name = LimitlessChildren;
 			sourceTree = "<group>";
@@ -331,7 +319,6 @@
 				84A7CD8D27E1FAD70040B3A9 /* resize.gif in Resources */,
 				18EF18EE29103B1E00ACFA7D /* Poppins-Light.ttf in Resources */,
 				18EF18EC29103B1E00ACFA7D /* Poppins-Regular.ttf in Resources */,
-				846FF16727DA4E5100178FED /* SplashStoryboard.storyboard in Resources */,
 				84A7CD8B27E1FAAE0040B3A9 /* Pink-splash.gif in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				18EF18ED29103B1E00ACFA7D /* Poppins-Bold.ttf in Resources */,
@@ -505,10 +492,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				846FF16127DA49DE00178FED /* SplashViewController.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				846FF16527DA4A7B00178FED /* UIImage+Extension.swift in Sources */,
-				846FF16327DA4A3800178FED /* UIImageView+Extension.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -528,7 +512,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B3BAE75E02B26E044A6705D3 /* Pods-LimitlessChildren-LimitlessChildrenTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -556,7 +539,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 43F021A0DB8F97660E2DC5C0 /* Pods-LimitlessChildren-LimitlessChildrenTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = LimitlessChildrenTests/Info.plist;
