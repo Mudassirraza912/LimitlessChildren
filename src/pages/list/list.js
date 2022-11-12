@@ -1,4 +1,5 @@
 import React, {Component, useEffect, useState} from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -9,7 +10,9 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
+  RefreshControl
 } from 'react-native';
+import Loader from '../../components/Loader';
 import {useDispatch, useSelector} from 'react-redux';
 import PlayList from '../../components/PlayList/PlayList';
 import { AddToFavorite, getPlaylist, RemoveToFavorite } from '../../stores/actions/user.action';
@@ -52,13 +55,26 @@ export default function List({navigation}) {
   const dispatch = useDispatch()
   const playList = useSelector((state) => state.userReducer?.playList)
   const users = useSelector(state => state.userReducer.users);
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     dispatch(getPlaylist(users?.token))
-  }, [])
+  }, [isFocused])
+  
+ 
+// React.useEffect(() => {
+//         (async () => {
+//             setLoading(true);
+//             try {
+//               await getUserData();
+//             } catch (err) {
+//               Alert.alert("", err?.response?.data?.message || err?.message);
+//             }
+//             setLoading(false);
+//           })();
+//       }, [isFocused]);
 
   const addFavorite = (data) => {
-    console.log("data", data?.isFavourite);
+    // console.log("data", data?.isFavourite);
     if(!data?.isFavourite) {
       dispatch(AddToFavorite({videoId: data?._id}, users?.token))
     }else {
@@ -66,11 +82,12 @@ export default function List({navigation}) {
     }
     setTimeout(() => {
       dispatch(getPlaylist(users?.token))
-    }, 2000)
+    }, 1000)
   }
 
   return (
     <>
+     {/* <Loader visible={loader} /> */}
       <StatusBar
         barStyle="dark-content"
         translucent={true}
@@ -105,7 +122,7 @@ export default function List({navigation}) {
         </TouchableOpacity> */}
         <View>
           <FlatList
-            contentContainerStyle={{paddingBottom: 34}}
+            contentContainerStyle={{paddingBottom: '16%'}}
             vertical={true}
             data={playList || []}
             keyExtractor={(item, index) => index}

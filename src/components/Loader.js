@@ -33,9 +33,9 @@ export default class Loader extends Component {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
             }}>
-            <ActivityIndicator color="#000" size={'large'} />
+            <ActivityIndicator color="#f8b293" size={'large'} />
           </View>
         </Modal>
       </View>

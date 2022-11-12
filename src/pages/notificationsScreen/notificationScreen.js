@@ -22,15 +22,15 @@ export default function NotificationsScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
     <View style={styles.notification}>
         <TouchableOpacity activeOpacity={0.8} onPress={()=>navigation.goBack()} style={styles.imgcard} >
             <Image style={styles.backpng} source={require('../../assets/backIcon.png')} />
         </TouchableOpacity>
-        <Text style={styles.notificationText}>NOTIFICATION</Text>
+        <Text style={styles.notificationText}>NOTIFICATIONS</Text>
     </View>
     <View style={styles.today}>
         <FlatList
+        contentContainerStyle={{paddingBottom:'25%'}}
             data={reason}
             vertical={true}
             keyExtractor={(item, index) => index}
@@ -47,7 +47,9 @@ export default function NotificationsScreen({navigation}) {
                     )
                 }
                 return (
-                    <View style={styles.card2}>
+                    <TouchableOpacity 
+                    activeOpacity={0.9}
+                    style={styles.card2}>
                         <Image style={styles.icon2} source={item.image} />
                         <View>
                             <Text style={styles.disney2}>New Vlog From Disney</Text>
@@ -56,7 +58,7 @@ export default function NotificationsScreen({navigation}) {
                         <View style={styles.righticon}>
                         <Image style={styles.iconpng} source={require('../../assets/rightarrow1.png')}></Image>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 )
                 
             }}  >
@@ -64,7 +66,6 @@ export default function NotificationsScreen({navigation}) {
         </FlatList>
         {/* <View style={{height:"20%"}}></View> */}
     </View>
-    </ScrollView>
 </View>
 );
 }
@@ -74,19 +75,22 @@ const styles = StyleSheet.create({
   container: {
       flex: 1,
       backgroundColor: "#ffffff",
-      paddingHorizontal: 10
+    //   paddingHorizontal: 10
   },
   notification: {
-      flex: 1,
-      paddingTop:10,
-      ...Platform.select({ios:{marginTop:35,}})
+    flexDirection:'row',
+    marginTop:22,
+    paddingLeft:12,
+    alignItems:"center",
+    width:"100%",
+    height:60,
+    backgroundColor: '#ffffff',
+    borderBottomWidth:0.7,
+    borderColor:'#e4e5e4', 
   },
   backpng: {
       width: 22,
       height: 22,
-      position: "absolute",
-      top: 6,
-      left: 6,
       tintColor:"#f8b293",
       resizeMode:"contain"
   },
@@ -112,12 +116,9 @@ const styles = StyleSheet.create({
       paddingVertical:10,
   },
   imgcard: {
-      width: 30,
-      height: 30,
-      position: "absolute",
-      top: 32,
-      left: 12,
-      zIndex:1
+      width: 40,
+      height: 50,
+      justifyContent:"center",
   },
   pm: {
       color: "#bbbbbd",
@@ -126,8 +127,8 @@ const styles = StyleSheet.create({
       fontFamily:'Poppins-Regular'
   },
   today: {
-      paddingHorizontal: 2,
-      paddingVertical: 13,
+      paddingHorizontal: 10,
+      
   },
   disney: {
       color: "#ffffff",
@@ -184,7 +185,6 @@ const styles = StyleSheet.create({
       fontSize: 12,
       fontFamily:'Poppins-Regular',
       fontWeight:"bold",
-      //lineHeight:20
   },
   icon2: {
       width: 40,
@@ -203,9 +203,9 @@ const styles = StyleSheet.create({
   notificationText:{
       color:"#f8b293",
       fontWeight:"bold",
-      marginTop:"7%",
-      marginLeft:"14%",
-      fontSize:18
+      marginLeft:20,
+      fontSize:20,
+      fontFamily: 'Poppins-Regular',
   }
 
 })

@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,16 +10,15 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {Input, Button, Card, SearchBar} from 'react-native-elements';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {userLogout} from '../../redux/actions';
-import {ListItem} from 'react-native-elements/dist/list/ListItem';
+import { Input, Button, Card, SearchBar } from 'react-native-elements';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { userLogout } from '../../redux/actions';
+import { ListItem } from 'react-native-elements/dist/list/ListItem';
 
-function profile({navigation, state, route}) {
-  console.log('NAVIGTION', navigation, 'ROUTE', route, 'STATE', state);
+function profile({ navigation, state, route,  }) {
+  console.log('NAVIGTION', navigation, 'ROUTE', route, 'STATE', state, );
   const [toggle, setToggle] = useState();
-
   const [click, setClick] = useState('');
   // useEffect(() => {
   //     getFocused()
@@ -38,7 +37,7 @@ function profile({navigation, state, route}) {
   return (
     <View>
       <ImageBackground
-        style={{height: '100%', width: '100%'}}
+        style={{ height: '100%', width: '100%' }}
         source={require('../../assets/sidemenu.png')}>
         <View style={styles.container}>
           <TouchableOpacity
@@ -55,17 +54,28 @@ function profile({navigation, state, route}) {
               marginTop: '24%',
               flexDirection: 'row',
               marginBottom: '8%',
+              width: "100%",
+              alignItems: 'center',
+              alignSelf: "center",
+              overflow: "hidden"
             }}>
-            <Image
-              style={{
-                width: 70,
-                height: 70,
-                resizeMode: 'contain',
-                marginLeft: '14%',
-              }}
-              source={require('../../assets/user.png')}
-            />
-            <Text style={styles.profileText}>Oliver Hudson</Text>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              style={{ width: 75, height: 75, borderRadius: 40, overflow: "hidden", marginLeft: '12%' }}>
+              <Image
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  resizeMode: 'cover',
+                }}
+                source={require('../../assets/user.png')}
+              />
+            </TouchableOpacity>
+            <View style={{ width: '60%', overflow: "hidden" }}>
+              <Text numberOfLines={2} style={styles.profileText}>
+                Oliver Hudson
+              </Text>
+            </View>
           </View>
           <TouchableOpacity
             onPress={() => {
@@ -98,8 +108,8 @@ function profile({navigation, state, route}) {
             <View
               style={
                 click == 'Like'
-                  ? {backgroundColor: '#699494', borderRadius: 30, padding: 10}
-                  : {backgroundColor: '#ffffff', borderRadius: 30, padding: 10}
+                  ? { backgroundColor: '#699494', borderRadius: 30, padding: 10 }
+                  : { backgroundColor: '#ffffff', borderRadius: 30, padding: 10 }
               }>
               <Image
                 style={click == 'Like' ? styles.imageLogoEN : styles.imageLogo1}
@@ -175,7 +185,7 @@ const styles = StyleSheet.create({
   profileText: {
     color: '#ffffff',
     fontWeight: 'bold',
-    marginTop: '6%',
+    // marginTop: '6%',
     paddingLeft: '3%',
     fontSize: 22,
     fontFamily: 'Poppins-Bold',
