@@ -382,7 +382,7 @@ function MainDrawer() {
       <Drawer.Screen name="Home" component={HomeTab} />
       <Drawer.Screen name="Notification" component={NotificationsScreen} />
       <Drawer.Screen name="DetailScreen" component={DetailScreen} />
-      <Drawer.Screen name="VideoPlayer" component={VideoPlayer} />
+      <Drawer.Screen name="VideoPlayer" component={VideoPlayer}   />
     </Drawer.Navigator>
   );
 }
