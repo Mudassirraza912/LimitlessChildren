@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useRef} from 'react';
-import {StyleSheet, View, Dimensions, Button, TouchableOpacity,Image} from 'react-native';
+import {StyleSheet, View, Dimensions, Button} from 'react-native';
 // Load the module
 import Video from 'react-native-video';
 import {Vimeo} from 'react-native-vimeo-iframe';
@@ -38,33 +38,20 @@ export const VideoPlayer = ({navigation, route}) => {
   };
 
   const videoCallbacks = {
-    // timeupdate: data => console.log('timeupdate: ', data),
-    // play: data => console.log('play: ', data),
-    // pause: data => console.log('pause: ', data),
-    // fullscreenchange: data => console.log('fullscreenchange: ', data),
-    // ended: data => console.log('ended: ', data),
-    // controlschange: data => console.log('controlschange: ', data),
+    timeupdate: data => console.log('timeupdate: ', data),
+    play: data => console.log('play: ', data),
+    pause: data => console.log('pause: ', data),
+    fullscreenchange: data => console.log('fullscreenchange: ', data),
+    ended: data => console.log('ended: ', data),
+    controlschange: data => console.log('controlschange: ', data),
   };
 
   return (
-    <View style={styles.container}> 
-     <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            activeOpacity={0.9}
-            style={styles.back}>
-            {/* <View style={styles.back}>  */}
-            <Image
-              style={styles.backImg}
-              source={require('../../assets/backIcon.png')}
-            />
-            {/* </View> */}
-          </TouchableOpacity>
     <Vimeo
       videoId={vedioURL ? vedioURL : '726774831'}
       // params={'api=1&autoplay=0'}
       handlers={videoCallbacks}
     />
-   </View>
 
     // <Video
     //   source={{
@@ -105,18 +92,5 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 60,
     right: 0,
-  },
-  container: {
-    flex: 1,
-backgroundColor:"#fff"  },
-  back: {
-    marginLeft: '8%',
-    marginTop: '10%',
-  },
-  backImg: {
-    width: 22,
-    height: 22,
-    resizeMode: 'contain',
-    tintColor:"#000"
   },
 });
